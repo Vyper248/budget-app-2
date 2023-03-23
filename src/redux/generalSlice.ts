@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { format } from 'date-fns';
+import { getDateNumber } from '../utils/date.utils';
 
 export type Message = {
     text: string;
@@ -46,8 +46,7 @@ export const generalSlice = createSlice({
             state.selectedAccount = action.payload;
         },
         updateSyncDate: (state) => {
-            let dateValue = Number(format(new Date(),'yyyyMMddHHmmssSSSS'));
-            state.lastSync = dateValue;
+            state.lastSync = getDateNumber();
         },
         setUser: (state, action: PayloadAction<User | null>) => {
             state.user = action.payload;

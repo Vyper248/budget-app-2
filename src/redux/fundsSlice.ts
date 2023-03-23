@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { getDateNumber } from '../utils/date.utils';
+
 export type Fund = {
     id: number;
     name: string;
@@ -10,6 +12,7 @@ export type Fund = {
     complete: boolean;
     startingBalance: number;
     updated: number;
+    deleted?: number;
 }
 
 export interface FundsState {
@@ -36,16 +39,19 @@ export const fundsSlice = createSlice({
     initialState,
     reducers: {
         addFund: (state, action: PayloadAction<Fund>) => {
-            state.funds.push(action.payload);
+            state.funds.push({ ...action.payload, id: getDateNumber() });
         },
         editFund: (state, action: PayloadAction<Fund>) => {
             const fundIndex = state.funds.findIndex(fund => fund.id === action.payload.id);
             if (fundIndex !== -1) {
-                state.funds[fundIndex] = action.payload;
+                state.funds[fundIndex] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeFund: (state, action: PayloadAction<number>) => {
-            state.funds = state.funds.filter(fund => fund.id !== action.payload);
+            const fund = state.funds.find(fund => fund.id === action.payload);
+            if (fund) {
+                fund.deleted = getDateNumber();
+            }
         },
         setFunds: (state, action: PayloadAction<Fund[]>) => {
             state.funds = action.payload;

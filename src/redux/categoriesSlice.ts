@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { getDateNumber } from '../utils/date.utils';
+
 export type Category = {
     id: number;
     name: string;
@@ -10,6 +12,7 @@ export type Category = {
     hidden: boolean;
     startingBalance: number;
     updated: number;
+    deleted?: number;
 }
 
 export interface CategoriesState {
@@ -56,16 +59,19 @@ export const categoriesSlice = createSlice({
     initialState,
     reducers: {
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.categories.push(action.payload);
+            state.categories.push({ ...action.payload, id: getDateNumber() });
         },
         editCategory: (state, action: PayloadAction<Category>) => {
             const categoryIndex = state.categories.findIndex(category => category.id === action.payload.id);
             if (categoryIndex !== -1) {
-                state.categories[categoryIndex] = action.payload;
+                state.categories[categoryIndex] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeCategory: (state, action: PayloadAction<number>) => {
-            state.categories = state.categories.filter(category => category.id !== action.payload);
+            const category = state.categories.find((category) => category.id === action.payload);
+            if (category) {
+                category.deleted = getDateNumber();
+            }
         },
         setCategories: (state, action: PayloadAction<Category[]>) => {
             state.categories = action.payload;

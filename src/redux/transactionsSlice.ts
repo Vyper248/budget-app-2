@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { getDateNumber } from '../utils/date.utils';
+
 type SpendTransaction = {
     id: number;
     type: 'spend';
@@ -9,6 +11,8 @@ type SpendTransaction = {
     description: string;
     category: number;
     account: number;
+    updated: number;
+    deleted?: number;
 }
 
 type TransferTransaction = {
@@ -18,6 +22,8 @@ type TransferTransaction = {
     date: string;
     from: number;
     to: number;
+    updated: number;
+    deleted?: number;
 }
 
 export type Transaction = SpendTransaction | TransferTransaction;
@@ -27,6 +33,8 @@ export type FundAddition = {
     amount: number;
     date: string;
     fund: number;
+    updated: number;
+    deleted?: number;
 }
 
 export interface TransactionsState {
@@ -49,28 +57,34 @@ export const transactionsSlice = createSlice({
             state.addingTransaction = action.payload;
         },
         addTransaction: (state, action: PayloadAction<Transaction>) => {
-            state.transactions.push(action.payload);
+            state.transactions.push({ ...action.payload, id: getDateNumber() });
         },
         editTransaction: (state, action: PayloadAction<Transaction>) => {
             const index = state.transactions.findIndex(transaction => transaction.id === action.payload.id);
             if (index !== -1) {
-                state.transactions[index] = action.payload;
+                state.transactions[index] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeTransaction: (state, action: PayloadAction<number>) => {
-            state.transactions = state.transactions.filter(transaction => transaction.id !== action.payload);
+            const transaction = state.transactions.find(transaction => transaction.id === action.payload);
+            if (transaction) {
+                transaction.deleted = getDateNumber();
+            }
         },
         addFundAddition: (state, action: PayloadAction<FundAddition>) => {
-            state.fundAdditions.push(action.payload);
+            state.fundAdditions.push({ ...action.payload, id: getDateNumber() });
         },
         editFundAddition: (state, action: PayloadAction<FundAddition>) => {
             const index = state.fundAdditions.findIndex(fundAddition => fundAddition.id === action.payload.id);
             if (index !== -1) {
-                state.fundAdditions[index] = action.payload;
+                state.fundAdditions[index] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeFundAddition: (state, action: PayloadAction<number>) => {
-            state.fundAdditions = state.fundAdditions.filter(fundAddition => fundAddition.id !== action.payload);
+            const fundAddition = state.fundAdditions.find(fundAddition => fundAddition.id === action.payload);
+            if (fundAddition) {
+                fundAddition.deleted = getDateNumber();
+            }
         },
         setTransactions: (state, action: PayloadAction<Transaction[]>) => {
             state.transactions = action.payload;
