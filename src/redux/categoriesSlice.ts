@@ -17,7 +17,38 @@ export interface CategoriesState {
 }
 
 const initialState: CategoriesState = {
-    categories: []
+    categories: [
+        {
+            id: 20200723153000,
+            name: 'Earnings',
+            description: '',
+            type: 'income',
+            hidden: false,
+            dateCreated: '2023-01-01',
+            startingBalance: 0,
+            updated: 0
+        },
+        {
+            id: 20200723153001,
+            name: 'Interest',
+            description: '',
+            type: 'income',
+            hidden: false,
+            dateCreated: '2023-01-01',
+            startingBalance: 0,
+            updated: 0
+        },
+        {
+            id: 20200723153102,
+            name: 'Food',
+            description: '',
+            type: 'expense',
+            hidden: false,
+            dateCreated: '2023-01-01',
+            startingBalance: 0,
+            updated: 0
+        },
+    ]
 }
 
 export const categoriesSlice = createSlice({

@@ -17,7 +17,18 @@ export interface FundsState {
 }
 
 const initialState: FundsState = {
-    funds: []
+    funds: [
+        {
+            id: 20200723153130,
+            name: 'Savings',
+            description: 'General Savings',
+            targetAmount: 0,
+            complete: false,
+            dateCreated: '2023-01-01',
+            startingBalance: 0,
+            updated: 0
+        }
+    ]
 }
 
 export const fundsSlice = createSlice({
