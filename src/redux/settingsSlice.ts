@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { getDateNumber } from '../utils/date.utils';
+
 export type PayPeriodType = 'monthly' | 'fourWeekly' | 'weekly' | 'twoWeekly';
 export type ColourScheme = 'dark' | 'light';
 
@@ -42,39 +44,51 @@ export const settingsSlice = createSlice({
     reducers: {
         setPayPeriodType: (state, action: PayloadAction<PayPeriodType>) => {
             state.payPeriodType = action.payload;
+            state.updated = getDateNumber();
         },
         setCurrencySymbol: (state, action: PayloadAction<string>) => {
             state.currencySymbol = action.payload;
+            state.updated = getDateNumber();
         },
         setColourScheme: (state, action: PayloadAction<ColourScheme>) => {
             state.colourScheme = action.payload;
+            state.updated = getDateNumber();
         },
         setShowDecimals: (state, action: PayloadAction<boolean>) => {
             state.showDecimals = action.payload;
+            state.updated = getDateNumber();
         },
         setStartDate: (state, action: PayloadAction<string>) => {
             state.startDate = action.payload;
+            state.updated = getDateNumber();
         },
         setSwapSummaries: (state, action: PayloadAction<boolean>) => {
             state.swapSummaries = action.payload;
+            state.updated = getDateNumber();
         },
         setPeriodsToDisplay: (state, action: PayloadAction<number>) => {
             state.periodsToDisplay = action.payload;
+            state.updated = getDateNumber();
         },
         setReverseSummaryTable: (state, action: PayloadAction<boolean>) => {
             state.reverseSummaryTable = action.payload;
+            state.updated = getDateNumber();
         },
         setDisplayMonths: (state, action: PayloadAction<boolean>) => {
             state.displayMonths = action.payload;
+            state.updated = getDateNumber();
         },
         setDisplayIncomeTotal: (state, action: PayloadAction<boolean>) => {
             state.displayIncomeTotal = action.payload;
+            state.updated = getDateNumber();
         },
         setDisplayExpenseTotal: (state, action: PayloadAction<boolean>) => {
             state.displayExpenseTotal = action.payload;
+            state.updated = getDateNumber();
         },
         setShowChart: (state, action: PayloadAction<boolean>) => {
             state.showChart = action.payload;
+            state.updated = getDateNumber();
         },
         setUpdated: (state, action: PayloadAction<number>) => {
             state.updated = action.payload;

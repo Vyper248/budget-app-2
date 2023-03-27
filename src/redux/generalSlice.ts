@@ -41,6 +41,7 @@ export const generalSlice = createSlice({
     reducers: {
         setCurrentPage: (state, action: PayloadAction<string>) => {
             state.currentPage = action.payload;
+            state.message = { text: '', type: '' };
         },
         setSelectedAccount: (state, action: PayloadAction<number>) => {
             state.selectedAccount = action.payload;
