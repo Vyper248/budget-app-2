@@ -20,15 +20,17 @@ localStorageListener.startListening({
     }
 });
 
+export const reducer = {
+    general: generalReducer,
+    accounts: accountsReducer,
+    categories: categoriesReducer,
+    funds: fundsReducer,
+    settings: settingsReducer,
+    transactions: transactionsReducer
+}
+
 export const store = configureStore({
-    reducer: {
-        general: generalReducer,
-        accounts: accountsReducer,
-        categories: categoriesReducer,
-        funds: fundsReducer,
-        settings: settingsReducer,
-        transactions: transactionsReducer
-    },
+    reducer: reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageListener.middleware),
     preloadedState: retrieveFromStorage()
 });

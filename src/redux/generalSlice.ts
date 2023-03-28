@@ -23,8 +23,8 @@ export interface GeneralState {
     message: Message;
 }
 
-const initialState: GeneralState = {
-    currentPage: '',
+export const initialState: GeneralState = {
+    currentPage: 'Home',
     selectedAccount:0,
     lastSync: 0,
     user: null,

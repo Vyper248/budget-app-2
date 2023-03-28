@@ -22,7 +22,7 @@ export interface AccountsState {
     accounts: Account[];
 }
 
-const initialState: AccountsState = {
+export const initialState: AccountsState = {
     accounts: [],
 }
 

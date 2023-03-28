@@ -19,7 +19,7 @@ export interface CategoriesState {
     categories: Category[];
 }
 
-const initialState: CategoriesState = {
+export const initialState: CategoriesState = {
     categories: [
         {
             id: 20200723153000,

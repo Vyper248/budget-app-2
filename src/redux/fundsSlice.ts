@@ -19,7 +19,7 @@ export interface FundsState {
     funds: Fund[];
 }
 
-const initialState: FundsState = {
+export const initialState: FundsState = {
     funds: [
         {
             id: 20200723153130,

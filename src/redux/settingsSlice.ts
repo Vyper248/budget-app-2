@@ -22,7 +22,7 @@ export interface SettingsState {
     updated: number;
 }
 
-const initialState: SettingsState = {
+export const initialState: SettingsState = {
     payPeriodType: 'monthly',
     currencySymbol: '£',
     colourScheme: 'dark',

@@ -43,7 +43,7 @@ export interface TransactionsState {
     addingTransaction: boolean;
 }
 
-const initialState: TransactionsState = {
+export const initialState: TransactionsState = {
     transactions: [],
     fundAdditions: [],
     addingTransaction: false
