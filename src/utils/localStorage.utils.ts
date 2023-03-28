@@ -16,7 +16,10 @@ export const retrieveFromStorage = () => {
     try {
         const storedState = localStorage.getItem('budget-app-2-state');
         if (!storedState) return undefined;
-        return JSON.parse(storedState);
+        let state = JSON.parse(storedState);
+        //set any default values here
+        state.transactions.addingTransaction = false;
+        return state;
     } catch (e) {
         return undefined;
     }
