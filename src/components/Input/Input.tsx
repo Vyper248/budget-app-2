@@ -1,9 +1,10 @@
 import StyledInput from "./Input.style";
+import StyledInputLabel from "../styled/InputLabel";
 
 type InputProps = {
   label?: string;
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   width?: string;
   labelWidth?: string;
   type?: string;
@@ -11,10 +12,14 @@ type InputProps = {
 }
 
 const Input = ({label='', type='text', value, onChange, width='100%', labelWidth='auto', ...rest}: InputProps) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		onChange(event.target.value);
+	}
+
 	return (
-		<StyledInput labelWidth={labelWidth} width={width}>
-		  {label && <label htmlFor={label}>{label}</label>}
-		  <input type={type} value={value} onChange={onChange} aria-label={label} {...rest}/>
+		<StyledInput width={width}>
+		  {label && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel>}
+		  <input type={type} value={value} onChange={handleChange} aria-label={label} {...rest}/>
 		</StyledInput>
 	);
 }

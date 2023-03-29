@@ -26,6 +26,7 @@ it('Runs the onChange callback when input is changed', () => {
 	fireEvent.change(input, { target: { value: 'a' } });
 
 	expect(mockChange).toBeCalledTimes(1);
+	expect(mockChange).toBeCalledWith('a');
 });
 
 it('Has the correct type', () => {
