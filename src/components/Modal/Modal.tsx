@@ -12,7 +12,7 @@ type ModalProps = {
 	y?: number;
 }
 
-const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', x=0, y=0}: ModalProps) => {
+const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', x=285, y=30}: ModalProps) => {
 	const headerRef = useRef<HTMLHeadingElement>(null);
 	const outlineRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +44,7 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
             let newY = startY + yDiff;
 
             //prevent going off the side
-            if (newY < 40) newY = 40; //should be set to header height
+            if (newY < 30) newY = 30; //should be set to header height
             if (newY > window.innerHeight-height) newY = window.innerHeight-height;
             if (newX < 0) newX = 0;
             if (newX > window.innerWidth-width) newX = window.innerWidth-width;
