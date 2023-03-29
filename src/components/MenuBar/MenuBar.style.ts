@@ -8,6 +8,7 @@ const StyledMenuBar = styled.div`
     color: var(--menu-text-color);
     height: 30px;
     position: fixed;
+    top: 0px;
     z-index: 10;
 
     & > div.left {
