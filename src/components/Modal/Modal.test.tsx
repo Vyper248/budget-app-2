@@ -34,20 +34,20 @@ it('Moves when dragged', () => {
 	if (!outline) fail('Should be an outline!');
 
 	//Starting position
-	expect(outline.style.top).toBe('0px');
-	expect(outline.style.left).toBe('0px');
+	expect(outline.style.top).toBe('30px');
+	expect(outline.style.left).toBe('285px');
 	
 	//Moves when dragged after mouseDown
 	fireEvent.mouseDown(heading);
 	fireEvent.mouseMove(outline, { clientX: 100, clientY: 100 });
 	
-	expect(outline.style.top).toBe('100px');
-	expect(outline.style.left).toBe('100px');
+	expect(outline.style.top).toBe('130px');
+	expect(outline.style.left).toBe('385px');
 	
 	//Stops moving on mouseUp
 	fireEvent.mouseUp(outline);
 	fireEvent.mouseMove(outline, { clientX: 200, clientY: 200 });
 
-	expect(outline.style.top).toBe('100px');
-	expect(outline.style.left).toBe('100px');
+	expect(outline.style.top).toBe('130px');
+	expect(outline.style.left).toBe('385px');
 });
