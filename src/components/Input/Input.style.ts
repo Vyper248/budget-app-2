@@ -8,9 +8,8 @@ const StyledInput = styled.div<Props>`
   display: flex;
   flex-direction: row;
   position: relative;
-  width: fit-content;
 
-  input, select {
+  & input, select {
     border: 1px solid var(--menu-border-color);
     border-left: none;
     border-radius: 0 5px 5px 0;
@@ -22,6 +21,8 @@ const StyledInput = styled.div<Props>`
     appearance: none;
     padding: 0px 10px;
     cursor: pointer;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     
     &:focus {
       outline: none;

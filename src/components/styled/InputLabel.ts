@@ -15,6 +15,7 @@ const StyledInputLabel = styled.label<Props>`
     justify-content: flex-end;
     height: 30px;
     width: ${props => props.width};
+    min-width: ${props => props.width};
 `;
 
 export default StyledInputLabel;

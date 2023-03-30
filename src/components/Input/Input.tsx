@@ -3,7 +3,7 @@ import StyledInputLabel from "../styled/InputLabel";
 
 type InputProps = {
   label?: string;
-  value: string;
+  value: string | number;
   onChange: (value: string) => void;
   width?: string;
   labelWidth?: string;
@@ -15,6 +15,8 @@ const Input = ({label='', type='text', value, onChange, width='100%', labelWidth
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		onChange(event.target.value);
 	}
+
+  if (Number.isNaN(value)) value = '';
 
 	return (
 		<StyledInput width={width}>
