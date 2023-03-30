@@ -7,7 +7,7 @@ type Props = {
 const StyledButton = styled.button<Props>`
     background-color: var(--menu-bg-color);
     color: var(--menu-text-color);
-    display: flex;
+    display: inline-flex;
     height: var(--input-height);
     justify-content: center;
     align-items: center;
