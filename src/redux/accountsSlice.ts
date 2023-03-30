@@ -23,7 +23,34 @@ export interface AccountsState {
 }
 
 export const initialState: AccountsState = {
-    accounts: [],
+    accounts: [
+        {
+            id: 20190723153000,
+            name: 'Starling',
+            closed: false,
+            currency: '£',
+            dateOpened: '2019-07-23',
+            defaultAccount: true,
+            extraCharges: 0,
+            interestRate: 0,
+            note: '',
+            startingBalance: 0,
+            updated: 20190723153000
+        },
+        {
+            id: 20200101153000,
+            name: 'NatWest',
+            closed: false,
+            currency: '£',
+            dateOpened: '2019-07-23',
+            defaultAccount: false,
+            extraCharges: 0,
+            interestRate: 0,
+            note: '',
+            startingBalance: 0,
+            updated: 20200101153000
+        }
+    ],
 }
 
 export const accountsSlice = createSlice({
@@ -31,7 +58,7 @@ export const accountsSlice = createSlice({
     initialState,
     reducers: {
         addAccount: (state, action: PayloadAction<Account>) => {
-            state.accounts.push({ ...action.payload, id: getDateNumber() });
+            state.accounts.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editAccount: (state, action: PayloadAction<Account>) => {
             const accountIndex = state.accounts.findIndex(account => account.id === action.payload.id);

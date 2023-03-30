@@ -39,7 +39,7 @@ export const fundsSlice = createSlice({
     initialState,
     reducers: {
         addFund: (state, action: PayloadAction<Fund>) => {
-            state.funds.push({ ...action.payload, id: getDateNumber() });
+            state.funds.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editFund: (state, action: PayloadAction<Fund>) => {
             const fundIndex = state.funds.findIndex(fund => fund.id === action.payload.id);

@@ -59,7 +59,7 @@ export const categoriesSlice = createSlice({
     initialState,
     reducers: {
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.categories.push({ ...action.payload, id: getDateNumber() });
+            state.categories.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editCategory: (state, action: PayloadAction<Category>) => {
             const categoryIndex = state.categories.findIndex(category => category.id === action.payload.id);

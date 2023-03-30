@@ -3,19 +3,20 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '../utils/date.utils';
 
-type SpendTransaction = {
+export type SpendTransaction = {
     id: number;
     type: 'spend';
     amount: number;
     date: string;
     description: string;
-    category: number;
+    category: number | undefined;
+    fund: number | undefined;
     account: number;
     updated: number;
     deleted?: number;
 }
 
-type TransferTransaction = {
+export type TransferTransaction = {
     id: number;
     type: 'transfer';
     amount: number;
@@ -30,8 +31,10 @@ export type Transaction = SpendTransaction | TransferTransaction;
 
 export type FundAddition = {
     id: number;
+    type: 'fundAddition';
     amount: number;
     date: string;
+    description: string;
     fund: number;
     updated: number;
     deleted?: number;
@@ -57,7 +60,7 @@ export const transactionsSlice = createSlice({
             state.addingTransaction = action.payload;
         },
         addTransaction: (state, action: PayloadAction<Transaction>) => {
-            state.transactions.push({ ...action.payload, id: getDateNumber() });
+            state.transactions.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editTransaction: (state, action: PayloadAction<Transaction>) => {
             const index = state.transactions.findIndex(transaction => transaction.id === action.payload.id);
