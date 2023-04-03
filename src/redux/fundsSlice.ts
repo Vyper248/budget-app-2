@@ -9,7 +9,7 @@ export type Fund = {
     description: string;
     targetAmount: number;
     dateCreated: string;
-    complete: boolean;
+    hidden: boolean;
     startingBalance: number;
     updated: number;
     deleted?: number;
@@ -21,7 +21,7 @@ export const initialState: Fund[] = [
         name: 'Savings',
         description: 'General Savings',
         targetAmount: 0,
-        complete: false,
+        hidden: false,
         dateCreated: '2023-01-01',
         startingBalance: 0,
         updated: 0

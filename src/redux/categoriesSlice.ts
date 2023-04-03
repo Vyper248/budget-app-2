@@ -8,7 +8,6 @@ export type Category = {
     name: string;
     type: 'income' | 'expense';
     description: string;
-    dateCreated: string;
     hidden: boolean;
     startingBalance: number;
     updated: number;
@@ -22,7 +21,6 @@ export const initialState: Category[] = [
         description: '',
         type: 'income',
         hidden: false,
-        dateCreated: '2023-01-01',
         startingBalance: 0,
         updated: 0
     },
@@ -32,7 +30,6 @@ export const initialState: Category[] = [
         description: '',
         type: 'income',
         hidden: false,
-        dateCreated: '2023-01-01',
         startingBalance: 0,
         updated: 0
     },
@@ -42,7 +39,6 @@ export const initialState: Category[] = [
         description: '',
         type: 'expense',
         hidden: false,
-        dateCreated: '2023-01-01',
         startingBalance: 0,
         updated: 0
     },

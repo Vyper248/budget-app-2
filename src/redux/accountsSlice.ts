@@ -6,9 +6,7 @@ import { getDateNumber } from '../utils/date.utils';
 export type Account = {
     id: number;
     name: string;
-    closed: boolean;
-    currency: string;
-    dateOpened: string;
+    hidden: boolean;
     defaultAccount: boolean;
     extraCharges: number;
     interestRate: number;
@@ -22,9 +20,7 @@ export const initialState: Account[] = [
     {
         id: 20190723153000,
         name: 'Starling',
-        closed: false,
-        currency: '£',
-        dateOpened: '2019-07-23',
+        hidden: false,
         defaultAccount: true,
         extraCharges: 0,
         interestRate: 0,
@@ -35,9 +31,7 @@ export const initialState: Account[] = [
     {
         id: 20200101153000,
         name: 'NatWest',
-        closed: false,
-        currency: '£',
-        dateOpened: '2019-07-23',
+        hidden: false,
         defaultAccount: false,
         extraCharges: 0,
         interestRate: 0,
