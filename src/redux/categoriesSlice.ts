@@ -15,66 +15,60 @@ export type Category = {
     deleted?: number;
 }
 
-export interface CategoriesState {
-    categories: Category[];
-}
-
-export const initialState: CategoriesState = {
-    categories: [
-        {
-            id: 20200723153000,
-            name: 'Earnings',
-            description: '',
-            type: 'income',
-            hidden: false,
-            dateCreated: '2023-01-01',
-            startingBalance: 0,
-            updated: 0
-        },
-        {
-            id: 20200723153001,
-            name: 'Interest',
-            description: '',
-            type: 'income',
-            hidden: false,
-            dateCreated: '2023-01-01',
-            startingBalance: 0,
-            updated: 0
-        },
-        {
-            id: 20200723153102,
-            name: 'Food',
-            description: '',
-            type: 'expense',
-            hidden: false,
-            dateCreated: '2023-01-01',
-            startingBalance: 0,
-            updated: 0
-        },
-    ]
-}
+export const initialState: Category[] = [
+    {
+        id: 20200723153000,
+        name: 'Earnings',
+        description: '',
+        type: 'income',
+        hidden: false,
+        dateCreated: '2023-01-01',
+        startingBalance: 0,
+        updated: 0
+    },
+    {
+        id: 20200723153001,
+        name: 'Interest',
+        description: '',
+        type: 'income',
+        hidden: false,
+        dateCreated: '2023-01-01',
+        startingBalance: 0,
+        updated: 0
+    },
+    {
+        id: 20200723153102,
+        name: 'Food',
+        description: '',
+        type: 'expense',
+        hidden: false,
+        dateCreated: '2023-01-01',
+        startingBalance: 0,
+        updated: 0
+    },
+]
 
 export const categoriesSlice = createSlice({
     name: 'categories',
     initialState,
     reducers: {
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.categories.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
+            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editCategory: (state, action: PayloadAction<Category>) => {
-            const categoryIndex = state.categories.findIndex(category => category.id === action.payload.id);
+            const categoryIndex = state.findIndex(category => category.id === action.payload.id);
             if (categoryIndex !== -1) {
-                state.categories[categoryIndex] = { ...action.payload, updated: getDateNumber() };
+                state[categoryIndex] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeCategory: (state, action: PayloadAction<number>) => {
-            const category = state.categories.find((category) => category.id === action.payload);
+            const category = state.find((category) => category.id === action.payload);
             if (category) {
                 category.deleted = getDateNumber();
             }
         },
-        setCategories: (state, action: PayloadAction<Category[]>) => {
-            state.categories = action.payload;
+        setCategories: (_, action: PayloadAction<Category[]>) => {
+            return action.payload;
         }
     },
 })

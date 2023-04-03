@@ -16,7 +16,7 @@ const mockAccountA = { id: 2345 } as Account;
 const mockAccountB = { id: 1234 } as Account;
 const mockFund = { id: 3456 } as Fund;
 const mockCategory = { id: 4567 } as Category
-const mockState = getBasicMockState({ accounts: { accounts: [mockAccountA, mockAccountB] }, funds: { funds: [mockFund] }, categories: { categories: [mockCategory]} });
+const mockState = getBasicMockState({ accounts: [mockAccountA, mockAccountB], funds: [mockFund], categories: [mockCategory] });
 
 it("Loads element without crashing", () => {
 	render(<TransactionForm/>);

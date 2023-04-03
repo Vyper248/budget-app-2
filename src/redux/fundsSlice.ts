@@ -15,46 +15,40 @@ export type Fund = {
     deleted?: number;
 }
 
-export interface FundsState {
-    funds: Fund[];
-}
-
-export const initialState: FundsState = {
-    funds: [
-        {
-            id: 20200723153130,
-            name: 'Savings',
-            description: 'General Savings',
-            targetAmount: 0,
-            complete: false,
-            dateCreated: '2023-01-01',
-            startingBalance: 0,
-            updated: 0
-        }
-    ]
-}
+export const initialState: Fund[] = [
+    {
+        id: 20200723153130,
+        name: 'Savings',
+        description: 'General Savings',
+        targetAmount: 0,
+        complete: false,
+        dateCreated: '2023-01-01',
+        startingBalance: 0,
+        updated: 0
+    }
+]
 
 export const fundsSlice = createSlice({
     name: 'funds',
     initialState,
     reducers: {
         addFund: (state, action: PayloadAction<Fund>) => {
-            state.funds.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
+            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
         },
         editFund: (state, action: PayloadAction<Fund>) => {
-            const fundIndex = state.funds.findIndex(fund => fund.id === action.payload.id);
+            const fundIndex = state.findIndex(fund => fund.id === action.payload.id);
             if (fundIndex !== -1) {
-                state.funds[fundIndex] = { ...action.payload, updated: getDateNumber() };
+                state[fundIndex] = { ...action.payload, updated: getDateNumber() };
             }
         },
         removeFund: (state, action: PayloadAction<number>) => {
-            const fund = state.funds.find(fund => fund.id === action.payload);
+            const fund = state.find(fund => fund.id === action.payload);
             if (fund) {
                 fund.deleted = getDateNumber();
             }
         },
-        setFunds: (state, action: PayloadAction<Fund[]>) => {
-            state.funds = action.payload;
+        setFunds: (_, action: PayloadAction<Fund[]>) => {
+            return action.payload;
         }
     },
 })

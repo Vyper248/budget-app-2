@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 import { LABEL_WIDTH } from "./TransactionForm.utils";
 
 export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComplete: (obj: Partial<SpendTransaction>)=>void }) => {
-	const accounts = useAppSelector(state => state.accounts.accounts);
-	const funds = useAppSelector(state => state.funds.funds);
-	const categories = useAppSelector(state => state.categories.categories);
+	const accounts = useAppSelector(state => state.accounts);
+	const funds = useAppSelector(state => state.funds);
+	const categories = useAppSelector(state => state.categories);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number| undefined>(obj?.fund || undefined);
@@ -63,7 +63,7 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 }
 
 export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, onComplete: (obj: Partial<TransferTransaction>)=>void }) => {
-	const accounts = useAppSelector(state => state.accounts.accounts);
+	const accounts = useAppSelector(state => state.accounts);
 
 	const [from, setFrom] = useState<number | undefined>(obj?.from || undefined);	
 	const [to, setTo] = useState<number | undefined>(obj?.to || undefined);	
@@ -94,7 +94,7 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 }
 
 export const AddFundForm = ({ obj, onComplete } : { obj?: FundAddition, onComplete: (obj: Partial<FundAddition>)=>void }) => {
-	const funds = useAppSelector(state => state.funds.funds);
+	const funds = useAppSelector(state => state.funds);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number | undefined>(obj?.fund || undefined);

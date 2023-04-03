@@ -42,9 +42,9 @@ export { customRender as render };
 
 type MockState = {
     general: Partial<RootState['general']>
-    accounts: Partial<RootState['accounts']>
-    categories: Partial<RootState['categories']>
-    funds: Partial<RootState['funds']>
+    accounts: RootState['accounts']
+    categories: RootState['categories']
+    funds: RootState['funds']
     settings: Partial<RootState['settings']>
     transactions: Partial<RootState['transactions']>
 }
@@ -54,9 +54,9 @@ export const getBasicMockState = (state: Partial<MockState>) => {
     let mockGeneralState = state.general ? { ...initialGeneralState, ...state.general } : initialGeneralState;
     let mockSettingsState = state.settings ? { ...initialSettingsState, ...state.settings } : initialSettingsState;
     let mockTransactionsState = state.transactions ? { ...initialTransactionsState, ...state.transactions } : initialTransactionsState;
-    let mockAccountsState = state.accounts ? { ...initialAccountsState, ...state.accounts } : initialAccountsState;
-    let mockCategoriesState = state.categories ? { ...initialCategoriesState, ...state.categories } : initialCategoriesState;
-    let mockFundsState = state.funds ? { ...initialFundsState, ...state.funds } : initialFundsState;
+    let mockAccountsState = state.accounts ? state.accounts : initialAccountsState;
+    let mockCategoriesState = state.categories ? state.categories : initialCategoriesState;
+    let mockFundsState = state.funds ? state.funds : initialFundsState;
 
     let mockState = {
         general: mockGeneralState,

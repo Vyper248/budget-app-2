@@ -17,7 +17,7 @@ type TransactionFormProps = {
 
 const TransactionForm = ({obj}: TransactionFormProps) => {
 	const dispatch = useAppDispatch();
-	const accounts = useAppSelector(state => state.accounts.accounts);
+	const accounts = useAppSelector(state => state.accounts);
 
 	const [error, setError] = useState('');
 
