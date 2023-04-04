@@ -9,7 +9,7 @@ import { validateTransaction } from "./TransactionForm.utils";
 
 import type { Account } from "../../redux/accountsSlice";
 import type { Fund } from "../../redux/fundsSlice";
-import type { FundAddition, Transaction } from "../../redux/transactionsSlice";
+import type { FundTransaction, Transaction } from "../../redux/transactionsSlice";
 import type { Category } from "../../redux/categoriesSlice";
 
 const mockAccountA = { id: 2345 } as Account;
@@ -111,7 +111,7 @@ it('Accepts a Fund Addition obj for editing', () => {
 		description: 'Cool new fund!',
 		amount: 235,
 		fund: 3456
-	} as FundAddition;
+	} as FundTransaction;
 
 	render(<TransactionForm obj={transactionObj}/>, mockState);
 

@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../redux/hooks";
-import { SpendTransaction, TransferTransaction, FundAddition } from "../../redux/transactionsSlice";
+import { SpendTransaction, TransferTransaction, FundTransaction } from "../../redux/transactionsSlice";
 
 import Input from "../Input/Input";
 import Dropdown from "../Dropdown/Dropdown";
@@ -93,7 +93,7 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 	)
 }
 
-export const AddFundForm = ({ obj, onComplete } : { obj?: FundAddition, onComplete: (obj: Partial<FundAddition>)=>void }) => {
+export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onComplete: (obj: Partial<FundTransaction>)=>void }) => {
 	const funds = useAppSelector(state => state.funds);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');

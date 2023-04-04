@@ -1,54 +1,49 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '../utils/date.utils';
+import { RootState } from './store';
 
-export type SpendTransaction = {
+type TransactionBase = {
     id: number;
-    type: 'spend';
     amount: number;
     date: string;
+    updated: number;
+    deleted?: number;
+}
+
+type SpendExtra = {
+    type: 'spend';
     description: string;
     category: number | undefined;
     fund: number | undefined;
     account: number;
-    updated: number;
-    deleted?: number;
 }
 
-export type TransferTransaction = {
-    id: number;
+type TransferExtra = {
     type: 'transfer';
-    amount: number;
-    date: string;
     from: number;
     to: number;
-    updated: number;
-    deleted?: number;
 }
 
-export type Transaction = SpendTransaction | TransferTransaction;
-
-export type FundAddition = {
-    id: number;
+type FundExtra = {
     type: 'fundAddition';
-    amount: number;
-    date: string;
     description: string;
     fund: number;
-    updated: number;
-    deleted?: number;
 }
+
+export type Transaction = TransactionBase & (SpendExtra | TransferExtra | FundExtra);
+export type SpendTransaction = TransactionBase & SpendExtra;
+export type TransferTransaction = TransactionBase & TransferExtra;
+export type FundTransaction = TransactionBase & FundExtra;
 
 export interface TransactionsState {
     transactions: Transaction[];
-    fundAdditions: FundAddition[];
     addingTransaction: boolean;
 }
 
 export const initialState: TransactionsState = {
     transactions: [],
-    fundAdditions: [],
     addingTransaction: false
 }
 
@@ -74,31 +69,17 @@ export const transactionsSlice = createSlice({
                 transaction.deleted = getDateNumber();
             }
         },
-        addFundAddition: (state, action: PayloadAction<FundAddition>) => {
-            state.fundAdditions.push({ ...action.payload, id: getDateNumber() });
-        },
-        editFundAddition: (state, action: PayloadAction<FundAddition>) => {
-            const index = state.fundAdditions.findIndex(fundAddition => fundAddition.id === action.payload.id);
-            if (index !== -1) {
-                state.fundAdditions[index] = { ...action.payload, updated: getDateNumber() };
-            }
-        },
-        removeFundAddition: (state, action: PayloadAction<number>) => {
-            const fundAddition = state.fundAdditions.find(fundAddition => fundAddition.id === action.payload);
-            if (fundAddition) {
-                fundAddition.deleted = getDateNumber();
-            }
-        },
         setTransactions: (state, action: PayloadAction<Transaction[]>) => {
             state.transactions = action.payload;
-        },
-        setFundAdditions: (state, action: PayloadAction<FundAddition[]>) => {
-            state.fundAdditions = action.payload;
         }
     },
 })
 
-export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, 
-                                     addFundAddition, editFundAddition, removeFundAddition,
-                                    setTransactions, setFundAdditions } = transactionsSlice.actions;
+export const selectTransactions = (state: RootState) => state.transactions.transactions;
+
+export const selectFundAdditions = createSelector([selectTransactions], (transactions) => {
+    return transactions.filter((tr: Transaction) => tr.type === 'fundAddition') as FundTransaction[];
+});
+
+export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, setTransactions  } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

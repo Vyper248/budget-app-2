@@ -1,7 +1,7 @@
 import StyledTransactionForm from "./TransactionForm.style";
 
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { Transaction, FundAddition, addTransaction, addFundAddition, setAddingTransaction, editTransaction, editFundAddition } from "../../redux/transactionsSlice";
+import { Transaction, addTransaction, setAddingTransaction, editTransaction } from "../../redux/transactionsSlice";
 import { today } from "../../utils/date.utils";
 import { validateTransaction, LABEL_WIDTH } from "./TransactionForm.utils";
 
@@ -12,7 +12,7 @@ import { useState } from "react";
 import { AddFundForm, SpendForm, TransferForm } from "./TransactionForm.parts";
 
 type TransactionFormProps = {
-	obj?: Transaction | FundAddition;
+	obj?: Transaction;
 }
 
 const TransactionForm = ({obj}: TransactionFormProps) => {
@@ -59,18 +59,6 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 		}
 	}
 
-	const onCompleteAddToFund = (obj: Partial<FundAddition>) => {
-		let fundAddition = {id, type, amount: Number(amount), date, ...obj} as FundAddition;
-		let validCheck = validateTransaction(fundAddition);
-		if (validCheck.valid) {
-			if (editMode) dispatch(editFundAddition(fundAddition));
-			else dispatch(addFundAddition(fundAddition));
-			dispatch(setAddingTransaction(false));
-		} else {
-			setError(validCheck.error);
-		}
-	}
-
 	return (
 		<StyledTransactionForm>
 			{ editMode ? null : <Dropdown label='Type' labelWidth={LABEL_WIDTH} value={type} onChange={onChangeType} options={typeOptions}/> }
@@ -78,7 +66,7 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 			<Input label='Amount' type='number' labelWidth={LABEL_WIDTH} value={amount} onChange={onChangeAmount}/>
 			{ type === 'spend' ? <SpendForm obj={obj !== undefined && obj.type ==='spend' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
 			{ type === 'transfer' ? <TransferForm obj={obj !== undefined && obj.type ==='transfer' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
-			{ type === 'fundAddition' ? <AddFundForm obj={obj !== undefined && obj.type ==='fundAddition' ? obj : undefined} onComplete={onCompleteAddToFund}/> : null }
+			{ type === 'fundAddition' ? <AddFundForm obj={obj !== undefined && obj.type ==='fundAddition' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
 			{ error.length > 0 ? <figure style={{color: 'var(--text-color-warning)', textAlign: 'center'}}>Error: {error}</figure> : null }
 		</StyledTransactionForm>
 	);
