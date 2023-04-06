@@ -40,11 +40,13 @@ export type FundTransaction = TransactionBase & FundExtra;
 export interface TransactionsState {
     transactions: Transaction[];
     addingTransaction: boolean;
+    selectedTransaction: Transaction | null;
 }
 
 export const initialState: TransactionsState = {
     transactions: [],
-    addingTransaction: false
+    addingTransaction: false,
+    selectedTransaction: null
 }
 
 export const transactionsSlice = createSlice({
@@ -53,6 +55,7 @@ export const transactionsSlice = createSlice({
     reducers: {
         setAddingTransaction: (state, action: PayloadAction<boolean>) => {
             state.addingTransaction = action.payload;
+            if (action.payload === true) state.selectedTransaction = null;
         },
         addTransaction: (state, action: PayloadAction<Transaction>) => {
             state.transactions.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
@@ -69,6 +72,10 @@ export const transactionsSlice = createSlice({
                 transaction.deleted = getDateNumber();
             }
         },
+        selectTransaction: (state, action: PayloadAction<Transaction | null>) => {
+            state.selectedTransaction = action.payload;
+            if (action.payload !== null) state.addingTransaction = false;
+        }, 
         setTransactions: (state, action: PayloadAction<Transaction[]>) => {
             state.transactions = action.payload;
         }
@@ -81,5 +88,5 @@ export const selectFundAdditions = createSelector([selectTransactions], (transac
     return transactions.filter((tr: Transaction) => tr.type === 'fundAddition') as FundTransaction[];
 });
 
-export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, setTransactions  } = transactionsSlice.actions;
+export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, selectTransaction, setTransactions  } = transactionsSlice.actions;
 export default transactionsSlice.reducer;
