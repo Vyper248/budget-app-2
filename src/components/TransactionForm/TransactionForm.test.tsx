@@ -74,7 +74,7 @@ it('Accepts a Spend obj for editing', () => {
 
 	render(<TransactionForm obj={transactionObj}/>, mockState);
 
-	expect(screen.queryByLabelText('Type')).toBeFalsy();
+	expect(screen.getByLabelText('Type')).toHaveValue('spend');
 	expect(screen.getByLabelText('Date')).toHaveValue('2022-01-01');
 	expect(screen.getByLabelText('Amount')).toHaveValue(235);
 	expect(screen.getByLabelText('Description')).toHaveValue('Hello');
@@ -95,7 +95,7 @@ it('Accepts a Transfer obj for editing', () => {
 
 	render(<TransactionForm obj={transactionObj}/>, mockState);
 
-	expect(screen.queryByLabelText('Type')).toBeFalsy();
+	expect(screen.getByLabelText('Type')).toHaveValue('transfer');
 	expect(screen.getByLabelText('Date')).toHaveValue('2022-01-01');
 	expect(screen.getByLabelText('Amount')).toHaveValue(235);
 	expect(screen.getByLabelText('From')).toHaveValue('1234');
@@ -115,7 +115,7 @@ it('Accepts a Fund Addition obj for editing', () => {
 
 	render(<TransactionForm obj={transactionObj}/>, mockState);
 
-	expect(screen.queryByLabelText('Type')).toBeFalsy();
+	expect(screen.getByLabelText('Type')).toHaveValue('fundAddition');
 	expect(screen.getByLabelText('Date')).toHaveValue('2022-01-01');
 	expect(screen.getByLabelText('Amount')).toHaveValue(235);
 	expect(screen.getByLabelText('Description')).toHaveValue('Cool new fund!');

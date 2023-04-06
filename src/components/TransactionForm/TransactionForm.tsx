@@ -61,7 +61,7 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 
 	return (
 		<StyledTransactionForm>
-			{ editMode ? null : <Dropdown label='Type' labelWidth={LABEL_WIDTH} value={type} onChange={onChangeType} options={typeOptions}/> }
+			<Dropdown label='Type' labelWidth={LABEL_WIDTH} value={type} onChange={onChangeType} options={typeOptions}/>
 			<Input label='Date' type='date' labelWidth={LABEL_WIDTH} value={date} onChange={onChangeDate}/>
 			<Input label='Amount' type='number' labelWidth={LABEL_WIDTH} value={amount} onChange={onChangeAmount}/>
 			{ type === 'spend' ? <SpendForm obj={obj !== undefined && obj.type ==='spend' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
