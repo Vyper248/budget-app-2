@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '../utils/date.utils';
+import { RootState } from './store';
 
 export type Account = {
     id: number;
@@ -70,6 +71,12 @@ export const accountsSlice = createSlice({
         }
     },
 })
+
+export const selectAccountsBasic = (state: RootState) => state.accounts;
+
+export const selectAccounts = createSelector([selectAccountsBasic], (accounts) => {
+    return accounts.filter((account: Account) => account.deleted === undefined || account.deleted === 0) as Account[];
+});
 
 export const { addAccount, editAccount, removeAccount, setAccounts } = accountsSlice.actions;
 export default accountsSlice.reducer;
