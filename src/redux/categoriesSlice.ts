@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '../utils/date.utils';
+import { RootState } from './store';
 
 export type Category = {
     id: number;
@@ -67,7 +68,13 @@ export const categoriesSlice = createSlice({
             return action.payload;
         }
     },
-})
+});
+
+export const selectCategoriesBasic = (state: RootState) => state.categories;
+
+export const selectCategories = createSelector(selectCategoriesBasic, (categories) => {
+    return categories.filter(category => category.deleted === undefined || category.deleted === 0) as Category[];
+});
 
 export const { addCategory, editCategory, removeCategory, setCategories } = categoriesSlice.actions;
 export default categoriesSlice.reducer;
