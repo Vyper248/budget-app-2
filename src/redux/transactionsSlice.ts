@@ -4,6 +4,16 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { getDateNumber } from '../utils/date.utils';
 import { RootState } from './store';
 
+export type TransactionObj = {
+	runningBalance?: number;
+	transaction: Transaction;
+}
+
+export type MonthlyTransactions = {
+	month: string;
+	transactions: TransactionObj[];
+}
+
 type TransactionBase = {
     id: number;
     amount: number;
@@ -65,12 +75,16 @@ export const transactionsSlice = createSlice({
             if (index !== -1) {
                 state.transactions[index] = { ...action.payload, updated: getDateNumber() };
             }
+            state.addingTransaction = false;
+            state.selectedTransaction = null;
         },
         removeTransaction: (state, action: PayloadAction<number>) => {
             const transaction = state.transactions.find(transaction => transaction.id === action.payload);
             if (transaction) {
                 transaction.deleted = getDateNumber();
             }
+            state.addingTransaction = false;
+            state.selectedTransaction = null;
         },
         selectTransaction: (state, action: PayloadAction<Transaction | null>) => {
             state.selectedTransaction = action.payload;
@@ -82,7 +96,11 @@ export const transactionsSlice = createSlice({
     },
 })
 
-export const selectTransactions = (state: RootState) => state.transactions.transactions;
+export const selectTransactionsBasic = (state: RootState) => state.transactions.transactions;
+
+export const selectTransactions = createSelector([selectTransactionsBasic], (transactions) => {
+    return transactions.filter((tr: Transaction) => tr.deleted === undefined || tr.deleted === 0) as Transaction[];
+});
 
 export const selectFundAdditions = createSelector([selectTransactions], (transactions) => {
     return transactions.filter((tr: Transaction) => tr.type === 'fundAddition') as FundTransaction[];
