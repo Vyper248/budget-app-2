@@ -62,7 +62,7 @@ const mockTransactions: Transaction[] = [
 let runningBalance = 0;
 let mockList = mockTransactions.map((transaction: Transaction) => ({transaction, runningBalance: runningBalance+=transaction.amount}));
 
-let mockState = getBasicMockState({general: {selectedAccount: 20190723153000}});
+let mockState = getBasicMockState({general: {selectedItem: 20190723153000}});
 
 it("Loads element without crashing", () => {
 	render(<TransactionList list={mockList}/>);

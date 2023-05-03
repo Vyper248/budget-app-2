@@ -1,12 +1,7 @@
 import StyledTransactionList from "./TransactionList.style";
 
-import type { Transaction as TransactionType } from "../../redux/transactionsSlice";
+import type { TransactionObj } from "../../redux/transactionsSlice";
 import Transaction from "../Transaction/Transaction";
-
-type TransactionObj = {
-	runningBalance?: number;
-	transaction: TransactionType;
-}
 
 type TransactionListProps = {
 	list: TransactionObj[];
