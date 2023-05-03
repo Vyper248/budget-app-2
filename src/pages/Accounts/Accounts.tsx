@@ -5,7 +5,7 @@ import { selectAccounts } from "../../redux/accountsSlice";
 import { selectTransactions } from "../../redux/transactionsSlice";
 import { setSelectedItem } from "../../redux/generalSlice";
 
-import { organiseTransactions, addRunningBalances, getTransactionTotal, checkSearch } from "../../utils/transactions.utils";
+import { organiseTransactions, addRunningBalances, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions } from "../../utils/transactions.utils";
 import { parseCurrency } from "../../components/Transaction/Transaction.utils";
 
 import ItemPageLayout from "../../components/styled/ItemPageLayout";
@@ -47,20 +47,18 @@ const Accounts = () => {
 		);
 	}
 
+	//filter transactions based on search
+	const searchedTransactions = getSearchedTransactions(transactions, search);
+
 	//filter transactions for accounts and based on search
-	const accountTransactions = transactions.filter(tr => {
-		if (tr.type === 'spend' && tr.account === selectedItem && checkSearch(tr, search)) return true;
-		if (tr.type === 'transfer' && (tr.from === selectedItem || tr.to === selectedItem) && checkSearch(tr, search)) return true;
+	const accountTransactions = searchedTransactions.filter(tr => {
+		if (tr.type === 'spend' && tr.account === selectedItem) return true;
+		if (tr.type === 'transfer' && (tr.from === selectedItem || tr.to === selectedItem)) return true;
 		return false;
 	}) as SpendTransaction[] & TransferTransaction[];
 
 	//Search for accounts with filteredTransactions and add number to name for displaying
-    const searchedAccounts = accounts.map(account => {
-        if (search.length === 0) return account;
-
-        let transactionArr = accountTransactions.filter(obj => obj.account === account.id);
-        return {...account, name: account.name + ' - ' + transactionArr.length};
-    });
+	const searchedAccounts = getItemsWithSearchValue(accounts, search, searchedTransactions, 'account');
 	
 	const onChangeSearch = (val: string) => {
 		setSearch(val);
