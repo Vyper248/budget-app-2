@@ -1,4 +1,4 @@
-import { checkSearch, getTransactionTotal, addRunningBalances, organiseTransactions } from "./transactions.utils";
+import { checkSearch, getTransactionTotal, addRunningBalances, organiseTransactions, getItemsWithSearchValue, getSearchedTransactions } from "./transactions.utils";
 import { RootState, store } from "../redux/store";
 import type { Category } from "../redux/categoriesSlice";
 import type { Account } from "../redux/accountsSlice";
@@ -7,7 +7,7 @@ import { vi } from "vitest";
 const mockTransactions = [
     {
         id: 1,
-        description: 'test transaction',
+        description: 'test',
         amount: 100,
         date: '2021-01-01',
         type: 'spend' as 'spend',
@@ -18,7 +18,7 @@ const mockTransactions = [
     },
     {
         id: 2,
-        description: 'test transaction',
+        description: 'hello',
         amount: 50,
         date: '2021-01-21',
         type: 'spend' as 'spend',
@@ -29,7 +29,7 @@ const mockTransactions = [
     },
     {
         id: 3,
-        description: 'test transaction',
+        description: 'world',
         amount: -25,
         date: '2021-02-10',
         type: 'spend' as 'spend',
@@ -42,7 +42,8 @@ const mockTransactions = [
 
 const mockCategory = {
     id: 1,
-    type: 'expense'
+    type: 'expense',
+    name: 'Earnings'
 } as Category;
 
 const mockAccount = {
@@ -103,5 +104,20 @@ describe('Checking the addRunningBalances function', () => {
         expect(transactions[0].transactions[0].runningBalance).toBe(-125);
         expect(transactions[1].transactions[0].runningBalance).toBe(-150);
         expect(transactions[1].transactions[1].runningBalance).toBe(-100);
+    });
+});
+
+describe('Checking the getItemsWithSearchValue function', () => {
+    it('Correctly adds number of items found to the item objects', () => {
+        let searchedItems = getItemsWithSearchValue([mockCategory], 'any string', [mockTransactions[0]], 'category');
+        expect(searchedItems[0].name).toBe('Earnings - 1');
+    });
+});
+
+describe('Checking the getSearchedItems function', () => {
+    it('Correctly finds the transactions with the search value', () => {
+        expect(getSearchedTransactions(mockTransactions, 'test').length).toBe(1);
+        expect(getSearchedTransactions(mockTransactions, 'hello').length).toBe(1);
+        expect(getSearchedTransactions(mockTransactions, 'e').length).toBe(2);
     });
 });

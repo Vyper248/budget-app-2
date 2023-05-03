@@ -3,7 +3,10 @@ import { compareAsc, parseISO, parse } from "date-fns";
 import { formatDate } from "./date.utils";
 import { getAmount } from "../components/Transaction/Transaction.utils";
 
-import type { TransactionObj, MonthlyTransactions, Transaction } from "../redux/transactionsSlice";
+import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "../redux/transactionsSlice";
+import type { Category } from "../redux/categoriesSlice";
+import type { Account } from "../redux/accountsSlice";
+import type { Fund } from "../redux/fundsSlice";
 
 type MonthlyTransactionsObj = {
 	[key: string]: TransactionObj[];
@@ -74,4 +77,31 @@ export const checkSearch = (tr: Transaction, search: string) => {
 	if (tr.type === 'transfer') return false;
 	if (tr.description.toLowerCase().includes(search.toLowerCase())) return true;
 	return false;
+}
+
+export const getItemsWithSearchValue = (itemArr: Category[] | Account[] | Fund[], search: string, transactions: Transaction[], itemKey: 'category' | 'account' | 'fund') => {
+	//Search for categories with filteredTransactions and add number to name for displaying
+    return itemArr.map(item => {
+        if (search.length === 0) return item;
+
+		if (itemKey === 'category' || itemKey === 'account') {
+			let spendTransactions = transactions as SpendTransaction[];
+			let transactionArr = spendTransactions.filter((obj: SpendTransaction) => obj[itemKey] === item.id);
+			return {...item, name: item.name + ' - ' + transactionArr.length};
+		} else if (itemKey === 'fund') {
+			let spendFundTransactions = transactions as SpendTransaction[] & FundTransaction[];
+			let transactionArr = spendFundTransactions.filter(obj => obj.fund === item.id);
+			return {...item, name: item.name + ' - ' + transactionArr.length};
+		} else {
+			return item;
+		}
+    });
+}
+
+export const getSearchedTransactions = (transactions: Transaction[], search: string) => {
+	//filter transactions based on search
+    return transactions.filter(tr => {
+        if (checkSearch(tr, search)) return true;
+        return false;
+    });
 }
