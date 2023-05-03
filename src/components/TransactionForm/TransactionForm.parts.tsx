@@ -12,6 +12,7 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 	const accounts = useAppSelector(state => state.accounts);
 	const funds = useAppSelector(state => state.funds);
 	const categories = useAppSelector(state => state.categories);
+	const currentPage = useAppSelector(state => state.general.currentPage);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number| undefined>(obj?.fund || undefined);
@@ -20,7 +21,12 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 	const [category, setCategory] = useState<number | undefined>(defaultCategory);
 
 	const defaultAccountObj = accounts.find(obj => obj.defaultAccount === true);
-	const defaultAccount = defaultAccountObj ? defaultAccountObj.id : accounts.length > 0 ? accounts[0].id : undefined;
+	let defaultAccount = defaultAccountObj ? defaultAccountObj.id : accounts.length > 0 ? accounts[0].id : undefined;
+
+	//If user has an account selected, then use that as the default
+	const selectedItem = useAppSelector(state => state.general.selectedItem);
+	if (selectedItem && currentPage === 'Accounts') defaultAccount = selectedItem;
+
 	const [account, setAccount] = useState<number | undefined>(obj?.account || defaultAccount);	
 
 	const onChangeGroup = (value: string) => {

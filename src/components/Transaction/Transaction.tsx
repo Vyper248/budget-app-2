@@ -14,10 +14,10 @@ type TransactionProps = {
 
 const Transaction = ({obj, runningBalance}: TransactionProps) => {
 	const dispatch = useAppDispatch();
-	const { selectedAccount, currentPage } = useAppSelector(state => state.general);
+	const { selectedItem, currentPage } = useAppSelector(state => state.general);
 
-	const fullDescription = getDescription(obj, selectedAccount, currentPage);
-	const amount = getAmount(obj, false, selectedAccount) as number;
+	const fullDescription = getDescription(obj, selectedItem, currentPage);
+	const amount = getAmount(obj, false, selectedItem) as number;
 
 	const onClick = () => {
 		dispatch(selectTransaction(obj));

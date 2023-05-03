@@ -76,7 +76,7 @@ export const parseCurrency = (value: number) => {
     return arr.join('');    
 }
 
-export const getAmount = (transaction: Transaction, asCurrency=true, selectedAccount: number) => {
+export const getAmount = (transaction: Transaction, asCurrency=true, selectedAccount?: number) => {
     const state = store.getState();
 
     const { categories } = state;

@@ -72,7 +72,7 @@ it("Displays transfer details correctly when on Account page", () => {
 		to: 2,
 	} as TransactionType;
 
-	const mockState = getBasicMockState({...mockStateBase, general: {currentPage: 'Accounts', selectedAccount: 1}});
+	const mockState = getBasicMockState({...mockStateBase, general: {currentPage: 'Accounts', selectedItem: 1}});
 
 	const mockStore = vi.spyOn(store, 'getState');
 	mockStore.mockReturnValue(mockState.preloadedState);
@@ -92,7 +92,7 @@ it("Displays transfer details correctly when on different Account page", () => {
 		to: 2,
 	} as TransactionType;
 
-	const mockState = getBasicMockState({...mockStateBase, general: {currentPage: 'Accounts', selectedAccount: 2}});
+	const mockState = getBasicMockState({...mockStateBase, general: {currentPage: 'Accounts', selectedItem: 2}});
 
 	const mockStore = vi.spyOn(store, 'getState');
 	mockStore.mockReturnValue(mockState.preloadedState);
