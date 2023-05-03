@@ -16,7 +16,7 @@ export type User = {
 
 export interface GeneralState {
     currentPage: string;
-    selectedAccount: number;
+    selectedItem: number;
     lastSync: number;
     user: User | null;
     fetching: boolean;
@@ -25,7 +25,7 @@ export interface GeneralState {
 
 export const initialState: GeneralState = {
     currentPage: 'Home',
-    selectedAccount:0,
+    selectedItem: 0,
     lastSync: 0,
     user: null,
     fetching: false,
@@ -42,9 +42,10 @@ export const generalSlice = createSlice({
         setCurrentPage: (state, action: PayloadAction<string>) => {
             state.currentPage = action.payload;
             state.message = { text: '', type: '' };
+            state.selectedItem = 0;
         },
-        setSelectedAccount: (state, action: PayloadAction<number>) => {
-            state.selectedAccount = action.payload;
+        setSelectedItem: (state, action: PayloadAction<number>) => {
+            state.selectedItem = action.payload;
         },
         updateSyncDate: (state) => {
             state.lastSync = getDateNumber();
@@ -61,5 +62,5 @@ export const generalSlice = createSlice({
     },
 })
 
-export const { setCurrentPage, setSelectedAccount, updateSyncDate, setUser, setFetching, setMessage } = generalSlice.actions;
+export const { setCurrentPage, setSelectedItem, updateSyncDate, setUser, setFetching, setMessage } = generalSlice.actions;
 export default generalSlice.reducer;
