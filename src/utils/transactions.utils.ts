@@ -72,6 +72,6 @@ export const getTransactionTotal = (transactions: Transaction[], selectedItem?: 
 export const checkSearch = (tr: Transaction, search: string) => {
 	if (search.length === 0) return true;
 	if (tr.type === 'transfer') return false;
-	if (tr.description.includes(search)) return true;
+	if (tr.description.toLowerCase().includes(search.toLowerCase())) return true;
 	return false;
 }
