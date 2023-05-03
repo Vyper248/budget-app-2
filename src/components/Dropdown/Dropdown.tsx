@@ -10,7 +10,7 @@ type DropdownProps = {
 	labelWidth?: string;
 }
 
-const Dropdown = ({value, label, onChange, width='100%', labelWidth='auto', options}: DropdownProps) => {
+const Dropdown = ({value, label='', onChange, width='100%', labelWidth='auto', options}: DropdownProps) => {
 	const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		onChange(event.target.value);
 	}
@@ -18,7 +18,7 @@ const Dropdown = ({value, label, onChange, width='100%', labelWidth='auto', opti
 	if (value === 0 || value === undefined || Number.isNaN(value)) value = '';
 
 	return (
-		<StyledDropdown width={width}>
+		<StyledDropdown width={width} hasLabel={label.length > 0}>
 			<StyledInputLabel width={labelWidth}>{label}</StyledInputLabel>
 			<div className='dropdown'>
 				<select value={value} onChange={handleChange} aria-label={label}>
