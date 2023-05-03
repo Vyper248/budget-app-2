@@ -19,7 +19,7 @@ const Input = ({label='', type='text', value, onChange, width='100%', labelWidth
   if (Number.isNaN(value)) value = '';
 
 	return (
-		<StyledInput width={width}>
+		<StyledInput width={width} hasLabel={label.length > 0}>
 		  {label && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel>}
 		  <input type={type} value={value} onChange={handleChange} aria-label={label} {...rest}/>
 		</StyledInput>
