@@ -3,6 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '../utils/date.utils';
 
+import type { Category } from './categoriesSlice';
+import type { Account } from './accountsSlice';
+import type { Fund } from './fundsSlice';
+
 export type Message = {
     text: string;
     type: string;
@@ -22,6 +26,8 @@ export interface GeneralState {
     fetching: boolean;
     message: Message;
 }
+
+export type Item = Category | Account | Fund;
 
 export const initialState: GeneralState = {
     currentPage: 'Home',
