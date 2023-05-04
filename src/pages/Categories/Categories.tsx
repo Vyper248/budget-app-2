@@ -22,7 +22,7 @@ const Categories = () => {
     const transactions = useAppSelector(selectTransactions);
     const selectedItem = useAppSelector(state => state.general.selectedItem);
 
-    const [categoryObj, onSelectItem] = useItemObj(selectedItem, categories) as [Category, (val: number) => void];
+    const [categoryObj, onSelectItem] = useItemObj(selectedItem, categories) as [Category | undefined, (val: number) => void];
 
     //filter transactions based on search
     const searchedTransactions = getSearchedTransactions(transactions, search);
@@ -41,20 +41,20 @@ const Categories = () => {
 	}
 
     //get total
-	let total = getTransactionTotal(categoryTransactions, selectedItem); 
+	const total = getTransactionTotal(categoryTransactions, selectedItem); 
     let totalText = `Total Earned: ${parseCurrency(total)}`;
     if (categoryObj && categoryObj.type === 'expense') {
         totalText = `Total Spent: ${parseCurrency(-total)}`;
     }
 
     //organise transactions and add running balances
-	let organised = organiseTransactions(categoryTransactions);
+	const organised = organiseTransactions(categoryTransactions);
 
     return (
         <ItemPageLayout>
             <ItemList heading='Categories' items={searchedCategories} onSelect={onSelectItem} selectedItemId={selectedItem}/>
             { categoryObj === undefined ? <div></div> : (
-                <ItemPageTransactionContainer heading='Categories' startingBalance={categoryObj.startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
+                <ItemPageTransactionContainer heading={categoryObj.name} startingBalance={categoryObj.startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
                     <TransactionGroups monthlyTransactions={organised}/>
                 </ItemPageTransactionContainer>
             ) }

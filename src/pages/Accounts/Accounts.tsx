@@ -22,7 +22,7 @@ const Accounts = () => {
 	const transactions = useAppSelector(selectTransactions);
 	const selectedItem = useAppSelector(state => state.general.selectedItem);
 
-	const [accountObj, onSelectItem] = useItemObj(selectedItem, accounts) as [Account, (val: number) => void];;
+	const [accountObj, onSelectItem] = useItemObj(selectedItem, accounts) as [Account | undefined, (val: number) => void];;
 
 	//filter transactions based on search
 	const searchedTransactions = getSearchedTransactions(transactions, search);
@@ -42,17 +42,18 @@ const Accounts = () => {
 	}
 	
 	//get total
-	let total = getTransactionTotal(accountTransactions, selectedItem); 
+	const total = getTransactionTotal(accountTransactions, selectedItem); 
+	const totalText = `Balance: ${parseCurrency(total)}`;
 
 	//organise transactions and add running balances
-	let organised = organiseTransactions(accountTransactions);
-	let runningBalanceArray = addRunningBalances(organised, selectedItem);
+	const organised = organiseTransactions(accountTransactions);
+	const runningBalanceArray = addRunningBalances(organised, selectedItem);
 
 	return (
 		<ItemPageLayout>
 			<ItemList heading='Accounts' items={searchedAccounts} selectedItemId={selectedItem} onSelect={onSelectItem}/>
 			{ accountObj === undefined ? <div></div> : (
-				<ItemPageTransactionContainer heading={accountObj.name} startingBalance={accountObj.startingBalance} search={search} totalText={`Balance: ${parseCurrency(total)}`} onChangeSearch={onChangeSearch}>
+				<ItemPageTransactionContainer heading={accountObj.name} startingBalance={accountObj.startingBalance} search={search} totalText={totalText} onChangeSearch={onChangeSearch}>
 					<TransactionGroups monthlyTransactions={runningBalanceArray}/>
 				</ItemPageTransactionContainer>
 			) }
