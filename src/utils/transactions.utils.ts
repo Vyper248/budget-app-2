@@ -4,9 +4,7 @@ import { formatDate } from "./date.utils";
 import { getAmount } from "../components/Transaction/Transaction.utils";
 
 import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "../redux/transactionsSlice";
-import type { Category } from "../redux/categoriesSlice";
-import type { Account } from "../redux/accountsSlice";
-import type { Fund } from "../redux/fundsSlice";
+import type { Item } from "../redux/generalSlice";
 
 type MonthlyTransactionsObj = {
 	[key: string]: TransactionObj[];
@@ -79,7 +77,7 @@ export const checkSearch = (tr: Transaction, search: string) => {
 	return false;
 }
 
-export const getItemsWithSearchValue = (itemArr: Category[] | Account[] | Fund[], search: string, transactions: Transaction[], itemKey: 'category' | 'account' | 'fund') => {
+export const getItemsWithSearchValue = (itemArr: Item[], search: string, transactions: Transaction[], itemKey: 'category' | 'account' | 'fund') => {
 	//Search for categories with filteredTransactions and add number to name for displaying
     return itemArr.map(item => {
         if (search.length === 0) return item;

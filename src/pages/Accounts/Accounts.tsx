@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { selectAccounts } from "../../redux/accountsSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { Account, selectAccounts } from "../../redux/accountsSlice";
 import { selectTransactions } from "../../redux/transactionsSlice";
-import { setSelectedItem } from "../../redux/generalSlice";
 
 import { organiseTransactions, addRunningBalances, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions } from "../../utils/transactions.utils";
 import { parseCurrency } from "../../components/Transaction/Transaction.utils";
+import { useItemObj } from "../../utils/customHooks.utils";
 
 import ItemPageLayout from "../../components/styled/ItemPageLayout";
 import ItemList from "../../components/ItemList/ItemList";
@@ -16,36 +16,13 @@ import TransactionGroups from "../../components/TransactionGroups/TransactionGro
 import type { SpendTransaction, TransferTransaction } from "../../redux/transactionsSlice";
 
 const Accounts = () => {
-	const dispatch = useAppDispatch();
-
 	const [search, setSearch] = useState('');
 
 	const accounts = useAppSelector(selectAccounts);
 	const transactions = useAppSelector(selectTransactions);
 	const selectedItem = useAppSelector(state => state.general.selectedItem);
 
-	const accountObj = accounts.find(obj => obj.id === selectedItem);
-
-	useEffect(() => {
-		//make sure the first item is selected
-		if (selectedItem === 0 && accounts.length > 0) {
-			dispatch(setSelectedItem(accounts[0].id));
-		}
-	}, [selectedItem, accounts]);
-
-	const onSelectAccount = (id: number) => {
-		dispatch(setSelectedItem(id));
-	}
-
-	//if no account selected, then just display the account list
-	if (accountObj === undefined) {
-		return (
-			<ItemPageLayout>
-				<ItemList heading='Accounts' items={accounts} selectedItemId={selectedItem} onSelect={onSelectAccount}/>
-				<div></div>
-			</ItemPageLayout>
-		);
-	}
+	const [accountObj, onSelectItem] = useItemObj(selectedItem, accounts) as [Account, (val: number) => void];;
 
 	//filter transactions based on search
 	const searchedTransactions = getSearchedTransactions(transactions, search);
@@ -73,10 +50,12 @@ const Accounts = () => {
 
 	return (
 		<ItemPageLayout>
-			<ItemList heading='Accounts' items={searchedAccounts} selectedItemId={selectedItem} onSelect={onSelectAccount}/>
-			<ItemPageTransactionContainer heading={accountObj.name} startingBalance={accountObj.startingBalance} search={search} totalText={`Balance: ${parseCurrency(total)}`} onChangeSearch={onChangeSearch}>
-				<TransactionGroups monthlyTransactions={runningBalanceArray}/>
-			</ItemPageTransactionContainer>
+			<ItemList heading='Accounts' items={searchedAccounts} selectedItemId={selectedItem} onSelect={onSelectItem}/>
+			{ accountObj === undefined ? <div></div> : (
+				<ItemPageTransactionContainer heading={accountObj.name} startingBalance={accountObj.startingBalance} search={search} totalText={`Balance: ${parseCurrency(total)}`} onChangeSearch={onChangeSearch}>
+					<TransactionGroups monthlyTransactions={runningBalanceArray}/>
+				</ItemPageTransactionContainer>
+			) }
 		</ItemPageLayout>
 	);
 }
