@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 
 import type { Category } from './categoriesSlice';
 import type { Account } from './accountsSlice';
@@ -28,6 +28,7 @@ export interface GeneralState {
 }
 
 export type Item = Category | Account | Fund;
+export type ItemType = 'category' | 'account' | 'fund';
 
 export const initialState: GeneralState = {
     currentPage: 'Home',
