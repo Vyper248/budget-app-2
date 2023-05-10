@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 import { RootState } from './store';
 
 export type Category = {
@@ -64,6 +64,10 @@ export const categoriesSlice = createSlice({
                 category.deleted = getDateNumber();
             }
         },
+        reorderCategories: (state, action: PayloadAction<Category[]>) => {
+            const deleted = state.filter(obj => obj.deleted !== undefined && obj.deleted > 0);
+            return [...action.payload, ...deleted];
+        },
         setCategories: (_, action: PayloadAction<Category[]>) => {
             return action.payload;
         }
@@ -76,5 +80,5 @@ export const selectCategories = createSelector(selectCategoriesBasic, (categorie
     return categories.filter(category => category.deleted === undefined || category.deleted === 0) as Category[];
 });
 
-export const { addCategory, editCategory, removeCategory, setCategories } = categoriesSlice.actions;
+export const { addCategory, editCategory, removeCategory, reorderCategories, setCategories } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 import { RootState } from './store';
 
 export type Account = {
@@ -39,6 +39,17 @@ export const initialState: Account[] = [
         note: '',
         startingBalance: 0,
         updated: 20200101153000
+    },
+    {
+        id: 20210301183000,
+        name: 'Tesco',
+        hidden: false,
+        defaultAccount: false,
+        extraCharges: 0,
+        interestRate: 0,
+        note: '',
+        startingBalance: 0,
+        updated: 20210301183000
     }
 ]
 
@@ -66,6 +77,10 @@ export const accountsSlice = createSlice({
                 account.deleted = getDateNumber();
             }
         },
+        reorderAccounts: (state, action: PayloadAction<Account[]>) => {
+            const deleted = state.filter(obj => obj.deleted !== undefined && obj.deleted > 0);
+            return [...action.payload, ...deleted];
+        },
         setAccounts: (_, action: PayloadAction<Account[]>) => {
             return action.payload;
         }
@@ -78,5 +93,5 @@ export const selectAccounts = createSelector([selectAccountsBasic], (accounts) =
     return accounts.filter((account: Account) => account.deleted === undefined || account.deleted === 0) as Account[];
 });
 
-export const { addAccount, editAccount, removeAccount, setAccounts } = accountsSlice.actions;
+export const { addAccount, editAccount, removeAccount, reorderAccounts, setAccounts } = accountsSlice.actions;
 export default accountsSlice.reducer;

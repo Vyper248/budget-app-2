@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 import { RootState } from './store';
 
 export type Fund = {
@@ -48,6 +48,10 @@ export const fundsSlice = createSlice({
                 fund.deleted = getDateNumber();
             }
         },
+        reorderFunds: (state, action: PayloadAction<Fund[]>) => {
+            const deleted = state.filter(obj => obj.deleted !== undefined && obj.deleted > 0);
+            return [...action.payload, ...deleted];
+        },
         setFunds: (_, action: PayloadAction<Fund[]>) => {
             return action.payload;
         }
@@ -60,5 +64,5 @@ export const selectFunds = createSelector(selectFundsBasic, funds => {
     return funds.filter(fund => fund.deleted === undefined || fund.deleted === 0);
 });
 
-export const { addFund, editFund, removeFund, setFunds } = fundsSlice.actions;
+export const { addFund, editFund, removeFund, reorderFunds, setFunds } = fundsSlice.actions;
 export default fundsSlice.reducer;
