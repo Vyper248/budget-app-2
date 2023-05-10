@@ -1,8 +1,8 @@
 import StyledMenuBar from "./MenuBar.style";
 
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setCurrentPage } from "../../redux/generalSlice";
-import { setAddingTransaction } from "../../redux/transactionsSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setCurrentPage } from "@/redux/generalSlice";
+import { setAddingTransaction } from "@/redux/transactionsSlice";
 
 const selected = {
 	backgroundColor: 'var(--menu-selected-bg-color)'

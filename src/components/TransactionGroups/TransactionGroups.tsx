@@ -1,7 +1,7 @@
-import CloseableContainer from "../CloseableContainer/CloseableContainer";
-import TransactionList from "../TransactionList/TransactionList";
+import CloseableContainer from "@/components/CloseableContainer/CloseableContainer";
+import TransactionList from "@/components/TransactionList/TransactionList";
 
-import type { MonthlyTransactions } from "../../redux/transactionsSlice";
+import type { MonthlyTransactions } from "@/redux/transactionsSlice";
 
 type TransactionGroupsProps = {
 	monthlyTransactions: MonthlyTransactions[];

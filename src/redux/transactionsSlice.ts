@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 import { RootState } from './store';
 
 export type TransactionObj = {

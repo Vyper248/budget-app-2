@@ -5,15 +5,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import type { PreloadedState } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 
-import type { RootState } from '../redux/store';
+import type { RootState } from '@/redux/store';
 
-import { initialState as initialGeneralState } from '../redux/generalSlice';
-import { initialState as initialSettingsState } from '../redux/settingsSlice';
-import { initialState as initialTransactionsState } from '../redux/transactionsSlice';
-import { initialState as initialAccountsState } from '../redux/accountsSlice';
-import { initialState as initialCategoriesState } from '../redux/categoriesSlice';
-import { initialState as initialFundsState } from '../redux/fundsSlice';
-import { reducer } from '../redux/store';
+import { initialState as initialGeneralState } from '@/redux/generalSlice';
+import { initialState as initialSettingsState } from '@/redux/settingsSlice';
+import { initialState as initialTransactionsState } from '@/redux/transactionsSlice';
+import { initialState as initialAccountsState } from '@/redux/accountsSlice';
+import { initialState as initialCategoriesState } from '@/redux/categoriesSlice';
+import { initialState as initialFundsState } from '@/redux/fundsSlice';
+import { reducer } from '@/redux/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'wrapper'> { 
     preloadedState?: PreloadedState<RootState>;

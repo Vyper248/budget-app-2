@@ -1,5 +1,5 @@
 import StyledDropdown from "./Dropdown.style";
-import StyledInputLabel from "../styled/InputLabel";
+import StyledInputLabel from "@/components/styled/InputLabel";
 
 type DropdownProps = {
 	value: string | number | undefined;
@@ -15,7 +15,7 @@ const Dropdown = ({value, label='', onChange, width='100%', labelWidth='auto', o
 		onChange(event.target.value);
 	}
 
-	if (value === 0 || value === undefined || Number.isNaN(value)) value = '';
+	if (value === undefined || Number.isNaN(value)) value = '';
 
 	return (
 		<StyledDropdown width={width} hasLabel={label.length > 0}>

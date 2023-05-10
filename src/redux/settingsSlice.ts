@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '../utils/date.utils';
+import { getDateNumber } from '@/utils/date.utils';
 
 export type PayPeriodType = 'monthly' | 'fourWeekly' | 'weekly' | 'twoWeekly';
 export type ColourScheme = 'dark' | 'light';

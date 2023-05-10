@@ -1,9 +1,9 @@
 import { getAllByAltText, getAllByTestId, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TransactionList from "./TransactionList"
-import { getBasicMockState, render } from "../../utils/test.utils";
+import { getBasicMockState, render } from "@/utils/test.utils";
 
-import { Transaction } from "../../redux/transactionsSlice";
+import { Transaction } from "@/redux/transactionsSlice";
 
 const mockTransactions: Transaction[] = [
 	{

@@ -6,7 +6,7 @@ import settingsReducer from './settingsSlice';
 import transactionsReducer from './transactionsSlice';
 import categoriesReducer from './categoriesSlice';
 
-import { retrieveFromStorage, saveToStorage } from "../utils/localStorage.utils";
+import { retrieveFromStorage, saveToStorage } from "@/utils/localStorage.utils";
 
 const localStorageListener = createListenerMiddleware();
 localStorageListener.startListening({

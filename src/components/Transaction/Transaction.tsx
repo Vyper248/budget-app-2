@@ -1,11 +1,11 @@
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import StyledTransaction from "./Transaction.style";
 
 import { getDescription, getAmount, parseCurrency } from "./Transaction.utils";
-import { formatDate } from "../../utils/date.utils";
-import { selectTransaction } from "../../redux/transactionsSlice";
+import { formatDate } from "@/utils/date.utils";
+import { selectTransaction } from "@/redux/transactionsSlice";
 
-import type { Transaction } from "../../redux/transactionsSlice";
+import type { Transaction } from "@/redux/transactionsSlice";
 
 type TransactionProps = {
 	obj: Transaction;

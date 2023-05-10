@@ -1,12 +1,13 @@
 import StyledTransactionForm from "./TransactionForm.style";
 
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { Transaction, addTransaction, setAddingTransaction, editTransaction } from "../../redux/transactionsSlice";
-import { today } from "../../utils/date.utils";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { Transaction, addTransaction, setAddingTransaction, editTransaction, SpendTransaction, TransferTransaction, FundTransaction } from "@/redux/transactionsSlice";
+import { today } from "@/utils/date.utils";
 import { validateTransaction, LABEL_WIDTH } from "./TransactionForm.utils";
+import { selectAccounts } from "@/redux/accountsSlice";
 
-import Input from "../Input/Input";
-import Dropdown from "../Dropdown/Dropdown";
+import Input from "@/components/Input/Input";
+import Dropdown from "@/components/Dropdown/Dropdown";
 import { useState } from "react";
 
 import { AddFundForm, SpendForm, TransferForm } from "./TransactionForm.parts";
@@ -17,7 +18,7 @@ type TransactionFormProps = {
 
 const TransactionForm = ({obj}: TransactionFormProps) => {
 	const dispatch = useAppDispatch();
-	const accounts = useAppSelector(state => state.accounts);
+	const accounts = useAppSelector(selectAccounts);
 
 	const [error, setError] = useState('');
 
@@ -64,9 +65,9 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 			<Dropdown label='Type' labelWidth={LABEL_WIDTH} value={type} onChange={onChangeType} options={typeOptions}/>
 			<Input label='Date' type='date' labelWidth={LABEL_WIDTH} value={date} onChange={onChangeDate}/>
 			<Input label='Amount' type='number' labelWidth={LABEL_WIDTH} value={amount} onChange={onChangeAmount}/>
-			{ type === 'spend' ? <SpendForm obj={obj !== undefined && obj.type ==='spend' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
-			{ type === 'transfer' ? <TransferForm obj={obj !== undefined && obj.type ==='transfer' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
-			{ type === 'fundAddition' ? <AddFundForm obj={obj !== undefined && obj.type ==='fundAddition' ? obj : undefined} onComplete={onCompleteTransaction}/> : null }
+			{ type === 'spend' ? <SpendForm obj={obj !== undefined ? obj as SpendTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
+			{ type === 'transfer' ? <TransferForm obj={obj !== undefined ? obj as TransferTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
+			{ type === 'fundAddition' ? <AddFundForm obj={obj !== undefined ? obj as FundTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
 			{ error.length > 0 ? <figure style={{color: 'var(--text-color-warning)', textAlign: 'center'}}>Error: {error}</figure> : null }
 		</StyledTransactionForm>
 	);

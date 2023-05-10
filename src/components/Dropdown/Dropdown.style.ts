@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StyledInput from "../Input/Input.style";
+import StyledInput from "@/components/Input/Input.style";
 
 const StyledDropdown = styled(StyledInput)`
 	& > .dropdown {

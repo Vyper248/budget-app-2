@@ -1,7 +1,7 @@
 import StyledTransactionList from "./TransactionList.style";
 
-import type { TransactionObj } from "../../redux/transactionsSlice";
-import Transaction from "../Transaction/Transaction";
+import type { TransactionObj } from "@/redux/transactionsSlice";
+import Transaction from "@/components/Transaction/Transaction";
 
 type TransactionListProps = {
 	list: TransactionObj[];

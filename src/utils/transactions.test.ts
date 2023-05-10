@@ -1,7 +1,7 @@
 import { checkSearch, getTransactionTotal, addRunningBalances, organiseTransactions, getItemsWithSearchValue, getSearchedTransactions } from "./transactions.utils";
-import { RootState, store } from "../redux/store";
-import type { Category } from "../redux/categoriesSlice";
-import type { Account } from "../redux/accountsSlice";
+import { RootState, store } from "@/redux/store";
+import type { Category } from "@/redux/categoriesSlice";
+import type { Account } from "@/redux/accountsSlice";
 import { vi } from "vitest";
 
 const mockTransactions = [

@@ -1,10 +1,10 @@
 import { compareAsc, parseISO, parse } from "date-fns";
 
 import { formatDate } from "./date.utils";
-import { getAmount } from "../components/Transaction/Transaction.utils";
+import { getAmount } from "@/components/Transaction/Transaction.utils";
 
-import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "../redux/transactionsSlice";
-import type { Item } from "../redux/generalSlice";
+import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "@/redux/transactionsSlice";
+import type { Item } from "@/redux/generalSlice";
 
 type MonthlyTransactionsObj = {
 	[key: string]: TransactionObj[];

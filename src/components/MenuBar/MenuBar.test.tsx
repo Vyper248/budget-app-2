@@ -2,13 +2,13 @@ import {fireEvent, screen} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import MenuBar from "./MenuBar"
 import { vi } from 'vitest';
-import * as redux from '../../redux/hooks';
-import { render } from "../../utils/test.utils";
+import * as redux from '@/redux/hooks';
+import { render } from "@/utils/test.utils";
 
-import { setCurrentPage } from "../../redux/generalSlice";
-import { setAddingTransaction } from "../../redux/transactionsSlice";
+import { setCurrentPage } from "@/redux/generalSlice";
+import { setAddingTransaction } from "@/redux/transactionsSlice";
 
-import { getBasicMockState } from "../../utils/test.utils";
+import { getBasicMockState } from "@/utils/test.utils";
 
 it("Loads element without crashing", () => {
 	render(<MenuBar/>);

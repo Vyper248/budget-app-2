@@ -1,5 +1,5 @@
 import StyledInput from "./Input.style";
-import StyledInputLabel from "../styled/InputLabel";
+import StyledInputLabel from "@/components/styled/InputLabel";
 
 type InputProps = {
   label?: string;

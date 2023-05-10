@@ -1,16 +1,16 @@
 import {fireEvent, screen} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TransactionForm from "./TransactionForm"
-import { getBasicMockState, render } from "../../utils/test.utils";
+import { getBasicMockState, render } from "@/utils/test.utils";
 import { vi } from 'vitest';
-import * as redux from '../../redux/hooks';
+import * as redux from '@/redux/hooks';
 
 import { validateTransaction } from "./TransactionForm.utils";
 
-import type { Account } from "../../redux/accountsSlice";
-import type { Fund } from "../../redux/fundsSlice";
-import type { FundTransaction, Transaction } from "../../redux/transactionsSlice";
-import type { Category } from "../../redux/categoriesSlice";
+import type { Account } from "@/redux/accountsSlice";
+import type { Fund } from "@/redux/fundsSlice";
+import type { FundTransaction, Transaction } from "@/redux/transactionsSlice";
+import type { Category } from "@/redux/categoriesSlice";
 
 const mockAccountA = { id: 2345 } as Account;
 const mockAccountB = { id: 1234 } as Account;

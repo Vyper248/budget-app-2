@@ -1,7 +1,7 @@
-import { getObjectName, joinStrings } from "../../utils/general.utils";
-import { store } from "../../redux/store";
+import { getObjectName, joinStrings } from "@/utils/general.utils";
+import { store } from "@/redux/store";
 
-import type { Transaction } from "../../redux/transactionsSlice";
+import type { Transaction } from "@/redux/transactionsSlice";
 
 export const getDescription = (transaction: Transaction, selectedAccount: number, currentPage: string) => {
     const state = store.getState();
