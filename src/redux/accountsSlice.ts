@@ -7,11 +7,11 @@ import { RootState } from './store';
 export type Account = {
     id: number;
     name: string;
+    description: string;
     hidden: boolean;
     defaultAccount: boolean;
     extraCharges: number;
     interestRate: number;
-    note: string;
     startingBalance: number;
     updated: number;
     deleted?: number;
@@ -21,33 +21,33 @@ export const initialState: Account[] = [
     {
         id: 20190723153000,
         name: 'Starling',
+        description: '',
         hidden: false,
         defaultAccount: true,
         extraCharges: 0,
         interestRate: 0,
-        note: '',
         startingBalance: 0,
         updated: 20190723153000
     },
     {
         id: 20200101153000,
         name: 'NatWest',
+        description: '',
         hidden: false,
         defaultAccount: false,
         extraCharges: 0,
         interestRate: 0,
-        note: '',
         startingBalance: 0,
         updated: 20200101153000
     },
     {
         id: 20210301183000,
         name: 'Tesco',
+        description: '',
         hidden: false,
         defaultAccount: false,
         extraCharges: 0,
         interestRate: 0,
-        note: '',
         startingBalance: 0,
         updated: 20210301183000
     }
