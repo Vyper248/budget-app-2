@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { useAppSelector } from "@/redux/hooks";
 
-import { parseCurrency } from "@/components/Transaction/Transaction.utils";
+import { parseCurrency } from "@/components/TransactionComponents/Transaction/Transaction.utils";
 
 import CloseableContainer from "@/components/CloseableContainer/CloseableContainer";
 import Grid from "@/components/styled/Grid";
 import Input from "@/components/Input/Input";
-import StyledTransaction from "@/components/Transaction/Transaction.style";
+import StyledTransaction from "@/components/TransactionComponents/Transaction/Transaction.style";
 
 type ItemPageTransactionContainerProps = {
 	heading: string;

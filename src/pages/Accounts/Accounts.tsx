@@ -5,13 +5,13 @@ import { selectAccounts } from "@/redux/accountsSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
 
 import { organiseTransactions, addRunningBalances, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions } from "@/utils/transactions.utils";
-import { parseCurrency } from "@/components/Transaction/Transaction.utils";
+import { parseCurrency } from "@/components/TransactionComponents/Transaction/Transaction.utils";
 import { useItemObj } from "@/utils/customHooks.utils";
 
 import ItemPageLayout from "@/components/styled/ItemPageLayout";
 import ItemList from "@/components/ItemComponents/ItemList/ItemList";
 import ItemPageTransactionContainer from "@/components/ItemComponents/ItemPageTransactionContainer/ItemPageTransactionContainer";
-import TransactionGroups from "@/components/TransactionGroups/TransactionGroups";
+import TransactionGroups from "@/components/TransactionComponents/TransactionGroups/TransactionGroups";
 import ItemEditList from "@/components/ItemComponents/ItemEditList/ItemEditList";
 
 import type { SpendTransaction, TransferTransaction } from "@/redux/transactionsSlice";

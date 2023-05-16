@@ -1,6 +1,6 @@
 import StyledItemDisplayObj from "./ItemDisplayObj.style";
 
-import { parseCurrency } from "@/components/Transaction/Transaction.utils";
+import { parseCurrency } from "@/components/TransactionComponents/Transaction/Transaction.utils";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeAccount } from "@/redux/accountsSlice";
 import { removeCategory } from "@/redux/categoriesSlice";

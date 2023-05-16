@@ -9,7 +9,7 @@ import Accounts from './pages/Accounts/Accounts';
 import Categories from './pages/Categories/Categories';
 import Funds from './pages/Funds/Funds';
 import Modal from './components/Modal/Modal';
-import TransactionForm from './components/TransactionForm/TransactionForm';
+import TransactionForm from './components/TransactionComponents/TransactionForm/TransactionForm';
 
 function App() {
 	const currentPage = useAppSelector(state => state.general.currentPage);

@@ -8,7 +8,7 @@ import { selectAccounts } from "@/redux/accountsSlice";
 
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
-import Error from "../styled/Error";
+import Error from "@/components/styled/Error";
 import { useState } from "react";
 
 import { AddFundForm, SpendForm, TransferForm } from "./TransactionForm.parts";

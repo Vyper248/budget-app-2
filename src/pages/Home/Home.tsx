@@ -7,7 +7,7 @@ type HomeProps = {
 const Home = ({}: HomeProps) => {
 	return (
 		<StyledHome>
-			test
+			
 		</StyledHome>
 	);
 }

@@ -1,5 +1,5 @@
 import CloseableContainer from "@/components/CloseableContainer/CloseableContainer";
-import TransactionList from "@/components/TransactionList/TransactionList";
+import TransactionList from "@/components/TransactionComponents/TransactionList/TransactionList";
 
 import type { MonthlyTransactions } from "@/redux/transactionsSlice";
 
