@@ -1,7 +1,8 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import StyledTransaction from "./Transaction.style";
 
-import { getDescription, getAmount, parseCurrency } from "./Transaction.utils";
+import { getDescription } from "./Transaction.utils";
+import { parseCurrency, getAmount } from "@/utils/transactions.utils";
 import { formatDate } from "@/utils/date.utils";
 import { selectTransaction } from "@/redux/transactionsSlice";
 

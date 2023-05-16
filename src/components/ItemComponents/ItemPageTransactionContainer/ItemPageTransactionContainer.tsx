@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { useAppSelector } from "@/redux/hooks";
 
-import { parseCurrency } from "@/components/TransactionComponents/Transaction/Transaction.utils";
+import { parseCurrency } from "@/utils/transactions.utils";
 
 import CloseableContainer from "@/components/CloseableContainer/CloseableContainer";
 import Grid from "@/components/styled/Grid";

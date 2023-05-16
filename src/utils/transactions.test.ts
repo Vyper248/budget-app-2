@@ -1,8 +1,11 @@
-import { checkSearch, getTransactionTotal, addRunningBalances, organiseTransactions, getItemsWithSearchValue, getSearchedTransactions } from "./transactions.utils";
+import { checkSearch, getTransactionTotal, addRunningBalances, 
+        getAmount, parseCurrency, organiseTransactions, getItemsWithSearchValue, 
+        getSearchedTransactions } from "./transactions.utils";
 import { RootState, store } from "@/redux/store";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Account } from "@/redux/accountsSlice";
 import { vi } from "vitest";
+import { Transaction } from "@/redux/transactionsSlice";
 
 const mockTransactions = [
     {
@@ -43,17 +46,32 @@ const mockTransactions = [
 const mockCategory = {
     id: 1,
     type: 'expense',
-    name: 'Earnings'
+    name: 'Food'
 } as Category;
+
+const mockCategory2 = {
+    id: 2,
+    type: 'income',
+    name: 'Earnings'
+}
 
 const mockAccount = {
     id: 2,
     name: 'Account'
 } as Account
 
+const mockAccount2 = {
+    id: 3,
+    name: 'Account 2'
+} as Account
+
 const mockstate = {
-    categories: [mockCategory],
-    accounts: [mockAccount]
+    categories: [mockCategory, mockCategory2],
+    accounts: [mockAccount, mockAccount2],
+    settings: {
+        currencySymbol: '£',
+        showDecimals: true
+    }
 } as RootState;
 
 describe('Checking the checkSearch function', () => {
@@ -121,7 +139,7 @@ describe('Checking the addRunningBalances function', () => {
 describe('Checking the getItemsWithSearchValue function', () => {
     it('Correctly adds number of items found to the item objects', () => {
         let searchedItems = getItemsWithSearchValue([mockCategory], 'any string', [mockTransactions[0]], 'category');
-        expect(searchedItems[0].name).toBe('Earnings - 1');
+        expect(searchedItems[0].name).toBe('Food - 1');
     });
 });
 
@@ -130,5 +148,132 @@ describe('Checking the getSearchedItems function', () => {
         expect(getSearchedTransactions(mockTransactions, 'test').length).toBe(1);
         expect(getSearchedTransactions(mockTransactions, 'hello').length).toBe(1);
         expect(getSearchedTransactions(mockTransactions, 'e').length).toBe(2);
+    });
+});
+
+describe('Checking the parseCurrency function', () => {
+    it('Gives the correct string for any value', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        expect(parseCurrency(100)).toBe('£100.00');
+        expect(parseCurrency(256.2)).toBe('£256.20');
+        expect(parseCurrency(0)).toBe('£0.00');
+        expect(parseCurrency(1)).toBe('£1.00');
+        expect(parseCurrency(0.5)).toBe('£0.50');
+        expect(parseCurrency(10000)).toBe('£10,000.00');
+        expect(parseCurrency(1000)).toBe('£1,000.00');
+        expect(parseCurrency(1000000)).toBe('£1,000,000.00');
+        expect(parseCurrency(-100)).toBe('-£100.00');
+        expect(parseCurrency(-1000)).toBe('-£1,000.00');
+    });
+
+    it('Uses the correct currency symbol', () => {
+        vi.spyOn(store, 'getState').mockReturnValue({...mockstate, settings: {...mockstate.settings, currencySymbol: '$'}});
+
+        expect(parseCurrency(100)).toBe('$100.00');
+    });
+
+    it('Hides decimals if that option is set', () => {
+        vi.spyOn(store, 'getState').mockReturnValue({...mockstate, settings: {...mockstate.settings, showDecimals: false}});
+
+        expect(parseCurrency(100)).toBe('£100');
+    });
+});
+
+describe('Checking the getAmount function', () => {
+    it('Returns the correct amount for an expense transaction', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        const mockTransaction = {
+            id: 1,
+            amount: 25,
+            date: '2022-01-01',
+            updated: 0,
+            type: 'spend',
+            description: '',
+            category: 1,
+            fund: undefined,
+            account: 2
+        } as Transaction;
+
+        expect(getAmount(mockTransaction)).toBe('-£25.00');
+        expect(getAmount(mockTransaction, false)).toBe(-25);
+    });
+
+    it('Returns the correct amount for an income transaction', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        const mockTransaction = {
+            id: 2,
+            amount: 50,
+            date: '2022-01-01',
+            updated: 0,
+            type: 'spend',
+            description: '',
+            category: 2,
+            fund: undefined,
+            account: 2
+        } as Transaction;
+
+        expect(getAmount(mockTransaction)).toBe('£50.00');
+        expect(getAmount(mockTransaction, false)).toBe(50);
+    });
+
+    it('Returns the correct amount for a transfer transaction', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        const mockTransaction = {
+            id: 2,
+            amount: 50,
+            date: '2022-01-01',
+            updated: 0,
+            type: 'transfer',
+            from: 2,
+            to: 3
+        } as Transaction;
+
+        //show as negative when transferring from the account
+        expect(getAmount(mockTransaction, true, 2)).toBe('-£50.00');
+        expect(getAmount(mockTransaction, false, 2)).toBe(-50);
+
+        //show as positive when transferring to the account
+        expect(getAmount(mockTransaction, true, 3)).toBe('£50.00');
+        expect(getAmount(mockTransaction, false, 3)).toBe(50);
+    });
+
+    it('Returns the correct amount for a fund transaction', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        const mockTransaction = {
+            id: 2,
+            amount: 50,
+            date: '2022-01-01',
+            updated: 0,
+            type: 'fundAddition',
+            description: '',
+            fund: 1
+        } as Transaction;
+
+        expect(getAmount(mockTransaction)).toBe('£50.00');
+        expect(getAmount(mockTransaction, false)).toBe(50);
+    });
+
+    it('Returns the correct amount for a spend from fund transaction', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        const mockTransaction = {
+            id: 2,
+            amount: 50,
+            date: '2022-01-01',
+            updated: 0,
+            type: 'spend',
+            description: '',
+            category: undefined,
+            fund: 1,
+            account: 2
+        } as Transaction;
+
+        expect(getAmount(mockTransaction)).toBe('-£50.00');
+        expect(getAmount(mockTransaction, false)).toBe(-50);
     });
 });

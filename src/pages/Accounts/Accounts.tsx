@@ -4,8 +4,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { selectAccounts } from "@/redux/accountsSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
 
-import { organiseTransactions, addRunningBalances, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions } from "@/utils/transactions.utils";
-import { parseCurrency } from "@/components/TransactionComponents/Transaction/Transaction.utils";
+import { organiseTransactions, addRunningBalances, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions, parseCurrency } from "@/utils/transactions.utils";
 import { useItemObj } from "@/utils/customHooks.utils";
 
 import ItemPageLayout from "@/components/styled/ItemPageLayout";
