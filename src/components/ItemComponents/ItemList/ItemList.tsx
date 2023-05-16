@@ -1,6 +1,6 @@
 import StyledItemList from "./ItemList.style";
 
-import Button from "../Button/Button";
+import Button from "@/components/Button/Button";
 
 type Item = {
 	id: number;
@@ -13,9 +13,10 @@ type ItemListProps = {
 	items: Item[];
 	selectedItemId: number;
 	onSelect: (id: number)=>void;
+	onEdit: ()=>void;
 }
 
-const ItemList = ({heading, items, selectedItemId, onSelect}: ItemListProps) => {
+const ItemList = ({heading, items, selectedItemId, onSelect, onEdit}: ItemListProps) => {
 	const onClick = (id: number) => () => {
 		onSelect(id)
 	}
@@ -37,6 +38,8 @@ const ItemList = ({heading, items, selectedItemId, onSelect}: ItemListProps) => 
 					return <Button key={obj.id} label={obj.name} onClick={onClick(obj.id)} rounded={false} width='100%' selected={selectedItemId === obj.id} hidden={true}/>
 				})
 			}
+			<div className='spacer'></div>
+			<Button label='Edit' onClick={onEdit} rounded={false} width='100%'/>
 		</StyledItemList>
 	);
 }

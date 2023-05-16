@@ -99,11 +99,22 @@ describe('Checking the addRunningBalances function', () => {
         vi.spyOn(store, 'getState').mockReturnValue(mockstate);
 
         let organisedTransactions = organiseTransactions(mockTransactions);
-        let transactions = addRunningBalances(organisedTransactions, 2);
+        let transactions = addRunningBalances(organisedTransactions, 2, 0);
 
         expect(transactions[0].transactions[0].runningBalance).toBe(-125);
         expect(transactions[1].transactions[0].runningBalance).toBe(-150);
         expect(transactions[1].transactions[1].runningBalance).toBe(-100);
+    });
+
+    it('Adds running balances to an array of transactions with a starting balance', () => {
+        vi.spyOn(store, 'getState').mockReturnValue(mockstate);
+
+        let organisedTransactions = organiseTransactions(mockTransactions);
+        let transactions = addRunningBalances(organisedTransactions, 2, 100);
+
+        expect(transactions[0].transactions[0].runningBalance).toBe(-25);
+        expect(transactions[1].transactions[0].runningBalance).toBe(-50);
+        expect(transactions[1].transactions[1].runningBalance).toBe(0);
     });
 });
 

@@ -2,7 +2,7 @@ import {fireEvent, screen} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ItemPageTransactionContainer from "./ItemPageTransactionContainer"
 
-import { render, getBasicMockState } from "../../utils/test.utils";
+import { render, getBasicMockState } from "@/utils/test.utils";
 
 import { vi } from "vitest";
 

@@ -18,6 +18,14 @@ const StyledItemList = styled.div`
         text-align: center;
         margin: 10px 0px;
     }
+
+    & > div.spacer {
+        flex-grow: 1;
+    }
+
+    & > button:last-child {
+        margin: 0px;
+    }
 `;
 
 export default StyledItemList

@@ -17,6 +17,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.0",
     "styled-components": "^5.3.9"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/sortablejs": "^1.15.1",
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^3.1.0",
     "jsdom": "^21.1.1",

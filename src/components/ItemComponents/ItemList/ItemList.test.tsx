@@ -23,11 +23,11 @@ const mockItems = [
 ];
 
 it("Loads element without crashing", () => {
-	render(<ItemList heading='Heading' items={[]} selectedItemId={1} onSelect={()=>{}}/>);
+	render(<ItemList heading='Heading' items={[]} selectedItemId={1} onSelect={()=>{}} onEdit={()=>{}}/>);
 });
 
 it("Displays the correct heading", () => {
-	render(<ItemList heading='Heading' items={[]} selectedItemId={1} onSelect={()=>{}}/>);
+	render(<ItemList heading='Heading' items={[]} selectedItemId={1} onSelect={()=>{}} onEdit={()=>{}}/>);
 
 	let heading = screen.getByRole('heading');
 	expect(heading).toHaveTextContent('Heading');
@@ -35,7 +35,7 @@ it("Displays the correct heading", () => {
 
 it("Displays the correct items and handles onClick", () => {
 	const mockFn = vi.fn();
-	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={mockFn}/>);
+	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={mockFn} onEdit={()=>{}}/>);
 
 	const item1 = screen.getByRole('button', { name: 'Test1'});
 	const item2 = screen.getByRole('button', { name: 'Test2'});
@@ -53,8 +53,18 @@ it("Displays the correct items and handles onClick", () => {
 
 it("Displays the hidden items with a different style", () => {
 	const mockFn = vi.fn();
-	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={mockFn}/>);
+	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={mockFn} onEdit={()=>{}}/>);
 
 	const item3 = screen.getByRole('button', { name: 'Test3'});
 	expect(item3).toHaveStyle({backgroundColor: '#999'});
+});
+
+it("Displays the correct items and handles onClick", () => {
+	const mockFn = vi.fn();
+	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={()=>{}} onEdit={mockFn}/>);
+
+	const item1 = screen.getByRole('button', { name: 'Edit'});
+
+	fireEvent.click(item1);
+	expect(mockFn).toBeCalled();
 });

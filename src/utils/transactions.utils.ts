@@ -37,8 +37,8 @@ export const organiseTransactions = (transactions: Transaction[]) => {
 	return organisedArr as MonthlyTransactions[];
 }
 
-export const addRunningBalances = (arr: MonthlyTransactions[], accountId: number) => {
-    let runningBalance = 0;
+export const addRunningBalances = (arr: MonthlyTransactions[], accountId: number, startingBalance: number) => {
+    let runningBalance = startingBalance;
 
     const addBalance = (transactionObj: TransactionObj) => {
 		const amount = getAmount(transactionObj.transaction, false, accountId) as number;

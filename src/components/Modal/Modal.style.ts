@@ -24,6 +24,7 @@ const StyledModal = styled.div<Props>`
 
         & h4 {
             background-color: ${props => props.headingColor};
+            opacity: 0.9;
             padding: 4px;
             margin: 0px;
             text-align: center;
