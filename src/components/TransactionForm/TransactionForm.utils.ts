@@ -9,6 +9,9 @@ export const validateTransaction = (obj: TransactionCheck) => {
     //make sure amount is a number
     if (typeof obj.amount !== 'number' || Number.isNaN(obj.amount)) return {valid: false, error: 'Amount is not valid.'};
 
+    //make sure amount is greater than 0
+    if (obj.amount === 0) return {valid: false, error: 'Amount cannot be 0.'};
+
     //make sure date is a string and correct format
     if (/\b[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(obj.date) === false) return {valid: false, error: 'Date is not valid, please use the format YYYY-MM-DD.'};
 

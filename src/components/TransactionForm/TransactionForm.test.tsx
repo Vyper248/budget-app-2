@@ -126,7 +126,7 @@ it.each([
 	{labelText: 'Date', invalid: '', valid: '2022-01-01'},
 	{labelText: 'Account', invalid: 0, valid: 2345},
 	{labelText: 'Group', invalid: 0, valid: 3456},
-	{labelText: 'Amount', invalid: '', valid: 242},
+	{labelText: 'Amount', invalid: 0, valid: 242},
 	{labelText: 'Fund', invalid: 0, valid: 3456},
 	{labelText: 'From', invalid: 0, valid: 2345},
 	{labelText: 'To', invalid: 0, valid: 1234},
@@ -137,6 +137,9 @@ it.each([
 		mockUseDispatch.mockReturnValue(mockDispatch);
 
 		render(<TransactionForm/>, mockState);
+
+		//make sure amount is always correct
+		fireEvent.change(screen.getByLabelText('Amount'), { target: { value: 50 } });
 
 		if (labelText === 'Fund') {
 			//change to Fund Addition form
@@ -166,7 +169,7 @@ it.each([
 		let input = screen.getByLabelText(labelText);
 		let saveBtn = screen.getByRole('button', { name: 'Save' });
 
-		//set date to an invalid value
+		//set input to an invalid value
 		fireEvent.change(input, { target: { value: invalid } });
 		fireEvent.click(saveBtn);
 

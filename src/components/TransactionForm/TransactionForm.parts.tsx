@@ -1,17 +1,40 @@
-import { useAppSelector } from "../../redux/hooks";
-import { SpendTransaction, TransferTransaction, FundTransaction } from "../../redux/transactionsSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { removeTransaction } from "@/redux/transactionsSlice";
+import { selectAccounts } from "@/redux/accountsSlice";
+import { selectCategories } from "@/redux/categoriesSlice";
+import { selectFunds } from "@/redux/fundsSlice";
 
-import Input from "../Input/Input";
-import Dropdown from "../Dropdown/Dropdown";
-import Button from "../Button/Button";
+import Input from "@/components/Input/Input";
+import Dropdown from "@/components/Dropdown/Dropdown";
+import Button from "@/components/Button/Button";
+import ConfirmationContainer from "@/components/ConfirmationContainer/ConfirmationContainer";
 import { useEffect, useState } from "react";
+
+import type { SpendTransaction, TransferTransaction, FundTransaction } from "@/redux/transactionsSlice";
 
 import { LABEL_WIDTH } from "./TransactionForm.utils";
 
+const FormButtons = ({id, onSave}: {id?: number, onSave: ()=>void}) => {
+	const dispatch = useAppDispatch();
+
+	const onClickRemove = () => {
+		if (id !== undefined) dispatch(removeTransaction(id));
+	}
+
+	return (
+		<div style={{textAlign: 'center', display: 'flex', justifyContent: id !== undefined ? 'space-between' : 'space-around'}}>
+			<Button label='Save' onClick={onSave} width='134px'/>
+			{ id !== undefined && <ConfirmationContainer onClick={onClickRemove}>
+					<Button label='Remove' onClick={()=>{}} width='134px'/>
+				</ConfirmationContainer> }
+		</div>
+	);
+}
+
 export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComplete: (obj: Partial<SpendTransaction>)=>void }) => {
-	const accounts = useAppSelector(state => state.accounts);
-	const funds = useAppSelector(state => state.funds);
-	const categories = useAppSelector(state => state.categories);
+	const accounts = useAppSelector(selectAccounts);
+	const funds = useAppSelector(selectFunds);
+	const categories = useAppSelector(selectCategories);
 	const currentPage = useAppSelector(state => state.general.currentPage);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
@@ -61,15 +84,13 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 				{ label: 'Categories', value: 0, options: categories.map(obj => ({value: obj.id, label: obj.name}))},
 				{ label: 'Funds', value: 0, options: funds.map(obj => ({value: obj.id, label: obj.name}))},
 			]}/>
-			<div style={{textAlign: 'center'}}>
-				<Button label='Save' onClick={onSave}/>
-			</div>
+			<FormButtons id={obj?.id} onSave={onSave}/>
 		</>
 	)
 }
 
 export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, onComplete: (obj: Partial<TransferTransaction>)=>void }) => {
-	const accounts = useAppSelector(state => state.accounts);
+	const accounts = useAppSelector(selectAccounts);
 
 	const [from, setFrom] = useState<number | undefined>(obj?.from || undefined);	
 	const [to, setTo] = useState<number | undefined>(obj?.to || undefined);	
@@ -92,15 +113,13 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 		<>
 			<Dropdown label='From' labelWidth={LABEL_WIDTH} value={from} onChange={(val) => setFrom(parseInt(val))} options={accounts.map(obj => ({value: obj.id, label: obj.name}))}/>
 			<Dropdown label='To' labelWidth={LABEL_WIDTH} value={to} onChange={(val) => setTo(parseInt(val))} options={toAccounts.map(obj => ({value: obj.id, label: obj.name}))}/>
-			<div style={{textAlign: 'center'}}>
-				<Button label='Save' onClick={onSave}/>
-			</div>
+			<FormButtons id={obj?.id} onSave={onSave}/>
 		</>
 	)
 }
 
 export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onComplete: (obj: Partial<FundTransaction>)=>void }) => {
-	const funds = useAppSelector(state => state.funds);
+	const funds = useAppSelector(selectFunds);
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number | undefined>(obj?.fund || undefined);
@@ -116,9 +135,7 @@ export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onCom
 		<>
 			<Input label='Description' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
 			<Dropdown label='Fund' labelWidth={LABEL_WIDTH} value={fund} onChange={(val) => setFund(parseInt(val))} options={funds.map(obj => ({value: obj.id, label: obj.name}))}/>
-			<div style={{textAlign: 'center'}}>
-				<Button label='Save' onClick={onSave}/>
-			</div>
+			<FormButtons id={obj?.id} onSave={onSave}/>
 		</>
 	)
 }

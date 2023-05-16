@@ -8,6 +8,7 @@ import { selectAccounts } from "@/redux/accountsSlice";
 
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
+import Error from "../styled/Error";
 import { useState } from "react";
 
 import { AddFundForm, SpendForm, TransferForm } from "./TransactionForm.parts";
@@ -68,7 +69,7 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 			{ type === 'spend' ? <SpendForm obj={obj !== undefined ? obj as SpendTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
 			{ type === 'transfer' ? <TransferForm obj={obj !== undefined ? obj as TransferTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
 			{ type === 'fundAddition' ? <AddFundForm obj={obj !== undefined ? obj as FundTransaction : undefined} onComplete={onCompleteTransaction}/> : null }
-			{ error.length > 0 ? <figure style={{color: 'var(--text-color-warning)', textAlign: 'center'}}>Error: {error}</figure> : null }
+			{ error.length > 0 && <Error>Error: {error}</Error> }
 		</StyledTransactionForm>
 	);
 }
