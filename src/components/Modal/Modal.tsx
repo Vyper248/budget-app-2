@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import StyledModal from "./Modal.style";
 import { MdClose } from 'react-icons/md';
 
@@ -8,11 +8,13 @@ type ModalProps = {
 	children: ReactNode;
 	width?: string;
 	headingColor?: string;
+	color?: string;
 	x?: number;
 	y?: number;
+	center?: boolean;
 }
 
-const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', x=285, y=30}: ModalProps) => {
+const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', color='var(--text-color)', x=285, y=30, center=false}: ModalProps) => {
 	const headerRef = useRef<HTMLHeadingElement>(null);
 	const outlineRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +25,20 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 	const [xPos, setXPos] = useState(x);
 	const [yPos, setYPos] = useState(y);
 	const [dragging, setDragging] = useState(false);
+
+	//If centering is needed, then calculate here
+	useLayoutEffect(() => {
+		if (!outlineRef.current) return;
+		if (!center) return;
+
+		let height = outlineRef.current.offsetHeight;
+		let offsetY = window.pageYOffset;
+		let newPos = (yPos - height/2) + 20; //move to a centered position
+		if (newPos < 30 + offsetY) newPos = 30 + offsetY; //if it then goes off the top, move to 0
+		else if (newPos + height + 50 > window.innerHeight + offsetY) newPos = 30 + offsetY; //if it goes off the bottom after moving up, move to 0
+
+		setYPos(newPos);
+	}, []);
 
 	const onMouseDown = (e: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
 		setStartClientX(e.clientX);
@@ -59,7 +75,7 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 	}
 
 	return (
-		<StyledModal width={width} headingColor={headingColor} dragging={dragging} onMouseMove={onMouseMove} onMouseUp={onMouseUp} onMouseLeave={onMouseUp}>
+		<StyledModal width={width} headingColor={headingColor} color={color} dragging={dragging} onMouseMove={onMouseMove} onMouseUp={onMouseUp} onMouseLeave={onMouseUp}>
 			<div className='outline' style={{top: yPos, left: xPos}} ref={outlineRef}>
 				<h4 ref={headerRef} onMouseDown={onMouseDown}>
 					{ heading }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 type Props = {
     width: string;
     headingColor: string;
+    color: string;
     dragging: boolean;
 }
 
@@ -28,7 +29,7 @@ const StyledModal = styled.div<Props>`
             padding: 4px;
             margin: 0px;
             text-align: center;
-            color: white;
+            color: ${props => props.color};
             position: relative;
             cursor: move;
             user-select: none;
