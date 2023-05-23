@@ -1,4 +1,5 @@
-import { format, parseISO } from "date-fns"
+import { format, parseISO, isValid, compareAsc } from "date-fns"
+import type { DateRange } from "./summary.utils";
 
 export const getDateNumber = () => {
     return Number(format(new Date(),'yyyyMMddHHmmssSSS'));
@@ -22,3 +23,13 @@ export const formatDate = (date: string, formatMethod='MMM d, yyyy') => {
 
     return formattedDate;
 } 
+
+export const isValidDateRange = (dateRange: DateRange) => {
+	let fromValid = isValid(parseISO(dateRange.from));
+	let toValid = isValid(parseISO(dateRange.to));
+	if (!fromValid || !toValid) return false;
+
+    if (compareAsc(parseISO(dateRange.from), parseISO(dateRange.to)) > 0) return false;
+
+	return true;
+}

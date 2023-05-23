@@ -5,9 +5,19 @@ import { formatDate } from "./date.utils";
 
 import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "@/redux/transactionsSlice";
 import type { Item } from "@/redux/generalSlice";
+import compareDesc from "date-fns/compareDesc";
 
 type MonthlyTransactionsObj = {
 	[key: string]: TransactionObj[];
+}
+
+export const sortTransactions = (transactions: TransactionObj[], reverse?: boolean) => {
+    let sortedTransactions = [...transactions];
+    sortedTransactions.sort((a,b) => {
+        if (reverse) return compareAsc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+        else return compareDesc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+    });
+    return sortedTransactions;
 }
 
 export const organiseTransactions = (transactions: Transaction[]) => {

@@ -1,6 +1,6 @@
 import { checkSearch, getTransactionTotal, addRunningBalances, 
         getAmount, parseCurrency, organiseTransactions, getItemsWithSearchValue, 
-        getSearchedTransactions } from "./transactions.utils";
+        getSearchedTransactions, sortTransactions } from "./transactions.utils";
 import { RootState, store } from "@/redux/store";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Account } from "@/redux/accountsSlice";
@@ -9,10 +9,10 @@ import { Transaction } from "@/redux/transactionsSlice";
 
 const mockTransactions = [
     {
-        id: 1,
-        description: 'test',
-        amount: 100,
-        date: '2021-01-01',
+        id: 2,
+        description: 'hello',
+        amount: 50,
+        date: '2021-01-21',
         type: 'spend' as 'spend',
         updated: 0,
         category: 1,
@@ -20,10 +20,10 @@ const mockTransactions = [
         fund: undefined
     },
     {
-        id: 2,
-        description: 'hello',
-        amount: 50,
-        date: '2021-01-21',
+        id: 1,
+        description: 'test',
+        amount: 100,
+        date: '2021-01-01',
         type: 'spend' as 'spend',
         updated: 0,
         category: 1,
@@ -41,7 +41,7 @@ const mockTransactions = [
         account: 2,
         fund: undefined
     }
-];
+] as Transaction[];
 
 const mockCategory = {
     id: 1,
@@ -53,7 +53,7 @@ const mockCategory2 = {
     id: 2,
     type: 'income',
     name: 'Earnings'
-}
+} as Category;
 
 const mockAccount = {
     id: 2,
@@ -76,12 +76,12 @@ const mockstate = {
 
 describe('Checking the checkSearch function', () => {
     it('Returns true if text found in description', () => {
-        let mockTransaction = mockTransactions[0];    
+        let mockTransaction = mockTransactions[1];    
         expect(checkSearch(mockTransaction, 'test')).toBe(true);
     });
 
     it('Returns false if text not found in description', () => {
-        let mockTransaction = mockTransactions[0];   
+        let mockTransaction = mockTransactions[1];   
         expect(checkSearch(mockTransaction, 'hello')).toBe(false);
     });
 });
@@ -275,5 +275,16 @@ describe('Checking the getAmount function', () => {
 
         expect(getAmount(mockTransaction)).toBe('-£50.00');
         expect(getAmount(mockTransaction, false)).toBe(-50);
+    });
+});
+
+describe('Checking the sortTransactions function', () => {
+    it('Sorts transactions correctly by date', () => {
+        let transactionObj = mockTransactions.map(tr => ({runningBalance: 0, transaction: tr}));
+        let sortedTransactions = sortTransactions(transactionObj);
+
+        expect(sortedTransactions[0].transaction.id).toBe(1);
+        expect(sortedTransactions[1].transaction.id).toBe(2);
+        expect(sortedTransactions[2].transaction.id).toBe(3);
     });
 });
