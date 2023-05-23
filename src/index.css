@@ -29,6 +29,8 @@
   --obj-highlight-text: white;
   
   --mild-highlight: #222;
+
+  --chrome-calendar-icon: invert(1);
 }
 
 body {

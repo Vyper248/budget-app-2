@@ -37,6 +37,15 @@ const StyledInput = styled.div<Props>`
   input {
     cursor: text;
   }
+
+  /* Invert the color of the calendar picker in chrome */
+  input::-webkit-calendar-picker-indicator {
+    filter: var(--chrome-calendar-icon);
+
+    :hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 export default StyledInput;
