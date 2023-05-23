@@ -11,7 +11,7 @@ const StyledTransaction = styled.div<Props>`
     cursor: pointer;
 
     &:hover {
-        background-color: var(--menu-bg-color);
+        background-color: var(--obj-highlight-bg);
     }
 
     & .descriptionDate {
