@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import StyledSummaryTable from "./SummaryTable.style";
 
 import { useAppSelector } from "@/redux/hooks";
-import { getSummaryData, getDates, getHeadingColor } from "@/utils/summary.utils";
+import { getSummaryData, getDates } from "@/utils/summary.utils";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { selectCategories } from "@/redux/categoriesSlice";
 import { selectFunds } from "@/redux/fundsSlice";
 import { parseCurrency } from "@/utils/transactions.utils";
 import { formatDate } from "@/utils/date.utils";
+import { setSelectedTotal } from "@/redux/generalSlice";
 
 import Table from '@/components/styled/Table';
-import Modal from "../Modal/Modal";
-import TransactionList from "../TransactionComponents/TransactionList/TransactionList";
 import { EmptyRow, ItemAmounts, ItemHeadings, ItemTotals } from "./SummaryTable.parts";
-
-import type { Transaction } from "@/redux/transactionsSlice";
 
 type DateRange = {
 	from: string;
@@ -26,11 +24,9 @@ type SummaryTableProps = {
 }
 
 const SummaryTable = ({dateRange}: SummaryTableProps) => {
-	const [showTransactions, setShowTransactions] = useState(false);
-	const [selectedTransactions, setSelectedTransactions] = useState<Transaction[]>([]);
-	const [selectedData, setSelectedData] = useState({date: '', id: 0, type: ''});
-	const [transactionPos, setTransactionPos] = useState({x: 0, y: 0});
-	
+	const dispatch = useDispatch();
+
+	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
 	const transactions = useAppSelector(selectTransactions);
 	const categories = useAppSelector(selectCategories);
 	const funds = useAppSelector(selectFunds);
@@ -48,49 +44,15 @@ const SummaryTable = ({dateRange}: SummaryTableProps) => {
 
 	let dates = getDates(settings.startDate, settings.payPeriodType, dateRange);
 
-	//If transactions changes, update summary data and selected transactions if needed
+	//If transactions changes, update summary data and selected total transactions if needed
 	useEffect(() => {
 		const newSummary = getSummaryData(transactions, categories, funds, dateRange);
 		setSummaryData(newSummary);
 		
-		if (!showTransactions) return;
-		const dataObj = newSummary.monthly[selectedData.date][selectedData.id];
-		setSelectedTransactions(dataObj.transactions);
+		if (!selectedTotal) return;
+		const dataObj = newSummary.monthly[selectedTotal.date][selectedTotal.itemId];
+		dispatch(setSelectedTotal({...selectedTotal, transactions: dataObj.transactions}));
 	}, [transactions]);
-
-	const onClickCell = (date: string, id: number, type: string) => (e: React.MouseEvent<HTMLElement>) => {
-		const dataObj = summaryData.monthly[date][id];
-
-		setSelectedTransactions(dataObj.transactions);
-		setShowTransactions(true);
-		setSelectedData({date, id, type});
-
-		//get position of clicked cell and put modal next to it
-		let leftPos = e.currentTarget.offsetLeft - 450;
-        if (leftPos < 0) leftPos = e.currentTarget.offsetLeft + e.currentTarget.offsetWidth;
-        let topPos = e.currentTarget.offsetTop;
-        setTransactionPos({x: leftPos, y: topPos});
-	}
-
-	const onCloseTransactions = () => {
-		setSelectedTransactions([]);
-		setShowTransactions(false);
-		setSelectedData({date: '', id: 0, type: ''});
-	}
-
-	const getModalProps = () => {
-		return {
-			key: `${transactionPos.x}-${transactionPos.y}`,
-			width: '450px',
-			heading: 'Transactions',
-			onClickClose: onCloseTransactions,
-			x: transactionPos.x,
-			y: transactionPos.y,
-			center: true,
-			headingColor: getHeadingColor(selectedData.type),
-			color: selectedData.type === 'income' ? 'white' : 'black',
-		}
-	}
 
 	return (
 		<StyledSummaryTable>
@@ -110,7 +72,7 @@ const SummaryTable = ({dateRange}: SummaryTableProps) => {
 				{
 					dates.map(date => {
 						const dataObj = summaryData.monthly[date];
-						const sharedData = {date, summaryData, selectedData, onClickCell};
+						const sharedData = {date, summaryData};
 						if (dataObj === undefined) return <EmptyRow key={`empty-${date}`} date={formatDate(date, dateFormat)} length={emptyRowLength}/>
 						return (
 							<tr key={`month-${date}`}>
@@ -136,9 +98,6 @@ const SummaryTable = ({dateRange}: SummaryTableProps) => {
 					</tr>
 				</tbody>
 			</Table>
-			{ showTransactions && <Modal {...getModalProps()}>
-				<TransactionList list={selectedTransactions.map(transaction => ({transaction}))} sort={true}/>
-			</Modal> }
 		</StyledSummaryTable>
 	);
 }

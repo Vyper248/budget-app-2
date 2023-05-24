@@ -6,6 +6,7 @@ import { getDateNumber } from '@/utils/date.utils';
 import type { Category } from './categoriesSlice';
 import type { Account } from './accountsSlice';
 import type { Fund } from './fundsSlice';
+import type { Transaction } from './transactionsSlice';
 
 export type Message = {
     text: string;
@@ -18,21 +19,32 @@ export type User = {
     jwt: string,
 }
 
+export type SelectedTotal = {
+	transactions: Transaction[];
+	date: string;
+	itemId: number;
+	type: string;
+	x: number;
+	y: number;
+}
+
+export type Item = Category | Account | Fund;
+export type ItemType = 'category' | 'account' | 'fund';
+
 export interface GeneralState {
     currentPage: string;
     selectedItem: number;
+    selectedTotal: SelectedTotal | null;
     lastSync: number;
     user: User | null;
     fetching: boolean;
     message: Message;
 }
 
-export type Item = Category | Account | Fund;
-export type ItemType = 'category' | 'account' | 'fund';
-
 export const initialState: GeneralState = {
     currentPage: 'Home',
     selectedItem: 0,
+    selectedTotal: null,
     lastSync: 0,
     user: null,
     fetching: false,
@@ -54,6 +66,9 @@ export const generalSlice = createSlice({
         setSelectedItem: (state, action: PayloadAction<number>) => {
             state.selectedItem = action.payload;
         },
+        setSelectedTotal: (state, action: PayloadAction<SelectedTotal | null>) => {
+            state.selectedTotal = action.payload;
+        },
         updateSyncDate: (state) => {
             state.lastSync = getDateNumber();
         },
@@ -69,5 +84,5 @@ export const generalSlice = createSlice({
     },
 })
 
-export const { setCurrentPage, setSelectedItem, updateSyncDate, setUser, setFetching, setMessage } = generalSlice.actions;
+export const { setCurrentPage, setSelectedItem, setSelectedTotal, updateSyncDate, setUser, setFetching, setMessage } = generalSlice.actions;
 export default generalSlice.reducer;

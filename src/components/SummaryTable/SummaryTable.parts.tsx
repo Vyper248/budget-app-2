@@ -1,5 +1,7 @@
 import { parseCurrency } from "@/utils/transactions.utils";
 
+import TransactionsCell from "../TransactionComponents/TransactionsCell/TransactionsCell";
+
 import type { Item } from "@/redux/generalSlice";
 import type { Summary } from "@/utils/summary.utils";
 
@@ -22,21 +24,13 @@ export const EmptyRow = ({ date, length }: { date: string, length: number }) => 
 	);
 }
 
-export const ItemAmounts = ({ arr, date, type, summaryData, selectedData, onClickCell }: { arr: Item[], date: string, type: string, summaryData: Summary, selectedData: SelectedData, onClickCell: (date: string, id: number, type: string) => (e: React.MouseEvent<HTMLElement>) => void }) => {
+export const ItemAmounts = ({ arr, date, type, summaryData }: { arr: Item[], date: string, type: string, summaryData: Summary}) => {
 	let dataObj = summaryData.monthly[date];
 	return (
 		<>
 			{
 				arr.map(obj => {
-					const total = dataObj[obj.id].total;
-
-					let selected = obj.id === selectedData.id && date === selectedData.date;
-					let className = 'summaryData';
-
-					if (selected) className += ' selected';
-					if (total === 0) return <td key={`${date}-${obj.id}`}>-</td>
-
-					return <td key={`${date}-${obj.id}`} onClick={onClickCell(date, obj.id, type)} className={className}>{parseCurrency(type === 'expense' ? -total : total)}</td>
+					return <TransactionsCell key={`${date}-${obj.id}`} displayObj={dataObj[obj.id]} date={date} itemId={obj.id} type={type}/>
 				})
 			}
 		</>
