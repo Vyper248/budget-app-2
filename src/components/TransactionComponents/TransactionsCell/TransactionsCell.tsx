@@ -1,5 +1,4 @@
-import { useAppSelector } from "@/redux/hooks";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 import { setSelectedTotal } from "@/redux/generalSlice";
 import { parseCurrency } from "@/utils/transactions.utils";
@@ -15,7 +14,7 @@ type TransactionsCellProps = {
 }
 
 const TransactionsCell = ({displayObj, date, itemId, type}: TransactionsCellProps) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
 
 	let selected = false;
@@ -24,7 +23,7 @@ const TransactionsCell = ({displayObj, date, itemId, type}: TransactionsCellProp
 	}
 
 	const onClick = (e: React.MouseEvent<HTMLElement>) => {
-		//get position of clicked cell and put modal next to it
+		//get position of clicked cell and put modal next to it (modal has a witdh of 450px)
 		let leftPos = e.currentTarget.offsetLeft - 450;
         if (leftPos < 0) leftPos = e.currentTarget.offsetLeft + e.currentTarget.offsetWidth;
         let topPos = e.currentTarget.offsetTop;
