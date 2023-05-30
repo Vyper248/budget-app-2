@@ -23,10 +23,6 @@ const StyledAmountCard = styled.div<Props>`
         color: ${props => props.textColor};
         font-weight: bold;
     }
-
-    & > div.amount {
-
-    }
 `;
 
 export default StyledAmountCard

@@ -7,6 +7,7 @@ import SummaryTable from "@/components/SummaryTable/SummaryTable";
 import Input from "@/components/Input/Input";
 import Grid from "@/components/styled/Grid";
 import Button from "@/components/Button/Button";
+import AccountSummaries from "@/components/AccountSummaries/AccountSummaries";
 
 type HomeProps = {
 
@@ -34,6 +35,7 @@ const Home = ({}: HomeProps) => {
 				<Button label='Clear' onClick={onClear} width='80px'/>
 			</Grid>
 			<SummaryTable key={`${dateRange.from}-${dateRange.to}`} dateRange={isValidDateRange(dateRange) ? dateRange : undefined}/>
+			<AccountSummaries/>
 		</StyledHome>
 	);
 }
