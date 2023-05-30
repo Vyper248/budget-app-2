@@ -16,11 +16,13 @@ const ItemPageLayout = styled.div`
     & > div:first-child {
         width: 200px;
         min-width: 200px;
+        overflow: auto;
     }
 
     & > div:last-child {
         flex-grow: 1;
         margin-left: 0px;
+        overflow: auto;
     }
 `;
 

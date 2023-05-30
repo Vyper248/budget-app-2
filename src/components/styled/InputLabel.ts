@@ -13,7 +13,6 @@ const StyledInputLabel = styled.label<Props>`
     display: inline-flex;
     align-items: center;
     justify-content: flex-end;
-    height: 30px;
     width: ${props => props.width};
     min-width: ${props => props.width};
 `;

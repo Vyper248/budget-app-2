@@ -2,6 +2,8 @@ import './App.css'
 
 import { useAppSelector, useAppDispatch } from './redux/hooks';
 import { setAddingTransaction, selectTransaction } from './redux/transactionsSlice';
+import { SelectedTotal, setSelectedTotal } from './redux/generalSlice';
+import { getHeadingColor } from './utils/summary.utils';
 
 import MenuBar from './components/MenuBar/MenuBar';
 import Home from './pages/Home/Home';
@@ -10,8 +12,6 @@ import Categories from './pages/Categories/Categories';
 import Funds from './pages/Funds/Funds';
 import Modal from './components/Modal/Modal';
 import TransactionForm from './components/TransactionComponents/TransactionForm/TransactionForm';
-import { SelectedTotal, setSelectedTotal } from './redux/generalSlice';
-import { getHeadingColor } from './utils/summary.utils';
 import TransactionList from './components/TransactionComponents/TransactionList/TransactionList';
 
 const getSelectedTotalProps = (data: SelectedTotal) => {

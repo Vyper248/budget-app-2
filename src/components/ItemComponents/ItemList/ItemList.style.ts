@@ -23,6 +23,10 @@ const StyledItemList = styled.div`
         flex-grow: 1;
     }
 
+    & > button {
+        min-height: 30px;
+    }
+
     & > button:last-child {
         margin: 0px;
     }

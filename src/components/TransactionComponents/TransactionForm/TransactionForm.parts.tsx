@@ -78,7 +78,7 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 
 	return (
 		<>
-			<Input label='Description' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
+			<Input label='Description' type='textarea' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
 			<Dropdown label='Account' labelWidth={LABEL_WIDTH} value={account} onChange={(val) => setAccount(parseInt(val))} options={accounts.map(obj => ({value: obj.id, label: obj.name}))}/>
 			<Dropdown label='Group' labelWidth={LABEL_WIDTH} value={groupValue} onChange={onChangeGroup} options={[
 				{ label: 'Categories', value: 0, options: categories.map(obj => ({value: obj.id, label: obj.name}))},
@@ -133,7 +133,7 @@ export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onCom
 
 	return (
 		<>
-			<Input label='Description' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
+			<Input label='Description' type='textarea' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
 			<Dropdown label='Fund' labelWidth={LABEL_WIDTH} value={fund} onChange={(val) => setFund(parseInt(val))} options={funds.map(obj => ({value: obj.id, label: obj.name}))}/>
 			<FormButtons id={obj?.id} onSave={onSave}/>
 		</>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 type Props = {
   width: string;
+  height: number;
   hasLabel: boolean;
 }
 
@@ -10,7 +11,7 @@ const StyledInput = styled.div<Props>`
   flex-direction: row;
   position: relative;
 
-  & input, select {
+  & input, select, textarea {
     border: 1px solid var(--menu-border-color);
     border-left: none;
     border-radius: 0 5px 5px 0;
@@ -23,15 +24,28 @@ const StyledInput = styled.div<Props>`
     position: relative;
     appearance: none;
     padding: 0px 10px;
-    cursor: pointer;
     background-color: var(--bg-color);
     color: var(--text-color);
+    font-size: 0.9em;
     
     &:focus {
       outline: none;
       border: 1px solid var(--menu-bg-color);
       ${props => props.hasLabel ? 'border-left: none;' : ''}
     }
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  textarea {
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 0.9em;
+    resize: vertical;
+    height: ${props => props.height+'px'};
+    min-height: 30px;
   }
 
   input {
