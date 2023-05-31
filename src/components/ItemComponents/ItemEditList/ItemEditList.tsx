@@ -50,7 +50,7 @@ const ItemEditList = ({array, type}: ItemEditListProps) => {
 	//if transactions change while viewing this list, need to update inUse variable (would only apply to adding a transaction, so only need to check length)
 	useEffect(() => {
 		setMoveableArray(mapArrayToMoveableArray(array, inUseObj));
-	}, [transactions.length, array.length]);
+	}, [transactions.length, array]);
 
 	const setOrder = (newArr: MoveableItem[]) => {
 		let itemArray = newArr.map(itemObj => itemObj.item);
