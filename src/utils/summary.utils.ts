@@ -1,15 +1,11 @@
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import parseISO from "date-fns/parseISO";
-import getYear from "date-fns/getYear";
-import getMonth from "date-fns/getMonth";
-import getDate from "date-fns/getDate";
 import addDays from "date-fns/addDays";
 import format from "date-fns/format";
 import compareAsc from "date-fns/compareAsc";
 import addMonths from "date-fns/addMonths";
 
 import { store } from "@/redux/store";
-import { formatDate } from "./date.utils";
 import { getAmount } from "./transactions.utils";
 
 import type { Transaction } from "@/redux/transactionsSlice";
@@ -29,7 +25,7 @@ type ItemGroup = {
     [key: number]: TransactionDisplay;
 }
 
-type Totals = {
+export type SummaryTotals = {
     remaining: number;
     incomeTotal: number;
     expenseTotal: number;
@@ -40,7 +36,7 @@ export type Summary = {
     monthly: {
         [key: string]: ItemGroup;
     };
-    totals: Totals;
+    totals: SummaryTotals;
 }
 
 export type DateRange = {

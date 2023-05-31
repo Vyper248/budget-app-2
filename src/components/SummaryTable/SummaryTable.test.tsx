@@ -2,6 +2,7 @@ import {screen, within} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import SummaryTable from "./SummaryTable";
 import { getBasicMockState, render } from "@/utils/test.utils";
+import { getSummaryData } from "@/utils/summary.utils";
 
 import type { Transaction } from "@/redux/transactionsSlice";
 
@@ -50,12 +51,21 @@ const mockTransactions: Transaction[] = [
 	}
 ];
 
+const mockSummary = {
+    monthly: {},
+    totals: {
+        remaining: 0,
+        incomeTotal: 0,
+        expenseTotal: 0
+    }
+}
+
 it("Loads element without crashing", () => {
-	render(<SummaryTable/>, getBasicMockState({}));
+	render(<SummaryTable summaryData={mockSummary}/>);
 });
 
 it('Displays all headings', () => {
-	render(<SummaryTable/>, getBasicMockState({}));
+	render(<SummaryTable summaryData={mockSummary}/>);
 
 	//All categories and funds are shown
 	screen.getByText('Earnings');
@@ -68,7 +78,10 @@ it('Displays all headings', () => {
 });
 
 it('Displays correct data in the table', () => {
-	render(<SummaryTable dateRange={{from: '2023-01-01', to: '2023-03-01'}}/>, getBasicMockState({transactions: {transactions: mockTransactions}}));
+	let mockState = getBasicMockState({transactions: {transactions: mockTransactions}});
+	const { categories, funds } = mockState.preloadedState;
+	let summaryData = getSummaryData(mockTransactions, categories, funds);
+	render(<SummaryTable summaryData={summaryData} dateRange={{from: '2023-01-01', to: '2023-03-01'}}/>, mockState);
 
 	let table = screen.getByRole('table');
 
@@ -91,9 +104,10 @@ it('Displays correct data in the table', () => {
 });
 
 it('Displays income and expense totals if setup', () => {
-	render(<SummaryTable dateRange={{from: '2023-01-01', to: '2023-03-01'}}/>, 
-			getBasicMockState({transactions: {transactions: mockTransactions}, 
-							   settings: {displayIncomeTotal: true, displayExpenseTotal: true}}));
+	let mockState = getBasicMockState({transactions: {transactions: mockTransactions}, settings: {displayIncomeTotal: true, displayExpenseTotal: true}});
+	const { categories, funds } = mockState.preloadedState;
+	let summaryData = getSummaryData(mockTransactions, categories, funds);
+	render(<SummaryTable summaryData={summaryData} dateRange={{from: '2023-01-01', to: '2023-03-01'}}/>, mockState);
 
 	screen.getByText('Total Income');
 	screen.getByText('Total Expenses');

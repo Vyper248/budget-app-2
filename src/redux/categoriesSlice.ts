@@ -80,5 +80,9 @@ export const selectCategories = createSelector(selectCategoriesBasic, (categorie
     return categories.filter(category => category.deleted === undefined || category.deleted === 0) as Category[];
 });
 
+export const selectExpenseCategories = createSelector(selectCategories, (categories) => {
+    return categories.filter(category => category.type === 'expense');
+});
+
 export const { addCategory, editCategory, removeCategory, reorderCategories, setCategories } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

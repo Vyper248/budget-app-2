@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import StyledSummaryTable from "./SummaryTable.style";
 
 import { useAppSelector } from "@/redux/hooks";
-import { getSummaryData, getDates } from "@/utils/summary.utils";
+import { getDates } from "@/utils/summary.utils";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { selectCategories } from "@/redux/categoriesSlice";
 import { selectFunds } from "@/redux/fundsSlice";
@@ -14,6 +14,8 @@ import { setSelectedTotal } from "@/redux/generalSlice";
 import Table from '@/components/styled/Table';
 import { EmptyRow, ItemAmounts, ItemHeadings, ItemTotals } from "./SummaryTable.parts";
 
+import type { Summary } from "@/utils/summary.utils";
+
 type DateRange = {
 	from: string;
 	to: string;
@@ -21,9 +23,10 @@ type DateRange = {
 
 type SummaryTableProps = {
 	dateRange?: DateRange;
+	summaryData: Summary;
 }
 
-const SummaryTable = ({dateRange}: SummaryTableProps) => {
+const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 	const dispatch = useDispatch();
 
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
@@ -31,8 +34,6 @@ const SummaryTable = ({dateRange}: SummaryTableProps) => {
 	const categories = useAppSelector(selectCategories);
 	const funds = useAppSelector(selectFunds);
 	const settings = useAppSelector(state => state.settings);
-
-	const [summaryData, setSummaryData] = useState(getSummaryData(transactions, categories, funds, dateRange));
 
 	const { displayIncomeTotal, displayExpenseTotal, displayMonths } = settings;
 	const dateFormat = displayMonths ? 'MMM yyyy' : 'dd-MM-yyyy';
@@ -46,11 +47,8 @@ const SummaryTable = ({dateRange}: SummaryTableProps) => {
 
 	//If transactions changes, update summary data and selected total transactions if needed
 	useEffect(() => {
-		const newSummary = getSummaryData(transactions, categories, funds, dateRange);
-		setSummaryData(newSummary);
-		
 		if (!selectedTotal) return;
-		const dataObj = newSummary.monthly[selectedTotal.date][selectedTotal.itemId];
+		const dataObj = summaryData.monthly[selectedTotal.date][selectedTotal.itemId];
 		dispatch(setSelectedTotal({...selectedTotal, transactions: dataObj.transactions}));
 	}, [transactions]);
 
