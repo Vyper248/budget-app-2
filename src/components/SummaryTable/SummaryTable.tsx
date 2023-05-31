@@ -35,7 +35,7 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 	const funds = useAppSelector(selectFunds);
 	const settings = useAppSelector(state => state.settings);
 
-	const { displayIncomeTotal, displayExpenseTotal, displayMonths } = settings;
+	const { displayIncomeTotal, displayExpenseTotal, displayMonths, periodsToDisplay } = settings;
 	const dateFormat = displayMonths ? 'MMM yyyy' : 'dd-MM-yyyy';
 
 	const emptyRowLength = categories.length + funds.length + (displayIncomeTotal ? 1 : 0) + (displayExpenseTotal ? 1 : 0);
@@ -44,6 +44,7 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 	const expenseCategories = categories.filter(category => category.type === 'expense');
 
 	let dates = getDates(settings.startDate, settings.payPeriodType, dateRange);
+	dates = dateRange ? dates : dates.slice(-periodsToDisplay);
 
 	//If transactions changes, update summary data and selected total transactions if needed
 	useEffect(() => {
