@@ -3,6 +3,7 @@ import type { Category } from "@/redux/categoriesSlice";
 import type { Fund } from "@/redux/fundsSlice";
 
 export const getPieData = (totals: SummaryTotals, categories: Category[], funds: Fund[]) => {
+    //create easy lookup for item names
 	const itemNames = {} as {[key: number]: string};
 	categories.forEach(cat => itemNames[cat.id] = cat.name);
 	funds.forEach(fund => itemNames[fund.id] = fund.name);
