@@ -1,4 +1,5 @@
 import { RootState } from "@/redux/store";
+import { changeColourScheme } from "./general.utils";
 
 export const saveToStorage = (state: RootState) => {
     const saveObj = {
@@ -19,6 +20,7 @@ export const retrieveFromStorage = () => {
         let state = JSON.parse(storedState);
         //set any default values here
         state.transactions.addingTransaction = false;
+        changeColourScheme(state.settings.colourScheme);
         return state;
     } catch (e) {
         return undefined;

@@ -62,6 +62,7 @@ export const generalSlice = createSlice({
             state.currentPage = action.payload;
             state.message = { text: '', type: '' };
             state.selectedItem = 0;
+            state.selectedTotal = null;
         },
         setSelectedItem: (state, action: PayloadAction<number>) => {
             state.selectedItem = action.payload;

@@ -17,7 +17,6 @@ const StyledInput = styled.div<Props>`
     border-radius: 0 5px 5px 0;
     ${props => !props.hasLabel ? 'border-left: 1px solid var(--menu-border-color);' : ''}
     ${props => !props.hasLabel ? 'border-radius: 5px;' : ''};
-    border-top: 1px solid #ccc;
     display: inline-flex;
     height: 30px;
     width: ${props => props.width};

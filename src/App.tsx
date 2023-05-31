@@ -14,6 +14,7 @@ import Settings from './pages/Settings/Settings';
 import Modal from './components/Modal/Modal';
 import TransactionForm from './components/TransactionComponents/TransactionForm/TransactionForm';
 import TransactionList from './components/TransactionComponents/TransactionList/TransactionList';
+import { useEffect } from 'react';
 
 const getSelectedTotalProps = (data: SelectedTotal) => {
 	return {
@@ -32,6 +33,10 @@ function App() {
 	const dispatch = useAppDispatch();
 	const { addingTransaction, selectedTransaction } = useAppSelector(state => state.transactions);
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
+
+	useEffect(() => {
+		onCloseModal();
+	}, [currentPage]);
 	
 	const onCloseModal = () => {
 		dispatch(setAddingTransaction(false));

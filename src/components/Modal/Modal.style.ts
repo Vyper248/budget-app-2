@@ -42,6 +42,7 @@ const StyledModal = styled.div<Props>`
         top: 0px;
         color: white;
         background-color: var(--bg-color);
+        color: var(--text-color);
         border-radius: 50%;
         width: 25px;
         height: 25px;

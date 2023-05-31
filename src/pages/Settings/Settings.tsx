@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import StyledSettings from "./Settings.style";
-import { setSettings } from "@/redux/settingsSlice";
+import { ColourScheme, setColourScheme, setSettings } from "@/redux/settingsSlice";
 
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
@@ -27,6 +27,7 @@ const Settings = ({}: SettingsProps) => {
 
 	const onChangeColorScheme = (val: string) => {
 		changeColourScheme(val);
+		dispatch(setColourScheme(val as ColourScheme));
 	}
 
 	return (

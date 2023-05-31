@@ -21,6 +21,8 @@ export const changeColourScheme = (scheme: string) => {
         root.style.setProperty('--bg-color', '#222');
         root.style.setProperty('--text-color', 'white');
         root.style.setProperty('--light-text-color', '#CCC');
+		root.style.setProperty('--text-color-warning', 'red');
+		root.style.setProperty('--text-color-positive', 'lightgreen');
         root.style.setProperty('--icon-color', '#4dc6ff');
 
         root.style.setProperty('--menu-bg-color', '#009fe8');
@@ -39,12 +41,15 @@ export const changeColourScheme = (scheme: string) => {
         root.style.setProperty('--obj-highlight-text', 'white');
 
         root.style.setProperty('--mild-highlight', '#333');
+		root.style.setProperty('--chrome-calendar-icon', 'invert(1)');
     }
 
     if (scheme === 'black') {
         root.style.setProperty('--bg-color', 'black');
         root.style.setProperty('--text-color', 'white');
         root.style.setProperty('--light-text-color', '#CCC');
+		root.style.setProperty('--text-color-warning', 'red');
+		root.style.setProperty('--text-color-positive', 'lightgreen');
         root.style.setProperty('--icon-color', '#4dc6ff');
 
         root.style.setProperty('--menu-bg-color', '#009fe8');
@@ -63,12 +68,15 @@ export const changeColourScheme = (scheme: string) => {
         root.style.setProperty('--obj-highlight-text', 'white');
 
         root.style.setProperty('--mild-highlight', '#222');
+		root.style.setProperty('--chrome-calendar-icon', 'invert(1)');
     }
 
     if (scheme === 'light') {
         root.style.setProperty('--bg-color', 'white');
         root.style.setProperty('--text-color', 'black');
         root.style.setProperty('--light-text-color', '#555');
+		root.style.setProperty('--text-color-warning', 'red');
+		root.style.setProperty('--text-color-positive', 'green');
         root.style.setProperty('--icon-color', 'black');
 
         root.style.setProperty('--menu-bg-color', '#009fe8');
@@ -87,5 +95,6 @@ export const changeColourScheme = (scheme: string) => {
         root.style.setProperty('--obj-highlight-text', 'black');
 
         root.style.setProperty('--mild-highlight', '#EEE');
+		root.style.setProperty('--chrome-calendar-icon', 'invert(0)');
     }
 }
