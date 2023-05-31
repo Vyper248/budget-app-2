@@ -14,7 +14,6 @@ export interface SettingsState {
     startDate: string;
     swapSummaries: boolean;
     periodsToDisplay: number;
-    reverseSummaryTable: boolean;
     displayMonths: boolean;
     displayIncomeTotal: boolean;
     displayExpenseTotal: boolean;
@@ -30,7 +29,6 @@ export const initialState: SettingsState = {
     startDate: '2023-01-01',
     swapSummaries: false,
     periodsToDisplay: 6,
-    reverseSummaryTable: false,
     displayMonths: false,
     displayIncomeTotal: false,
     displayExpenseTotal: false,
@@ -70,10 +68,6 @@ export const settingsSlice = createSlice({
             state.periodsToDisplay = action.payload;
             state.updated = getDateNumber();
         },
-        setReverseSummaryTable: (state, action: PayloadAction<boolean>) => {
-            state.reverseSummaryTable = action.payload;
-            state.updated = getDateNumber();
-        },
         setDisplayMonths: (state, action: PayloadAction<boolean>) => {
             state.displayMonths = action.payload;
             state.updated = getDateNumber();
@@ -100,6 +94,6 @@ export const settingsSlice = createSlice({
 })
 
 export const { setPayPeriodType, setCurrencySymbol, setColourScheme, setShowDecimals, setStartDate, setSwapSummaries,
-                setPeriodsToDisplay, setReverseSummaryTable, setDisplayMonths, setDisplayIncomeTotal, 
+                setPeriodsToDisplay, setDisplayMonths, setDisplayIncomeTotal, 
                 setDisplayExpenseTotal, setShowChart, setUpdated, setSettings } = settingsSlice.actions;
 export default settingsSlice.reducer;
