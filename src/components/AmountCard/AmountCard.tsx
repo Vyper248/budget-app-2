@@ -10,7 +10,7 @@ type AmountCardProps = {
 	width?: string;
 }
 
-const AmountCard = ({label, amount, color='var(--table-heading-bg-color)', textColor='black', width='100%'}: AmountCardProps) => {
+const AmountCard = ({label, amount, color='deepskyblue', textColor='black', width='100%'}: AmountCardProps) => {
 	return (
 		<StyledAmountCard color={color} textColor={textColor} width={width}>
 			<div className='label'>{label}</div>
