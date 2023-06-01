@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '@/utils/date.utils';
+import { changeColourScheme } from '@/utils/general.utils';
 
 export type PayPeriodType = 'monthly' | 'fourWeekly' | 'weekly' | 'twoWeekly';
 export type ColourScheme = 'dark' | 'light';
@@ -50,6 +51,7 @@ export const settingsSlice = createSlice({
         },
         setColourScheme: (state, action: PayloadAction<ColourScheme>) => {
             state.colourScheme = action.payload;
+            changeColourScheme(action.payload);
             state.updated = getDateNumber();
         },
         setShowDecimals: (state, action: PayloadAction<boolean>) => {
@@ -88,6 +90,7 @@ export const settingsSlice = createSlice({
             state.updated = action.payload;
         },
         setSettings: (_, action: PayloadAction<SettingsState>) => {
+            changeColourScheme(action.payload.colourScheme);
             return action.payload;
         }
     },
