@@ -37,11 +37,12 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 
 	const { displayIncomeTotal, displayExpenseTotal, displayMonths, periodsToDisplay } = settings;
 	const dateFormat = displayMonths ? 'MMM yyyy' : 'dd-MM-yyyy';
+	
+	const incomeCategories = categories.filter(category => category.type === 'income' && category.hidden === false);
+	const expenseCategories = categories.filter(category => category.type === 'expense' && category.hidden === false);
+	const visibleFunds = funds.filter(fund => fund.hidden === false);
 
-	const emptyRowLength = categories.length + funds.length + (displayIncomeTotal ? 1 : 0) + (displayExpenseTotal ? 1 : 0);
-
-	const incomeCategories = categories.filter(category => category.type === 'income');
-	const expenseCategories = categories.filter(category => category.type === 'expense');
+	const emptyRowLength = incomeCategories.length + expenseCategories.length + visibleFunds.length + (displayIncomeTotal ? 1 : 0) + (displayExpenseTotal ? 1 : 0);
 
 	let dates = getDates(settings.startDate, settings.payPeriodType, dateRange);
 	dates = dateRange ? dates : dates.slice(-periodsToDisplay);
@@ -61,7 +62,7 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 						<th className='date'>Date</th>
 						<ItemHeadings arr={incomeCategories} type='income'/>
 						{ displayIncomeTotal && <th className='income'>Total Income</th> }
-						<ItemHeadings arr={funds} type='fund'/>
+						<ItemHeadings arr={visibleFunds} type='fund'/>
 						<ItemHeadings arr={expenseCategories} type='expense'/>
 						{ displayExpenseTotal && <th className='expense'>Total Expenses</th> }
 						<th className='remaining'>Remaining</th>
@@ -78,7 +79,7 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 								<td className='date'>{formatDate(date, dateFormat)}</td>
 								<ItemAmounts arr={incomeCategories} type='income' {...sharedData}/>
 								{ displayIncomeTotal && <td className='highlighted'>{parseCurrency(dataObj.incomeTotal)}</td> }
-								<ItemAmounts arr={funds} type='fund' {...sharedData}/>
+								<ItemAmounts arr={visibleFunds} type='fund' {...sharedData}/>
 								<ItemAmounts arr={expenseCategories} type='expense' {...sharedData}/>
 								{ displayExpenseTotal && <td className='highlighted'>{parseCurrency(-dataObj.expenseTotal)}</td> }
 								<td>{parseCurrency(dataObj.remaining)}</td>
@@ -90,7 +91,7 @@ const SummaryTable = ({dateRange, summaryData}: SummaryTableProps) => {
 						<td>Total</td>
 						<ItemTotals arr={incomeCategories} summaryData={summaryData}/>
 						{ displayIncomeTotal && <td>{parseCurrency(summaryData.totals.incomeTotal)}</td> }
-						<ItemTotals arr={funds} summaryData={summaryData}/>
+						<ItemTotals arr={visibleFunds} summaryData={summaryData}/>
 						<ItemTotals arr={expenseCategories} summaryData={summaryData} type='expense'/>
 						{ displayExpenseTotal && <td>{parseCurrency(-summaryData.totals.expenseTotal)}</td> }
 						<td>{parseCurrency(summaryData.totals.remaining)}</td>
