@@ -12,6 +12,7 @@ import type { Transaction } from "@/redux/transactionsSlice";
 import type { PayPeriodType } from "@/redux/settingsSlice";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Fund } from "@/redux/fundsSlice";
+import { getStartingBalance } from "./general.utils";
 
 export type TransactionDisplay = {
     total: number;
@@ -124,7 +125,7 @@ export const getSummaryData = (transactions: Transaction[], categories: Category
     categories.forEach(cat => categoryTypes[cat.id] = cat.type);
 
     //setup totalsObj with category and fund IDs
-    categories.forEach(cat => totalsObj[cat.id] = dateRange ? 0 : cat.startingBalance);
+    categories.forEach(cat => totalsObj[cat.id] = dateRange ? 0 : getStartingBalance(cat));
     funds.forEach(fund => totalsObj[fund.id] = dateRange ? 0 : fund.startingBalance);
 
     //sort transactions into correct group

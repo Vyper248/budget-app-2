@@ -6,14 +6,15 @@ import { selectTransactions } from "@/redux/transactionsSlice";
 
 import { organiseTransactions, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions, parseCurrency } from "@/utils/transactions.utils";
 import { useItemObj } from "@/utils/customHooks.utils";
+import { getStartingBalance } from "@/utils/general.utils";
 
 import ItemPageLayout from "@/components/styled/ItemPageLayout";
 import ItemList from "@/components/ItemComponents/ItemList/ItemList";
 import ItemPageTransactionContainer from "@/components/ItemComponents/ItemPageTransactionContainer/ItemPageTransactionContainer";
 import TransactionGroups from "@/components/TransactionComponents/TransactionGroups/TransactionGroups";
+import ItemEditList from "@/components/ItemComponents/ItemEditList/ItemEditList";
 
 import type { SpendTransaction } from "@/redux/transactionsSlice";
-import ItemEditList from "@/components/ItemComponents/ItemEditList/ItemEditList";
 
 const Categories = () => {
     const [search, setSearch] = useState('');
@@ -47,8 +48,13 @@ const Categories = () => {
 		onSelectItem(0);
 	}
 
-    //get total
-	const total = getTransactionTotal(categoryTransactions, selectedItem) + (categoryObj?.startingBalance || 0);
+    //get starting balance
+    let startingBalance = getStartingBalance(categoryObj);
+
+    //get total and add starting balance
+	let total = getTransactionTotal(categoryTransactions, selectedItem);
+    total += startingBalance
+
     let totalText = `Total Earned: ${parseCurrency(total)}`;
     if (categoryObj && categoryObj.type === 'expense') {
         totalText = `Total Spent: ${parseCurrency(-total)}`;
@@ -62,7 +68,7 @@ const Categories = () => {
             <ItemList heading='Categories' items={searchedCategories} onSelect={onSelectItem} selectedItemId={selectedItem} onEdit={onClickEdit}/>
             { editMode && <div><ItemEditList array={categories} type='category'/></div> }
             { categoryObj !== undefined && !editMode && (
-                <ItemPageTransactionContainer heading={categoryObj.name} startingBalance={categoryObj.startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
+                <ItemPageTransactionContainer heading={categoryObj.name} startingBalance={startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
                     <TransactionGroups monthlyTransactions={organised}/>
                 </ItemPageTransactionContainer>
             ) }

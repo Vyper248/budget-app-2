@@ -1,4 +1,6 @@
-import { joinStrings, getObjectName } from "./general.utils";
+import { joinStrings, getObjectName, getStartingBalance } from "./general.utils";
+
+import type { Category } from "@/redux/categoriesSlice";
 
 describe('Testing the joinStrings function', () => {
     it('Should join any number of strings using any string provided', () => {
@@ -52,5 +54,17 @@ describe('Testing the getObjectName function', () => {
         expect(getObjectName(2, mockObjects, '-test')).toBe('hello-test');
         expect(getObjectName(3, mockObjects, '-test')).toBe('world-test');
     
+    });
+});
+
+describe('Testing the getStartingBalance function', () => {
+    it('Returns a negative value if category is an expense type', () => {
+        let mockCategory = {type: 'expense', startingBalance: 100} as Category;
+        expect(getStartingBalance(mockCategory)).toBe(-100);
+    });
+
+    it('Returns a normal value if category is an incom type', () => {
+        let mockCategory = {type: 'income', startingBalance: 100} as Category;
+        expect(getStartingBalance(mockCategory)).toBe(100);
     });
 });

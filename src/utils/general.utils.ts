@@ -1,3 +1,5 @@
+import { Category } from "@/redux/categoriesSlice";
+
 type ObjectWithName = {
 	id: number;
 	name: string;
@@ -97,4 +99,10 @@ export const changeColourScheme = (scheme: string) => {
         root.style.setProperty('--mild-highlight', '#EEE');
 		root.style.setProperty('--chrome-calendar-icon', 'invert(0)');
     }
+}
+
+export const getStartingBalance = (item: Category | undefined) => {
+    if (item === undefined) return 0;
+    if (item.type === 'income') return item.startingBalance;
+    return -item.startingBalance;
 }
