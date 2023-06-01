@@ -42,6 +42,12 @@ const StyledButton = styled.button<Props>`
         background-color: #777;
         color: white;
     }
+
+    &[disabled] {
+        background-color: var(--obj-highlight-bg);
+        color: #999;
+        cursor: auto;
+    }
 `;
 
 export default StyledButton

@@ -7,14 +7,15 @@ type ButtonProps = {
 	rounded?: boolean;
 	selected?: boolean;
 	hidden?: boolean;
+	disabled?: boolean;
 }
 
-const Button = ({label, onClick, width='140px', rounded=true, selected=false, hidden=false}: ButtonProps) => {
+const Button = ({label, onClick, width='140px', rounded=true, selected=false, hidden=false, disabled=false}: ButtonProps) => {
 	let className = selected ? 'selected' : '';
 	if (hidden) className += ' hidden';
 
 	return (
-		<StyledButton onClick={onClick} width={width} rounded={rounded} className={className}>{label}</StyledButton>
+		<StyledButton onClick={onClick} width={width} rounded={rounded} className={className} disabled={disabled}>{label}</StyledButton>
 	);
 }
 
