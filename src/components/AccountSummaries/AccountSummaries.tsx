@@ -1,7 +1,7 @@
 import StyledAccountSummaries from "./AccountSummaries.style";
 import { useAppSelector } from "@/redux/hooks";
 
-import { selectAccounts } from "@/redux/accountsSlice";
+import { selectVisibleAccounts } from "@/redux/accountsSlice";
 import { getTransactionTotal } from "@/utils/transactions.utils";
 import { selectTransactions } from "@/redux/transactionsSlice";
 
@@ -10,7 +10,7 @@ import AmountCard from "../AmountCard/AmountCard";
 import type { Transaction } from "@/redux/transactionsSlice";
 
 const AccountSummaries = () => {
-	const accounts = useAppSelector(selectAccounts);
+	const accounts = useAppSelector(selectVisibleAccounts);
 	const transactions = useAppSelector(selectTransactions);
 
 	const accountObj = {} as {[key: number]: Transaction[]};

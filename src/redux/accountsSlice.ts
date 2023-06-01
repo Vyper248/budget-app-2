@@ -93,5 +93,9 @@ export const selectAccounts = createSelector([selectAccountsBasic], (accounts) =
     return accounts.filter((account: Account) => account.deleted === undefined || account.deleted === 0) as Account[];
 });
 
+export const selectVisibleAccounts = createSelector([selectAccounts], (accounts) => {
+    return accounts.filter(account => account.hidden === false);
+});
+
 export const { addAccount, editAccount, removeAccount, reorderAccounts, setAccounts } = accountsSlice.actions;
 export default accountsSlice.reducer;
