@@ -1,16 +1,14 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import StyledSettings from "./Settings.style";
+
 import { ColourScheme, setColourScheme, setSettings } from "@/redux/settingsSlice";
+import { changeColourScheme } from "@/utils/general.utils";
 
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
-import { changeColourScheme } from "@/utils/general.utils";
+import BackupRestore from "@/components/BackupRestore/BackupRestore";
 
-type SettingsProps = {
-
-}
-
-const Settings = ({}: SettingsProps) => {
+const Settings = ({}) => {
 	const dispatch = useAppDispatch();
 	const settings = useAppSelector(state => state.settings);
 
@@ -47,6 +45,8 @@ const Settings = ({}: SettingsProps) => {
 				<Dropdown label='Show Pie Chart' labelWidth={labelWidth} value={settings.showChart ? 'yes' : 'no'} onChange={onChangeBool('showChart')} options={[{label: 'Yes', value: 'yes'}, {label: 'No', value: 'no'}]}/>
 				<Dropdown label='Background Color' labelWidth={labelWidth} value={settings.colourScheme} onChange={onChangeColorScheme} options={[{label: 'Dark', value: 'dark'}, {label: 'Black', value: 'black'}, {label: 'Light', value: 'light'}]}/>
 			</div>
+
+			<BackupRestore/>
 		</StyledSettings>
 	);
 }
