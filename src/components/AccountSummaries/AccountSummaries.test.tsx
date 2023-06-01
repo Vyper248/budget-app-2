@@ -12,12 +12,14 @@ const mockAccounts = [
 	{
 		id: 1,
 		name: 'Starling',
-		startingBalance: 100
+		startingBalance: 100,
+		hidden: false
 	},
 	{
 		id: 5,
 		name: 'Tesco',
-		startingBalance: 0
+		startingBalance: 0,
+		hidden: false
 	}
 ] as Account[];
 
@@ -26,6 +28,7 @@ const mockCategories = [
 		id: 3,
 		name: 'food',
 		type: 'expense',
+		hidden: false
 	}
 ] as Category[];
 
