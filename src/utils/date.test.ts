@@ -1,4 +1,4 @@
-import { formatDate, isValidDateRange } from "./date.utils";
+import { formatDate, isValidDateRange, getInvalidDateRangeMessage } from "./date.utils";
 
 describe('Testing the formatDate function', () => {
     it('Formats a date string', () => {
@@ -24,5 +24,18 @@ describe('Testing the isValidDateRange function', () => {
 
     it('Returns true when a correct date range is provided', () => {
         expect(isValidDateRange({from: '2023-01-01', to: '2023-02-01'})).toBeTruthy();
+    });
+});
+
+describe('Testing the getInvalidDateRangeMessage function', () => {
+    it('Returns the correct messages', () => {
+        expect(getInvalidDateRangeMessage({from: '1230-01-01', to: '2023-01-01'})).toBe('Error: First date is not valid.');
+        expect(getInvalidDateRangeMessage({from: '2023-01-01', to: '1234-01-01'})).toBe('Error: Second date is not valid.');
+        expect(getInvalidDateRangeMessage({from: '2023-02-01', to: '2023-01-01'})).toBe('Error: Second date should be after first date.');
+    });
+
+    it('Returns empty string if one of the dates is empty', () => {
+        expect(getInvalidDateRangeMessage({from: '', to: '2023-01-01'})).toBe('');
+        expect(getInvalidDateRangeMessage({from: '2023-01-01', to: ''})).toBe('');
     });
 });

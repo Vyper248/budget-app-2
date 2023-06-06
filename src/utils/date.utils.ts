@@ -1,5 +1,5 @@
 import { format, parseISO, isValid, compareAsc } from "date-fns"
-import type { DateRange } from "./summary.utils";
+import type { DateRange } from "@/components/DateRangeInput/DateRangeInput";
 
 export const getDateNumber = () => {
     return Number(format(new Date(),'yyyyMMddHHmmssSSS'));
@@ -32,4 +32,21 @@ export const isValidDateRange = (dateRange: DateRange) => {
     if (compareAsc(parseISO(dateRange.from), parseISO(dateRange.to)) > 0) return false;
 
 	return true;
+}
+
+export const getInvalidDateRangeMessage = (dateRange: DateRange) => {
+    if (dateRange.from.length > 0 && dateRange.to.length > 0) {
+		const fromDate = parseISO(dateRange.from);
+		const toDate = parseISO(dateRange.to);
+
+		let fromValid = isValid(fromDate) && compareAsc(fromDate, parseISO('1900-01-01')) > 0;
+		let toValid = isValid(toDate) && compareAsc(toDate, parseISO('1900-01-01')) > 0;
+
+		if (!fromValid) return 'Error: First date is not valid.';
+		if (!toValid) return 'Error: Second date is not valid.';
+
+		if (compareAsc(fromDate, toDate) > 0) return 'Error: Second date should be after first date.';
+	}
+
+    return '';
 }
