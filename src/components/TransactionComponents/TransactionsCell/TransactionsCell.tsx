@@ -24,9 +24,13 @@ const TransactionsCell = ({displayObj, date, itemId, type, showPositive=false}: 
 	}
 
 	const onClick = (e: React.MouseEvent<HTMLElement>) => {
+		//check scroll position of table within parent div
+		let parentDiv = e.currentTarget.closest('div');
+		let scrollLeft = (parentDiv?.scrollLeft || 0);
+		
 		//get position of clicked cell and put modal next to it (modal has a witdh of 450px)
-		let leftPos = e.currentTarget.offsetLeft - 450;
-        if (leftPos < 0) leftPos = e.currentTarget.offsetLeft + e.currentTarget.offsetWidth;
+		let leftPos = e.currentTarget.offsetLeft - 450 - scrollLeft;
+        if (leftPos < 0) leftPos = e.currentTarget.offsetLeft + e.currentTarget.offsetWidth - scrollLeft;
         let topPos = e.currentTarget.offsetTop;
 
 		dispatch(setSelectedTotal({
