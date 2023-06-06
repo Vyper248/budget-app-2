@@ -5,17 +5,11 @@ import TransactionsCell from "../TransactionComponents/TransactionsCell/Transact
 import type { Item } from "@/redux/generalSlice";
 import type { Summary } from "@/utils/summary.utils";
 
-type SelectedData = {
-	date: string;
-	id: number;
-	type: string;
-}
-
 export const EmptyRow = ({ date, length }: { date: string, length: number }) => {
 	let dataArr = Array.from('1'.repeat(length));
 	return (
 		<tr>
-			<td>{date}</td>
+			<td className='date sticky filled'>{date}</td>
 			{
 				dataArr.map((_, i) => <td key={`empty-${date}-${i}`}>-</td>)
 			}

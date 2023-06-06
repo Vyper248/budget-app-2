@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 const StyledSummaryTable = styled.div`
-    padding: 0px 20px;
-    width: 'fit-content';
+    & td.date {
+        background-color: var(--bg-color);
+    }
 
     & table tbody td {
         text-align: center;
@@ -40,11 +41,6 @@ const StyledSummaryTable = styled.div`
     & table .lessPeriodIcon {
         float: left;
         margin-right: 5px;
-    }
-
-    & table .morePeriodIcon, & table .lessPeriodIcon {
-        position: relative;
-        top: 2px;
     }
 
     & table .morePeriodIcon:hover, & table .lessPeriodIcon:hover {
