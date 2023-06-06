@@ -35,7 +35,7 @@ const Input = ({label='', type='text', value, onChange, width='100%', labelWidth
 		<StyledInput width={width} hasLabel={label.length > 0} height={textHeight}>
 		  {label && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel>}
       { type === 'textarea' ? <textarea ref={ref} value={value} onChange={handleChange} aria-label={label} {...rest}/>
-                            : <input type={type} value={value} onChange={handleChange} aria-label={label} {...rest}/>
+                            : <input id={label} type={type} value={value} onChange={handleChange} aria-label={label} {...rest}/>
       }
 		</StyledInput>
 	);

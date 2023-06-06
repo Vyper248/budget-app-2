@@ -32,6 +32,10 @@ const StyledInput = styled.div<Props>`
       border: 1px solid var(--menu-bg-color);
       ${props => props.hasLabel ? 'border-left: none;' : ''}
     }
+
+    &[type='date']:invalid {
+      color: red;
+    }
   }
 
   select {
