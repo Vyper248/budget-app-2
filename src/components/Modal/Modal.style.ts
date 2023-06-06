@@ -14,6 +14,7 @@ const StyledModal = styled.div<Props>`
     top: 0px;
     left: 0px;
     pointer-events: ${props => props.dragging ? 'auto' : 'none'};
+    z-index: 5;
 
     .content {
         max-height: 430px;
