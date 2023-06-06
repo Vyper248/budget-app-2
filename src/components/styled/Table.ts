@@ -11,6 +11,7 @@ const Table = styled.table<Props>`
     border-radius: 5px;
     background-color: var(--bg-color);
     color: var(--text-color);
+    text-align: center;
 
     & thead th {
         background-color: var(--table-heading-bg-color);
@@ -97,6 +98,15 @@ const Table = styled.table<Props>`
     & td.trValue.selected {
         background-color: var(--obj-highlight-bg);
         color: var(--obj-highlight-text);
+    }
+
+    & td.summaryData.selected {
+        background-color: var(--obj-highlight-bg);
+    }
+
+    & td.summaryData:hover {
+        background-color: var(--obj-highlight-bg);
+        cursor: pointer;
     }
 `;
 

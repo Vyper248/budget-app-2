@@ -15,11 +15,7 @@ import Table from '@/components/styled/Table';
 import { EmptyRow, ItemAmounts, ItemHeadings, ItemTotals } from "./SummaryTable.parts";
 
 import type { Summary } from "@/utils/summary.utils";
-
-type DateRange = {
-	from: string;
-	to: string;
-}
+import type { DateRange } from "../DateRangeInput/DateRangeInput";
 
 type SummaryTableProps = {
 	dateRange?: DateRange;

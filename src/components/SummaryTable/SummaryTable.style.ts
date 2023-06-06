@@ -28,15 +28,6 @@ const StyledSummaryTable = styled.div`
         color: black;
     }
 
-    & table td.summaryData.selected {
-        background-color: var(--obj-highlight-bg);
-    }
-
-    & table td.summaryData:hover {
-        background-color: var(--obj-highlight-bg);
-        cursor: pointer;
-    }
-
     & table tr.summary:hover td:not(.expense, .income, .fund) {
         background-color: var(--obj-highlight-bg);
     }
