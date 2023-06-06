@@ -11,9 +11,10 @@ type TransactionsCellProps = {
 	date: string;
 	itemId: number;
 	type: string;
+	showPositive?: boolean;
 }
 
-const TransactionsCell = ({displayObj, date, itemId, type}: TransactionsCellProps) => {
+const TransactionsCell = ({displayObj, date, itemId, type, showPositive=false}: TransactionsCellProps) => {
 	const dispatch = useAppDispatch();
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
 
@@ -40,7 +41,7 @@ const TransactionsCell = ({displayObj, date, itemId, type}: TransactionsCellProp
 
 	return (
 		<StyledTransactionsCell onClick={onClick} className={selected ? 'summaryData selected' : 'summaryData'}>
-			{ parseCurrency(type === 'expense' ? -displayObj.total : displayObj.total) }
+			{ parseCurrency(type === 'expense' && !showPositive ? -displayObj.total : displayObj.total) }
 		</StyledTransactionsCell>
 	);
 }
