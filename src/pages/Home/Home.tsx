@@ -10,11 +10,9 @@ import { getSummaryData } from "@/utils/summary.utils";
 import { getPieData } from "./Home.utils";
 
 import SummaryTable from "@/components/SummaryTable/SummaryTable";
-import Input from "@/components/Input/Input";
-import Grid from "@/components/styled/Grid";
-import Button from "@/components/Button/Button";
 import AccountSummaries from "@/components/AccountSummaries/AccountSummaries";
 import PieChart from "@/components/PieChart/PieChart";
+import DateRangeInput from "@/components/DateRangeInput/DateRangeInput";
 
 const Home = ({}) => {
 	const [dateRange, setDateRange] = useState({from: '', to: ''});
@@ -31,12 +29,6 @@ const Home = ({}) => {
 
 	const { showChart, swapSummaries } = settings;
 
-	const onChangeInput = (key: string) => (val: string) => {
-		setDateRange(dateRange => {
-			return {...dateRange, [key]: val}
-		});
-	}
-
 	const onClear = () => {
 		setDateRange({from: '', to: ''});
 	}
@@ -45,11 +37,7 @@ const Home = ({}) => {
 		<StyledHome>
 			{ swapSummaries && <AccountSummaries/> }
 			<h4 className='centered'>Period Summaries</h4>
-			<Grid width="500px" template="auto auto 90px">
-				<Input type='date' label='From' value={dateRange.from} onChange={onChangeInput('from')} max={dateRange.to}/>
-				<Input type='date' label='To' value={dateRange.to} onChange={onChangeInput('to')} min={dateRange.from}/>
-				<Button label='Clear' onClick={onClear} width='80px'/>
-			</Grid>
+			<DateRangeInput dateRange={dateRange} onChange={setDateRange} onClear={onClear}/>
 			<SummaryTable key={`${dateRange.from}-${dateRange.to}`} summaryData={summaryData} dateRange={useableDateRange}/>
 			{ !swapSummaries && <AccountSummaries/> }
 			{ showChart && <PieChart data={pieData} heading='Totals Chart'/> }
