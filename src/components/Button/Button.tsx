@@ -10,7 +10,7 @@ type ButtonProps = {
 	disabled?: boolean;
 }
 
-const Button = ({label, onClick, width='140px', rounded=true, selected=false, hidden=false, disabled=false}: ButtonProps) => {
+const Button = ({label, onClick, width='auto', rounded=true, selected=false, hidden=false, disabled=false}: ButtonProps) => {
 	let className = selected ? 'selected' : '';
 	if (hidden) className += ' hidden';
 

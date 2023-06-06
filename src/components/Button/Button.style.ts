@@ -16,6 +16,7 @@ const StyledButton = styled.button<Props>`
     border-radius: ${props => props.rounded ? '5px' : '0px'};
     width: ${props => props.width};
     font-size: 1em;
+    padding: 0px 10px;
     
     &:hover {
         cursor: pointer;
