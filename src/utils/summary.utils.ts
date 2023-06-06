@@ -7,12 +7,13 @@ import addMonths from "date-fns/addMonths";
 
 import { store } from "@/redux/store";
 import { getAmount } from "./transactions.utils";
+import { getStartingBalance } from "./general.utils";
 
 import type { Transaction } from "@/redux/transactionsSlice";
 import type { PayPeriodType } from "@/redux/settingsSlice";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Fund } from "@/redux/fundsSlice";
-import { getStartingBalance } from "./general.utils";
+import type { DateRange } from "@/components/DateRangeInput/DateRangeInput";
 
 export type TransactionDisplay = {
     total: number;
@@ -38,11 +39,6 @@ export type Summary = {
         [key: string]: ItemGroup;
     };
     totals: SummaryTotals;
-}
-
-export type DateRange = {
-	from: string;
-	to: string;
 }
 
 export const getHeadingColor = (type: string) => {
