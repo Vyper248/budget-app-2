@@ -15,6 +15,11 @@ const StyledModal = styled.div<Props>`
     left: 0px;
     pointer-events: ${props => props.dragging ? 'auto' : 'none'};
 
+    .content {
+        max-height: 430px;
+        overflow: auto;
+    }
+
     & .outline {
         position: absolute;
         pointer-events: auto;

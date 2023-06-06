@@ -33,9 +33,10 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 
 		let height = outlineRef.current.offsetHeight;
 		let offsetY = window.pageYOffset;
+		let scrollY = window.scrollY;
 		let newPos = (yPos - height/2) + 20; //move to a centered position
 		if (newPos < 30 + offsetY) newPos = 30 + offsetY; //if it then goes off the top, move to 0
-		else if (newPos + height + 50 > window.innerHeight + offsetY) newPos = 30 + offsetY; //if it goes off the bottom after moving up, move to 0
+		else if (newPos + height + 50 > window.innerHeight + offsetY) newPos = window.innerHeight - height + scrollY; //if it goes off the bottom after moving up, move to bottom
 
 		setYPos(newPos);
 	}, []);
@@ -61,7 +62,7 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 
             //prevent going off the side
             if (newY < 30) newY = 30; //should be set to header height
-            if (newY > window.innerHeight-height) newY = window.innerHeight-height;
+            if (newY > document.body.scrollHeight-height) newY = document.body.scrollHeight-height;
             if (newX < 0) newX = 0;
             if (newX > window.innerWidth-width) newX = window.innerWidth-width;
             
