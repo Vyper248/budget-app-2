@@ -1,10 +1,18 @@
 import { useEffect, useRef } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { setSelectedItem } from "@/redux/generalSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setSelectedItem, setSelectedTotal } from "@/redux/generalSlice";
 
-import { Item } from "@/redux/generalSlice";
+import type { Item } from "@/redux/generalSlice";
+import type { Transaction } from "@/redux/transactionsSlice";
+import type { TransactionDisplay } from "./summary.utils";
 
 type ReturnType = [Item | undefined, (val: number) => void];
+
+type DataObj = {
+	[key: string]: {
+        [key: number]: TransactionDisplay;
+    };
+}
 
 export const useItemObj = (selectedItem: number, arr: Item[]): ReturnType => {
     const itemObj = arr.find(obj => obj.id === selectedItem);
@@ -42,4 +50,15 @@ export const useClickOutside = (callback: ()=>void, open: boolean) => {
     }, [open, callback]);
 
     return ref;
+}
+
+export const useTransactionUpdate = (dataObj: DataObj, transactions: Transaction[]) => {
+    const dispatch = useAppDispatch();
+    const selectedTotal = useAppSelector(state => state.general.selectedTotal);
+
+    useEffect(() => {
+		if (!selectedTotal) return;
+		const displayObj = dataObj[selectedTotal.date][selectedTotal.itemId];
+		dispatch(setSelectedTotal({...selectedTotal, transactions: displayObj.transactions}));
+	}, [transactions]);
 }

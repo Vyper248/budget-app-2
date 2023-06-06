@@ -1,13 +1,15 @@
 import {fireEvent, screen} from '@testing-library/react'
 import '@testing-library/jest-dom';
-import { render } from './test.utils';
+import { getBasicMockState, render } from './test.utils';
 import * as hooks from '@/redux/hooks';
 import { vi } from 'vitest';
 
-import { useItemObj } from './customHooks.utils';
-import { Account } from '@/redux/accountsSlice';
-import { setSelectedItem } from '@/redux/generalSlice';
-import { useClickOutside } from "./customHooks.utils";
+import { setSelectedItem, setSelectedTotal } from '@/redux/generalSlice';
+import { useClickOutside, useItemObj, useTransactionUpdate } from "./customHooks.utils";
+
+import type { Account } from '@/redux/accountsSlice';
+import type { Transaction } from '@/redux/transactionsSlice';
+import type { TransactionDisplay } from './summary.utils';
 
 const mockAccount = {
     id: 2,
@@ -95,5 +97,66 @@ describe('Testing useClickOutside hook', () => {
         expect(outside).toBeInTheDocument();
         fireEvent.click(outside);
         expect(mockCallback).not.toHaveBeenCalled();
+    });
+});
+
+type BasicDataObj = {
+    [key: string]: {
+        [key: number]: TransactionDisplay
+    }
+}
+
+describe('Testing useTransactionUpdate hook', () => {
+    const mockTransactions = [
+        {id: 1} as Transaction,
+        {id: 2} as Transaction
+    ];
+
+    const mockTransactions2 = [
+        {id: 1} as Transaction,
+        {id: 2} as Transaction,
+        {id: 3} as Transaction
+    ];
+
+    const mockDataObj = {
+        'date': {
+            1: {
+                total: 0,
+                transactions: [...mockTransactions]
+            }
+        }
+    }
+
+    const mockSelectedTotal = {
+        transactions: [...mockTransactions], 
+        date: 'date', 
+        itemId: 1, 
+        type: 'expense', 
+        x: 0, 
+        y: 0
+    }
+
+    const MockComponent2 = ({transactions}: {transactions: Transaction[]}) => {
+        useTransactionUpdate(mockDataObj, transactions);
+        return <div></div>
+    }
+
+    it('Dispatches data when transactions changes', () => {
+        const mockDispatch = vi.fn();
+        vi.spyOn(hooks, 'useAppDispatch').mockReturnValue(mockDispatch);
+        const basicState = getBasicMockState({general: {selectedTotal: mockSelectedTotal}});
+
+        //always called the first time
+        const { rerender } = render(<MockComponent2 transactions={mockTransactions}/>, basicState);
+        expect(mockDispatch).toBeCalledTimes(1);
+
+        //same transactions, so not called again
+        rerender(<MockComponent2 transactions={mockTransactions}/>);
+        expect(mockDispatch).toBeCalledTimes(1);
+
+        //new transactions, so called again, dispatching data from mockDataObj
+        rerender(<MockComponent2 transactions={mockTransactions2}/>);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(mockDispatch).toBeCalledWith(setSelectedTotal(mockSelectedTotal));
     });
 });
