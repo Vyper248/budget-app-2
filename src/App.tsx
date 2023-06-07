@@ -10,6 +10,7 @@ import Home from './pages/Home/Home';
 import Accounts from './pages/Accounts/Accounts';
 import Categories from './pages/Categories/Categories';
 import Funds from './pages/Funds/Funds';
+import Tools from './pages/Tools/Tools';
 import Settings from './pages/Settings/Settings';
 import Modal from './components/Modal/Modal';
 import TransactionForm from './components/TransactionComponents/TransactionForm/TransactionForm';
@@ -57,6 +58,7 @@ function App() {
 			{ currentPage === 'Categories' ? <Categories/> : null }
 			{ currentPage === 'Funds' ? <Funds/> : null }
 			{ currentPage === 'Accounts' ? <Accounts/> : null }
+			{ currentPage === 'Tools' ? <Tools/> : null }
 			{ currentPage === 'Settings' ? <Settings/> : null }
 
 			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal)}>
