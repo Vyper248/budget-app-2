@@ -1,11 +1,14 @@
-import { compareAsc, parseISO, parse } from "date-fns";
+import compareAsc from "date-fns/compareAsc";
+import parseISO from "date-fns/parseISO";
+import parse from "date-fns/parse";
+import compareDesc from "date-fns/compareDesc";
 
 import { store } from "@/redux/store";
 import { formatDate } from "./date.utils";
 
 import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "@/redux/transactionsSlice";
 import type { Item } from "@/redux/generalSlice";
-import compareDesc from "date-fns/compareDesc";
+import type { Account } from "@/redux/accountsSlice";
 
 type MonthlyTransactionsObj = {
 	[key: string]: TransactionObj[];
@@ -182,4 +185,30 @@ export const getAmount = (transaction: Transaction, asCurrency=true, selectedAcc
     }
 
     return asCurrency ? parseCurrency(0) : 0;
+}
+
+export const getAccountTotals = (transactions: Transaction[], accounts: Account[]) => {
+	const dataObj = {} as {[key: number]: number};
+	accounts.forEach(acc => dataObj[acc.id] = (acc?.startingBalance || 0));
+
+	//calculate account totals
+	transactions.forEach(tr => {
+		if (tr.type === 'fundAddition') return;
+
+		if (tr.type === 'spend') {
+			let amount = getAmount(tr, false) as number;
+			if (dataObj[tr.account] !== undefined) dataObj[tr.account] += amount;
+			return;
+		}
+
+		if (tr.type === 'transfer') {
+			let amountFrom = getAmount(tr, false, tr.from) as number;
+			if (dataObj[tr.from] !== undefined) dataObj[tr.from] += amountFrom;
+
+			let amountTo = getAmount(tr, false, tr.to) as number;
+			if (dataObj[tr.to] !== undefined) dataObj[tr.to] += amountTo;
+		}
+	});
+
+    return dataObj;
 }
