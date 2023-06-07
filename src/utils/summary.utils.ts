@@ -1,16 +1,12 @@
-import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import parseISO from "date-fns/parseISO";
-import addDays from "date-fns/addDays";
-import format from "date-fns/format";
 import compareAsc from "date-fns/compareAsc";
-import addMonths from "date-fns/addMonths";
 
 import { store } from "@/redux/store";
 import { getAmount } from "./transactions.utils";
 import { getStartingBalance } from "./general.utils";
+import { getDateValue } from "./date.utils";
 
 import type { Transaction } from "@/redux/transactionsSlice";
-import type { PayPeriodType } from "@/redux/settingsSlice";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Fund } from "@/redux/fundsSlice";
 import type { DateRange } from "@/components/DateRangeInput/DateRangeInput";
@@ -47,58 +43,6 @@ export const getHeadingColor = (type: string) => {
         case 'fund': return 'lightsteelblue';
         case 'expense': return 'darkorange';
         default: return '';
-    }
-}
-
-export const getDaysInPeriod = (payPeriodType: PayPeriodType) => {
-	switch(payPeriodType) {
-		case 'fourWeekly': return 28;
-		case 'twoWeekly': return 14;
-		case 'weekly': return 7;
-		default: return 0;
-	}
-}
-
-export const getDates = (startDate: string, payPeriodType: PayPeriodType, dateRange?: DateRange) => {
-	let dates = [] as string[];
-
-	let date = parseISO(startDate);
-    if (dateRange) date = parseISO(getDateValue(dateRange.from, startDate, payPeriodType));
-	let dateTo = new Date();
-    if (dateRange) dateTo = parseISO(getDateValue(dateRange.to, startDate, payPeriodType));
-
-	const dateFormat = 'yyyy-MM-dd';
-
-	if (payPeriodType === 'monthly') {
-		while (compareAsc(dateTo, date) >= 0) {
-			dates.push(format(date, dateFormat));
-			date = addMonths(date, 1);
-		}
-	} else {
-		let payPeriodDays = getDaysInPeriod(payPeriodType);
-		while (compareAsc(dateTo, date) >= 0) {
-			dates.push(format(date, dateFormat));
-			date = addDays(date, payPeriodDays);
-		}
-	}
-
-	return dates;
-}
-
-//returns the last pay period start date for a given date
-export const getDateValue = (date: string, startDate: string, payPeriodType: PayPeriodType) => {
-    if (differenceInCalendarDays(parseISO(date), parseISO(startDate)) < 0) return 'Before Start';
-
-    if (payPeriodType === 'monthly') {
-        const yearMonth = date.slice(0,7);
-        const day = startDate.slice(8);
-        return `${yearMonth}-${day}`;
-    } else {
-        let days = getDaysInPeriod(payPeriodType);
-        let daysFromStart = differenceInCalendarDays(parseISO(date), parseISO(startDate));
-        let payPeriod = Math.floor(daysFromStart/days);
-        let payMonth = format(addDays(parseISO(startDate), payPeriod*days), 'yyyy-MM-dd');
-        return payMonth;
     }
 }
 

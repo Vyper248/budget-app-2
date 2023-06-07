@@ -1,4 +1,5 @@
-import { formatDate, isValidDateRange, getInvalidDateRangeMessage } from "./date.utils";
+import { vi } from "vitest";
+import { formatDate, isValidDateRange, getInvalidDateRangeMessage, getDateValue, getDaysInPeriod, getDates, getDateArray } from "./date.utils";
 
 describe('Testing the formatDate function', () => {
     it('Formats a date string', () => {
@@ -37,5 +38,157 @@ describe('Testing the getInvalidDateRangeMessage function', () => {
     it('Returns empty string if one of the dates is empty', () => {
         expect(getInvalidDateRangeMessage({from: '', to: '2023-01-01'})).toBe('');
         expect(getInvalidDateRangeMessage({from: '2023-01-01', to: ''})).toBe('');
+    });
+});
+
+describe('Testing the getDates function', () => {
+    it('Gives the correct array of dates when using a date range', () => {
+        const startDate = '2023-01-01';
+        const dateRange = {
+            from: '2023-02-01',
+            to: '2023-03-01'
+        }
+        const dates = getDates(startDate, 'monthly', dateRange);
+
+        expect(dates.length).toBe(2);
+        expect(dates[0]).toBe('2023-02-01');
+        expect(dates[1]).toBe('2023-03-01');
+    });
+
+    it('Gives the correct array of dates for a monthly pay period', () => {
+        const startDate = '2023-01-01';
+        const dateRange = {
+            from: startDate,
+            to: '2023-03-01'
+        }
+        const dates = getDates(startDate, 'monthly', dateRange);
+
+        expect(dates.length).toBe(3);
+        expect(dates[0]).toBe('2023-01-01');
+        expect(dates[1]).toBe('2023-02-01');
+        expect(dates[2]).toBe('2023-03-01');
+    });
+
+    it('Gives the correct array of dates for a 4 weekly pay period', () => {
+        const startDate = '2023-01-01';
+        const dateRange = {
+            from: startDate,
+            to: '2023-03-01'
+        }
+        const dates = getDates(startDate, 'fourWeekly', dateRange);
+
+        expect(dates.length).toBe(3);
+        expect(dates[0]).toBe('2023-01-01');
+        expect(dates[1]).toBe('2023-01-29');
+        expect(dates[2]).toBe('2023-02-26');
+    });
+
+    it('Gives the correct array of dates for a 2 weekly pay period', () => {
+        const startDate = '2023-01-01';
+        const dateRange = {
+            from: startDate,
+            to: '2023-03-01'
+        }
+        const dates = getDates(startDate, 'twoWeekly', dateRange);
+
+        expect(dates.length).toBe(5);
+        expect(dates[0]).toBe('2023-01-01');
+        expect(dates[1]).toBe('2023-01-15');
+        expect(dates[2]).toBe('2023-01-29');
+        expect(dates[3]).toBe('2023-02-12');
+        expect(dates[4]).toBe('2023-02-26');
+    });
+
+    it('Gives the correct array of dates for a weekly pay period', () => {
+        const startDate = '2023-01-01';
+        const dateRange = {
+            from: startDate,
+            to: '2023-03-01'
+        }
+        const dates = getDates(startDate, 'weekly', dateRange);
+
+        expect(dates.length).toBe(9);
+        expect(dates[0]).toBe('2023-01-01');
+        expect(dates[1]).toBe('2023-01-08');
+        expect(dates[2]).toBe('2023-01-15');
+        expect(dates[3]).toBe('2023-01-22');
+        expect(dates[4]).toBe('2023-01-29');
+        expect(dates[5]).toBe('2023-02-05');
+        expect(dates[6]).toBe('2023-02-12');
+        expect(dates[7]).toBe('2023-02-19');
+        expect(dates[8]).toBe('2023-02-26');
+    });
+});
+
+describe('Testing the getDaysInPeriod function', () => {
+    it('Returns the correct value', () => {
+        expect(getDaysInPeriod('fourWeekly')).toBe(28);
+        expect(getDaysInPeriod('twoWeekly')).toBe(14);
+        expect(getDaysInPeriod('weekly')).toBe(7);
+        expect(getDaysInPeriod('monthly')).toBe(0); //not used for monthly
+    });
+});
+
+describe('Testing the getDateValue function', () => {
+    it('Returns the correct date for a monthly pay period', () => {
+        expect(getDateValue('2023-02-20', '2023-01-05', 'monthly')).toBe('2023-02-05');
+        expect(getDateValue('2023-03-14', '2023-01-01', 'monthly')).toBe('2023-03-01');
+        expect(getDateValue('2023-01-02', '2023-01-01', 'monthly')).toBe('2023-01-01');
+    });
+
+    it('Returns Before Start string if date is before start date', () => {
+        expect(getDateValue('2022-02-20', '2023-01-01', 'monthly')).toBe('Before Start');
+        expect(getDateValue('2022-12-31', '2023-01-01', 'monthly')).toBe('Before Start');
+        expect(getDateValue('2023-01-01', '2023-01-01', 'monthly')).toBe('2023-01-01');
+    });
+
+    it('Returns the correct date for a 4 weekly pay period', () => {
+        expect(getDateValue('2023-01-15', '2023-01-01', 'fourWeekly')).toBe('2023-01-01');
+        expect(getDateValue('2023-01-30', '2023-01-01', 'fourWeekly')).toBe('2023-01-29');
+        expect(getDateValue('2023-02-10', '2023-01-01', 'fourWeekly')).toBe('2023-01-29');
+        expect(getDateValue('2023-03-01', '2023-01-01', 'fourWeekly')).toBe('2023-02-26');
+    });
+
+    it('Returns the correct date for a 2 weekly pay period', () => {
+        expect(getDateValue('2023-01-17', '2023-01-01', 'twoWeekly')).toBe('2023-01-15');
+        expect(getDateValue('2023-01-30', '2023-01-01', 'twoWeekly')).toBe('2023-01-29');
+        expect(getDateValue('2023-02-10', '2023-01-01', 'twoWeekly')).toBe('2023-01-29');
+        expect(getDateValue('2023-02-20', '2023-01-01', 'twoWeekly')).toBe('2023-02-12');
+        expect(getDateValue('2023-03-01', '2023-01-01', 'twoWeekly')).toBe('2023-02-26');
+    });
+
+    it('Returns the correct date for a weekly pay period', () => {
+        expect(getDateValue('2023-01-17', '2023-01-01', 'weekly')).toBe('2023-01-15');
+        expect(getDateValue('2023-01-30', '2023-01-01', 'weekly')).toBe('2023-01-29');
+        expect(getDateValue('2023-02-10', '2023-01-01', 'weekly')).toBe('2023-02-05');
+        expect(getDateValue('2023-02-20', '2023-01-01', 'weekly')).toBe('2023-02-19');
+        expect(getDateValue('2023-03-01', '2023-01-01', 'weekly')).toBe('2023-02-26');
+    });
+});
+
+describe('Testing the getDateValue function', () => {
+    it('Returns a correct list of dates with a dateRange', () => {
+        let dates = getDateArray({from: '2023-01-01', to: '2023-04-01'}, '2023-01-01', 'monthly', 5);
+        expect(dates).toHaveLength(4);
+        expect(dates[0]).toBe('2023-01-01');
+        expect(dates[1]).toBe('2023-02-01');
+        expect(dates[2]).toBe('2023-03-01');
+        expect(dates[3]).toBe('2023-04-01');
+    });
+
+    it('Ignores the number of pay periods if a date range is provided', () => {
+        let dates = getDateArray({from: '2023-01-12', to: '2023-07-01'}, '2023-01-01', 'monthly', 5);
+        expect(dates).toHaveLength(7);
+        expect(dates[0]).toBe('2023-01-01');
+    });
+
+    it('Returns the correct number of pay periods if no date range is given', () => {
+        vi.setSystemTime(new Date('2023-06-01'));
+
+        let dates = getDateArray({from: '', to: ''}, '2023-01-01', 'monthly', 3);
+        expect(dates).toHaveLength(3);
+        expect(dates[0]).toBe('2023-04-01');
+        expect(dates[1]).toBe('2023-05-01');
+        expect(dates[2]).toBe('2023-06-01');
     });
 });

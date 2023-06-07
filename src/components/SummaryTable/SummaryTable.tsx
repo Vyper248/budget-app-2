@@ -1,7 +1,7 @@
 import StyledSummaryTable from "./SummaryTable.style";
 
 import { useAppSelector } from "@/redux/hooks";
-import { getDates } from "@/utils/summary.utils";
+import { getDates } from "@/utils/date.utils";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { selectCategories } from "@/redux/categoriesSlice";
 import { selectFunds } from "@/redux/fundsSlice";
