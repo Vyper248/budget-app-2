@@ -2,17 +2,13 @@ import { useState } from "react";
 import StyledInterest from "./Interest.style";
 import { useAppSelector } from "@/redux/hooks";
 
-import { selectAccounts, selectVisibleAccounts } from "@/redux/accountsSlice";
+import { selectVisibleAccounts } from "@/redux/accountsSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { parseCurrency } from "@/utils/transactions.utils";
-import { getAmount, getAccountTotals } from "@/utils/transactions.utils";
+import { getAccountTotals } from "@/utils/transactions.utils";
 
 import Table from "@/components/Table/Table";
 import Input from "@/components/Input/Input";
-
-type InterestProps = {
-
-}
 
 const calculateInterest = (amount: number, rate: number, extraCharges: number): [number,number] => {
 	const yearlyInterestBase = amount * (rate / 100);
@@ -24,7 +20,7 @@ const calculateInterest = (amount: number, rate: number, extraCharges: number): 
 	return [monthly, yearly];
 }
 
-const Interest = ({}: InterestProps) => {
+const Interest = () => {
 	const accounts = useAppSelector(selectVisibleAccounts);
 	const transactions = useAppSelector(selectTransactions);
 
