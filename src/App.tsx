@@ -49,7 +49,7 @@ function App() {
 	}
 
 	const centerX = window.innerWidth/2;
-	const centerY = window.innerHeight/2;
+	const centerY = window.innerHeight/2 + window.scrollY;
 
 	return (
 		<div className="App">
