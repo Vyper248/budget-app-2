@@ -12,7 +12,6 @@ const pages = [
 	{ label: 'Income/Spendings', component: null },
 	{ label: 'Interest', component: <Interest key='interest'/> },
 	{ label: 'Savings Goal', component: <SavingsGoal key='savingsGoal'/> },
-	{ label: 'Visa Tool', component: null },
 ]
 
 const Tools = ({}) => {
