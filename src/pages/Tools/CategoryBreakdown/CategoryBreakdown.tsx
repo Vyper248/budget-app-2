@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useAppDispatch } from "@/redux/hooks";
 
 import { useAppSelector } from "@/redux/hooks";
 import { selectCategories } from "@/redux/categoriesSlice";
-import { selectTransactions } from "@/redux/transactionsSlice";
+import { selectTransactions, selectTransaction } from "@/redux/transactionsSlice";
 import { getDateArray } from "@/utils/date.utils";
 import { useTransactionUpdate } from "@/utils/customHooks.utils";
 import { getCategoryData } from "./CategoryBreakdown.utils";
+import { setSelectedTotal } from "@/redux/generalSlice";
 
 import Container from "@/components/styled/Container";
 import Dropdown from "@/components/Dropdown/Dropdown";
@@ -14,6 +16,7 @@ import Table from "@/components/Table/Table";
 import { AccountHeadings, AccountData, AccountTotals } from "./CategoryBreakdown.parts";
 
 const CategoryBreakdown = () => {
+	const dispatch = useAppDispatch();
 	const categories = useAppSelector(selectCategories);
 	const transactions = useAppSelector(selectTransactions);
 	const { periodsToDisplay, startDate, payPeriodType } = useAppSelector(state => state.settings);
@@ -22,6 +25,8 @@ const CategoryBreakdown = () => {
 
 	const onChangeCategory = (val: string) => {
 		setSelectedCategory(parseInt(val));
+		dispatch(selectTransaction(null));
+		dispatch(setSelectedTotal(null));
 	}
 
 	const categoryObj = categories.find(obj => obj.id === selectedCategory);
