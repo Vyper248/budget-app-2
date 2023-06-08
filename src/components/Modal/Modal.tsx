@@ -60,9 +60,11 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
             let newX = startX + xDiff;
             let newY = startY + yDiff;
 
+			const pageHeight = Math.max(document.body.scrollHeight, window.innerHeight);
+
             //prevent going off the side
             if (newY < 30) newY = 30; //should be set to header height
-            if (newY > document.body.scrollHeight-height) newY = document.body.scrollHeight-height;
+            if (newY > pageHeight-height) newY = pageHeight-height;
             if (newX < 0) newX = 0;
             if (newX > window.innerWidth-width) newX = window.innerWidth-width;
             
