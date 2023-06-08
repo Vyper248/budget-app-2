@@ -13,6 +13,7 @@ import { initialState as initialTransactionsState } from '@/redux/transactionsSl
 import { initialState as initialAccountsState } from '@/redux/accountsSlice';
 import { initialState as initialCategoriesState } from '@/redux/categoriesSlice';
 import { initialState as initialFundsState } from '@/redux/fundsSlice';
+import { initialState as initialToolsState } from '@/redux/toolsSlice';
 import { reducer } from '@/redux/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'wrapper'> { 
@@ -47,6 +48,7 @@ type MockState = {
     funds: RootState['funds']
     settings: Partial<RootState['settings']>
     transactions: Partial<RootState['transactions']>
+    tools: Partial<RootState['tools']>
 }
 
 //helper function to get a mock state with any values passed in to replace defaults
@@ -57,6 +59,7 @@ export const getBasicMockState = (state: Partial<MockState>) => {
     let mockAccountsState = state.accounts ? state.accounts : initialAccountsState;
     let mockCategoriesState = state.categories ? state.categories : initialCategoriesState;
     let mockFundsState = state.funds ? state.funds : initialFundsState;
+    let mockToolsState = state.tools ? { ...initialToolsState, ...state.tools } : initialToolsState;
 
     let mockState = {
         general: mockGeneralState,
@@ -64,7 +67,8 @@ export const getBasicMockState = (state: Partial<MockState>) => {
         categories: mockCategoriesState,
         funds: mockFundsState,
         settings: mockSettingsState,
-        transactions: mockTransactionsState
+        transactions: mockTransactionsState,
+        tools: mockToolsState
     };
     return { preloadedState: mockState};
 }

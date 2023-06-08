@@ -5,6 +5,7 @@ import fundsReducer from './fundsSlice';
 import settingsReducer from './settingsSlice';
 import transactionsReducer from './transactionsSlice';
 import categoriesReducer from './categoriesSlice';
+import toolsReducer from "./toolsSlice";
 
 import { retrieveFromStorage, saveToStorage } from "@/utils/localStorage.utils";
 
@@ -26,7 +27,8 @@ export const reducer = {
     categories: categoriesReducer,
     funds: fundsReducer,
     settings: settingsReducer,
-    transactions: transactionsReducer
+    transactions: transactionsReducer,
+    tools: toolsReducer
 }
 
 export const store = configureStore({

@@ -8,6 +8,7 @@ export const saveToStorage = (state: RootState) => {
         categories: state.categories,
         transactions: state.transactions,
         settings: state.settings,
+        tools: state.tools
     }
 
     localStorage.setItem('budget-app-2-state', JSON.stringify(saveObj));
