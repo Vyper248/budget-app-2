@@ -12,6 +12,7 @@ const StyledItemDisplayObj = styled.div`
     & h4 {
         width: 100%;
         margin: 5px;
+        text-align: left;
     }
 
     & > span {
@@ -22,7 +23,6 @@ const StyledItemDisplayObj = styled.div`
 
     & > div.labelledText {
         display: inline-flex;
-        wrap: nowrap;
         margin: 2px 5px;
 
         label {
