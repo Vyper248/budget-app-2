@@ -1,5 +1,6 @@
 import { vi } from "vitest";
-import { formatDate, isValidDateRange, getInvalidDateRangeMessage, getDateValue, getDaysInPeriod, getDates, getDateArray } from "./date.utils";
+import { formatDate, isValidDateRange, getInvalidDateRangeMessage, 
+    getDateValue, getDaysInPeriod, getDates, getDateArray, isWithinRange, compareDates } from "./date.utils";
 
 describe('Testing the formatDate function', () => {
     it('Formats a date string', () => {
@@ -136,9 +137,9 @@ describe('Testing the getDateValue function', () => {
         expect(getDateValue('2023-01-02', '2023-01-01', 'monthly')).toBe('2023-01-01');
     });
 
-    it('Returns Before Start string if date is before start date', () => {
-        expect(getDateValue('2022-02-20', '2023-01-01', 'monthly')).toBe('Before Start');
-        expect(getDateValue('2022-12-31', '2023-01-01', 'monthly')).toBe('Before Start');
+    it('Returns the correct date if date is before start date', () => {
+        expect(getDateValue('2022-02-20', '2023-01-01', 'monthly')).toBe('2022-02-01');
+        expect(getDateValue('2022-12-31', '2023-01-01', 'monthly')).toBe('2022-12-01');
         expect(getDateValue('2023-01-01', '2023-01-01', 'monthly')).toBe('2023-01-01');
     });
 
@@ -190,5 +191,38 @@ describe('Testing the getDateValue function', () => {
         expect(dates[0]).toBe('2023-04-01');
         expect(dates[1]).toBe('2023-05-01');
         expect(dates[2]).toBe('2023-06-01');
+    });
+});
+
+describe('Testing the isWithinRange function', () => {
+    it('Returns true if range is invalid', () => {
+        expect(isWithinRange({from: '', to: ''}, '2022-01-01')).toBe(true);
+    })
+
+    it('Returns false if date is invalid', () => {
+        expect(isWithinRange({from: '2022-01-01', to: '2022-03-01'}, '')).toBe(false);
+    });
+
+    it('Returns true if date is within range', () => {
+        expect(isWithinRange({from: '2022-01-01', to: '2022-03-01'}, '2022-02-01')).toBe(true);
+    });
+
+    it('Returns false if date is not within range', () => {
+        expect(isWithinRange({from: '2022-01-01', to: '2022-03-01'}, '2022-05-01')).toBe(false);
+        expect(isWithinRange({from: '2022-01-01', to: '2022-03-01'}, '2021-12-01')).toBe(false);
+    });
+});
+
+describe('Testing the compareDates function', () => {
+    it('Returns -1 if date1 is before date2', () => {
+        expect(compareDates('2022-01-01', '2022-01-02')).toBe(-1);
+    });
+
+    it('Returns 0 if date1 is equal to date2', () => {
+        expect(compareDates('2022-01-01', '2022-01-01')).toBe(0);
+    });
+
+    it('Returns 1 if date1 is after date2', () => {
+        expect(compareDates('2022-02-01', '2022-01-01')).toBe(1);
     });
 });

@@ -5,6 +5,7 @@ import format from "date-fns/format";
 import compareAsc from "date-fns/compareAsc";
 import addMonths from "date-fns/addMonths";
 import isValid from "date-fns/isValid";
+import subDays from "date-fns/subDays";
 
 import type { DateRange } from "@/components/DateRangeInput/DateRangeInput";
 import type { PayPeriodType } from "@/redux/settingsSlice";
@@ -31,6 +32,19 @@ export const formatDate = (date: string, formatMethod='MMM d, yyyy') => {
 
     return formattedDate;
 } 
+
+export const compareDates = (a: string, b: string) => {
+	return compareAsc(parseISO(a), parseISO(b));
+}
+
+export const isWithinRange = (dateRange: DateRange, date: string) => {
+	if (!isValidDateRange(dateRange)) return true;
+	if (!isValid(parseISO(date))) return false;
+
+	if (compareAsc(parseISO(date), parseISO(dateRange.from)) >= 0 && compareAsc(parseISO(date), parseISO(dateRange.to)) <= 0) return true;
+	return false;
+}
+
 
 export const isValidDateRange = (dateRange: DateRange) => {
 	let fromValid = isValid(parseISO(dateRange.from)) && compareAsc(parseISO(dateRange.from), parseISO('1900-01-01')) > 0;
@@ -94,18 +108,24 @@ export const getDates = (startDate: string, payPeriodType: PayPeriodType, dateRa
 
 //returns the last pay period start date for a given date
 export const getDateValue = (date: string, startDate: string, payPeriodType: PayPeriodType) => {
-    if (differenceInCalendarDays(parseISO(date), parseISO(startDate)) < 0) return 'Before Start';
-
     if (payPeriodType === 'monthly') {
         const yearMonth = date.slice(0,7);
         const day = startDate.slice(8);
         return `${yearMonth}-${day}`;
     } else {
-        let days = getDaysInPeriod(payPeriodType);
-        let daysFromStart = differenceInCalendarDays(parseISO(date), parseISO(startDate));
-        let payPeriod = Math.floor(daysFromStart/days);
-        let payMonth = format(addDays(parseISO(startDate), payPeriod*days), 'yyyy-MM-dd');
-        return payMonth;
+		if (compareAsc(parseISO(date), parseISO(startDate)) < 0) {
+			let days = getDaysInPeriod(payPeriodType);
+			let daysFromStart = differenceInCalendarDays(parseISO(startDate), parseISO(date));
+			let payPeriod = Math.floor(daysFromStart/days);
+			let payMonth = format(subDays(parseISO(startDate), payPeriod*days), 'yyyy-MM-dd');
+			return payMonth;
+		} else {
+			let days = getDaysInPeriod(payPeriodType);
+			let daysFromStart = differenceInCalendarDays(parseISO(date), parseISO(startDate));
+			let payPeriod = Math.floor(daysFromStart/days);
+			let payMonth = format(addDays(parseISO(startDate), payPeriod*days), 'yyyy-MM-dd');
+			return payMonth;
+		}
     }
 }
 
