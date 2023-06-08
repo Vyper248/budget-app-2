@@ -33,8 +33,8 @@ const DateRangeInput = ({dateRange, onChange, onClear}: DateRangeInputProps) => 
 	return (
 		<>
 			<Grid width="500px" template={gridTemplate}>
-				<Input type='date' label='From' value={dateRange.from} onChange={onChangeInput('from')} max={dateRange.to}/>
-				<Input type='date' label='To' value={dateRange.to} onChange={onChangeInput('to')} min={dateRange.from}/>
+				<Input type='date' label='From' width='146px' value={dateRange.from} onChange={onChangeInput('from')} max={dateRange.to}/>
+				<Input type='date' label='To' width='146px' value={dateRange.to} onChange={onChangeInput('to')} min={dateRange.from}/>
 				{ onClear && <Button label='Clear' onClick={onClear} width='80px'/> }
 			</Grid>
 			<div style={{color: 'red', textAlign: 'center', marginTop: '3px'}}>{message}</div>
