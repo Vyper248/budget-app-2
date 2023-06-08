@@ -5,17 +5,17 @@ import Button from "@/components/Button/Button";
 import CategoryBreakdown from "./CategoryBreakdown/CategoryBreakdown";
 import Interest from "./Interest/Interest";
 import SavingsGoal from "./SavingsGoal/SavingsGoal";
+import FundSpending from "./FundSpending/FundSpending";
 
 const pages = [
 	{ label: 'Category Breakdown', component: <CategoryBreakdown key='categoryBreakdown'/> },
-	{ label: 'Fund List', component: null },
-	{ label: 'Income/Spendings', component: null },
+	{ label: 'Fund Spending', component: <FundSpending key='fundSpending'/> },
 	{ label: 'Interest', component: <Interest key='interest'/> },
 	{ label: 'Savings Goal', component: <SavingsGoal key='savingsGoal'/> },
 ]
 
 const Tools = ({}) => {
-	const [subPage, setSubPage] = useState(pages[4].label);
+	const [subPage, setSubPage] = useState(pages[0].label);
 
 	return (
 		<StyledTools>
