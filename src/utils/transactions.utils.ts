@@ -123,7 +123,7 @@ export const parseCurrency = (value: number) => {
 
     //make sure it doens't return -£0.00
     if (value > -0.009 && value < 0.009) return `${currencySymbol}0${showDecimals ? '.00' : ''}`;
-    if (value === null || value === undefined || value === 0 || isNaN(value)) return `${currencySymbol}0${showDecimals ? '.00' : ''}`;
+    if (value === null || value === undefined || value === 0 || isNaN(value) || value === Infinity) return `${currencySymbol}0${showDecimals ? '.00' : ''}`;
 
     //check if it's negative and remove symbol
     let negative = false;
