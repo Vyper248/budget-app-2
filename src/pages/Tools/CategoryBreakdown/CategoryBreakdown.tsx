@@ -1,14 +1,13 @@
 import { useState } from "react";
-import StyledCategoryBreakdown from "./CategoryBreakdown.style";
 
 import { useAppSelector } from "@/redux/hooks";
 import { selectCategories } from "@/redux/categoriesSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { getDateArray } from "@/utils/date.utils";
-import { selectAccounts } from "@/redux/accountsSlice";
 import { useTransactionUpdate } from "@/utils/customHooks.utils";
 import { getCategoryData } from "./CategoryBreakdown.utils";
 
+import Container from "@/components/styled/Container";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import DateRangeInput from "@/components/DateRangeInput/DateRangeInput";
 import Table from "@/components/Table/Table";
@@ -35,7 +34,7 @@ const CategoryBreakdown = () => {
 	useTransactionUpdate(organisedObj, transactions);
 
 	return (
-		<StyledCategoryBreakdown>
+		<Container>
 			<h4>Category Breakdown</h4>
 			<Dropdown width='200px' value={selectedCategory} label='Category' onChange={onChangeCategory} options={categories.map(cat => ({label: cat.name, value: cat.id}))}/>
 			<DateRangeInput dateRange={dateRange} onChange={setDateRange} onClear={() => setDateRange({from: '', to: ''})}/>
@@ -48,7 +47,7 @@ const CategoryBreakdown = () => {
 					<AccountTotals accountTotals={accountTotals} total={total}/>
 				</tbody>
 			</Table> }
-		</StyledCategoryBreakdown>
+		</Container>
 	);
 }
 

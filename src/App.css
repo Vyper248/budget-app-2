@@ -1,5 +1,4 @@
 h4 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 20px auto 15px auto;
+    text-align: center;
 }

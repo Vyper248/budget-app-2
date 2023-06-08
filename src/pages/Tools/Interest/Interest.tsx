@@ -1,5 +1,4 @@
 import { useState } from "react";
-import StyledInterest from "./Interest.style";
 import { useAppSelector } from "@/redux/hooks";
 
 import { selectVisibleAccounts } from "@/redux/accountsSlice";
@@ -9,6 +8,7 @@ import { getAccountTotals } from "@/utils/transactions.utils";
 
 import Table from "@/components/Table/Table";
 import Input from "@/components/Input/Input";
+import Container from "@/components/styled/Container";
 
 const calculateInterest = (amount: number, rate: number, extraCharges: number): [number,number] => {
 	const yearlyInterestBase = amount * (rate / 100);
@@ -48,7 +48,7 @@ const Interest = () => {
 	});
 
 	return (
-		<StyledInterest>
+		<Container>
 			<h4>Interest Calculator</h4>
 			<p>This will show you the estimated amount of interest you should be receiving based on the interest rates provided, taking into account any extra charges (such as bank fees). You can change these rates on the Accounts page by using the 'Edit Accounts' button.</p>
 			<Table>
@@ -107,7 +107,7 @@ const Interest = () => {
 					</tr>
 				</tbody>
 			</Table>
-		</StyledInterest>
+		</Container>
 	);
 }
 
