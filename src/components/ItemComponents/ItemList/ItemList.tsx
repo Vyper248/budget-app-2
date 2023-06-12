@@ -1,6 +1,8 @@
 import StyledItemList from "./ItemList.style";
+import { FaEdit } from "react-icons/fa";
 
 import Button from "@/components/Button/Button";
+import IconButton from "@/components/IconButton/IconButton";
 
 type Item = {
 	id: number;
@@ -26,7 +28,10 @@ const ItemList = ({heading, items, selectedItemId, onSelect, onEdit}: ItemListPr
 
 	return (
 		<StyledItemList>
-			<h4>{heading}</h4>
+			<div className='heading'>
+				<h4>{heading}</h4>
+				<IconButton Icon={FaEdit} onClick={onEdit} fontSize="1.2em" title='Edit Items'/>
+			</div>
 			{
 				currentItems.map(obj => {
 					return <Button key={obj.id} label={obj.name} onClick={onClick(obj.id)} rounded={false} width='100%' selected={selectedItemId === obj.id}/>
@@ -38,8 +43,6 @@ const ItemList = ({heading, items, selectedItemId, onSelect, onEdit}: ItemListPr
 					return <Button key={obj.id} label={obj.name} onClick={onClick(obj.id)} rounded={false} width='100%' selected={selectedItemId === obj.id} hidden={true}/>
 				})
 			}
-			<div className='spacer'></div>
-			<Button label='Edit' onClick={onEdit} rounded={false} width='100%'/>
 		</StyledItemList>
 	);
 }

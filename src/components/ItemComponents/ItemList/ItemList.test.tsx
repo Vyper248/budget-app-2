@@ -52,14 +52,13 @@ it("Displays the correct items and handles onClick", () => {
 });
 
 it("Displays the hidden items with a different style", () => {
-	const mockFn = vi.fn();
-	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={mockFn} onEdit={()=>{}}/>);
+	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={()=>{}} onEdit={()=>{}}/>);
 
 	const item3 = screen.getByRole('button', { name: 'Test3'});
 	expect(item3).toHaveStyle({backgroundColor: '#999'});
 });
 
-it("Displays the correct items and handles onClick", () => {
+it("Displays a functioning edit button and handles onClick", () => {
 	const mockFn = vi.fn();
 	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={()=>{}} onEdit={mockFn}/>);
 

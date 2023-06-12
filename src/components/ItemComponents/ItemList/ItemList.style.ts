@@ -14,9 +14,19 @@ const StyledItemList = styled.div`
         margin: 5px 0px;
     }
 
-    & > h4 {
-        text-align: center;
-        margin: 10px 0px;
+    & .heading {
+        position: relative;
+
+        h4 {
+            text-align: center;
+            margin: 10px 0px;
+        }
+
+        button {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
     }
 
     & > div.spacer {
@@ -25,10 +35,6 @@ const StyledItemList = styled.div`
 
     & > button {
         min-height: 30px;
-    }
-
-    & > button:last-child {
-        margin: 0px;
     }
 `;
 
