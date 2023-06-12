@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CategoryBreakdown from "./CategoryBreakdown";
 import { getBasicMockState, render } from "@/utils/test.utils";
@@ -34,6 +34,7 @@ const mockTransactions = [
 		id: 1,
 		type: 'spend',
 		date: '2023-01-01',
+		description: 'test',
 		category: 1,
 		account: 1,
 		amount: 10
@@ -42,6 +43,7 @@ const mockTransactions = [
 		id: 2,
 		type: 'spend',
 		date: '2023-02-15',
+		description: 'hello',
 		category: 1,
 		account: 1,
 		amount: 20
@@ -102,4 +104,20 @@ it("Displays transactions", () => {
 
 	let totalAmounts = screen.getAllByText('£30.00');
 	expect(totalAmounts).toHaveLength(2);
+});
+
+it('Filters transactions if a filter is used', () => {
+	render(<CategoryBreakdown/>, mockState);
+
+	//only for month, total will include other transaction
+	expect(screen.queryAllByText('£10.00')).toHaveLength(2);
+
+	let filterInput = screen.getByRole('textbox', { name: 'Filter' });
+	fireEvent.change(filterInput, { target: { value: 'test' } });
+
+	//including totals, so 4 times
+	expect(screen.queryAllByText('£10.00')).toHaveLength(4);
+
+	//other transaction not there
+	expect(screen.queryByText('£20.00')).toBeNull();
 });
