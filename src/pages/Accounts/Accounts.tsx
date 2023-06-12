@@ -48,21 +48,24 @@ const Accounts = () => {
 		setEditMode(true);
 		onSelectItem(0);
 	}
+
+	//Dont show the starting balance if user is searching
+	const startingBalance = search.length > 0 ? 0 : (accountObj?.startingBalance || 0);
 	
 	//get total
-	const total = getTransactionTotal(accountTransactions, selectedItem) + (accountObj?.startingBalance || 0); 
+	const total = getTransactionTotal(accountTransactions, selectedItem) + startingBalance; 
 	const totalText = `Balance: ${parseCurrency(total)}`;
 
 	//organise transactions and add running balances
 	const organised = organiseTransactions(accountTransactions);
-	const runningBalanceArray = addRunningBalances(organised, selectedItem, accountObj?.startingBalance || 0);
+	const runningBalanceArray = addRunningBalances(organised, selectedItem, startingBalance);
 
 	return (
 		<ItemPageLayout>
 			<ItemList heading='Accounts' items={searchedAccounts} selectedItemId={selectedItem} onSelect={onSelectItem} onEdit={onClickEdit}/>
 			{ editMode && <div><ItemEditList array={accounts} type='account'/></div> }
 			{ accountObj !== undefined && !editMode && (
-				<ItemPageTransactionContainer heading={accountObj.name} startingBalance={accountObj.startingBalance} search={search} totalText={totalText} onChangeSearch={onChangeSearch}>
+				<ItemPageTransactionContainer heading={accountObj.name} startingBalance={startingBalance} search={search} totalText={totalText} onChangeSearch={onChangeSearch}>
 					<TransactionGroups monthlyTransactions={runningBalanceArray}/>
 				</ItemPageTransactionContainer>
 			)}

@@ -48,8 +48,11 @@ const Funds = () => {
 		onSelectItem(0);
 	}
 
+    //Dont show the starting balance if user is searching
+	const startingBalance = search.length > 0 ? 0 : (fundObj?.startingBalance || 0);
+
     //get total
-	const total = getTransactionTotal(fundTransactions, selectedItem) + (fundObj?.startingBalance || 0);
+	const total = getTransactionTotal(fundTransactions, selectedItem) + startingBalance;
     const totalText = `Total Saved: ${parseCurrency(total)}`;
 
     //organise transactions and add running balances
@@ -60,7 +63,7 @@ const Funds = () => {
             <ItemList heading='Funds' items={searchedFunds} onSelect={onSelectItem} selectedItemId={selectedItem} onEdit={onClickEdit}/>
             { editMode && <div><ItemEditList array={funds} type='fund'/></div> }
             { fundObj !== undefined && !editMode && (
-                <ItemPageTransactionContainer heading={fundObj.name} startingBalance={fundObj.startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
+                <ItemPageTransactionContainer heading={fundObj.name} startingBalance={startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
                     <TransactionGroups monthlyTransactions={organised}/>
                 </ItemPageTransactionContainer>
             ) }

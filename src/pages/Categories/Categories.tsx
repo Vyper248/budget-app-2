@@ -48,8 +48,8 @@ const Categories = () => {
 		onSelectItem(0);
 	}
 
-    //get starting balance
-    let startingBalance = getStartingBalance(categoryObj);
+    //Dont show the starting balance if user is searching
+	const startingBalance = search.length > 0 ? 0 : getStartingBalance(categoryObj);
 
     //get total and add starting balance
 	let total = getTransactionTotal(categoryTransactions, selectedItem);

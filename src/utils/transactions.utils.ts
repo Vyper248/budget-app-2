@@ -86,9 +86,22 @@ export const getTransactionTotal = (transactions: Transaction[], selectedItem?: 
 export const checkSearch = (tr: Transaction, search: string) => {
 	if (search.length === 0) return true;
 	if (tr.type === 'transfer') return false;
-    
-    if (tr.amount.toString().includes(search)) return true;
-	if (tr.description.toLowerCase().includes(search.toLowerCase())) return true;
+
+    //If user adds a + between words, all words much match
+    if (search.split('+').every(str => {
+        str = str.trim();
+		if (parseCurrency(tr.amount).includes(str)) return true;
+		if (tr.description.toLowerCase().includes(str.toLowerCase())) return true;
+	})) return true;
+
+    //If user adds a  , between words, any word can match (this will match single words without a comma too)
+    if (search.split(',').some(str => {
+        str = str.trim();
+        if (str.length === 0) return false;
+		if (parseCurrency(tr.amount).includes(str)) return true;
+		if (tr.description.toLowerCase().includes(str.toLowerCase())) return true;
+	})) return true;
+
 	return false;
 }
 
