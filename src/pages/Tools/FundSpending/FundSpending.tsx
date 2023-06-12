@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useAppSelector  } from "@/redux/hooks";
 import { selectFunds } from "@/redux/fundsSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
-import { parseCurrency } from "@/utils/transactions.utils";
+import { getSearchedTransactions, parseCurrency } from "@/utils/transactions.utils";
 import { compareDates, formatDate, isWithinRange, today } from "@/utils/date.utils";
 
 import Container from "@/components/styled/Container";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import Table from "@/components/Table/Table";
 import DateRangeInput from "@/components/DateRangeInput/DateRangeInput";
+import Input from "@/components/Input/Input";
 
 type FundSpendingProps = {
 
@@ -20,6 +21,7 @@ const FundSpending = ({}: FundSpendingProps) => {
 	const transactions = useAppSelector(selectTransactions);
 	const { startDate } = useAppSelector(state => state.settings);
 	const [dateRange, setDateRange] = useState({from: startDate, to: today()});
+	const [filter, setFilter] = useState('');
 
 	const [selectedFund, setSelectedFund] = useState(funds[0].id || 0);
 
@@ -27,10 +29,13 @@ const FundSpending = ({}: FundSpendingProps) => {
 		setSelectedFund(parseInt(val));
 	}
 
+	//Filter transactions if a filter is used
+	const filteredTransactions = getSearchedTransactions(transactions, filter);
+
 	let totalCost = 0;
 	const dataObj = [] as {id: number, date: string, description: string, cost: string}[];
 
-	transactions.forEach(tr => {
+	filteredTransactions.forEach(tr => {
 		if (tr.type !== 'spend') return;
 		if (tr.fund === undefined) return;
 		if (tr.fund !== selectedFund) return;
@@ -52,7 +57,8 @@ const FundSpending = ({}: FundSpendingProps) => {
 	return (
 		<Container>
 			<h4>Fund Spending</h4>
-			<Dropdown label='Fund' value={selectedFund} onChange={onChangeFund} options={funds.map(fund => ({label: fund.name, value: fund.id}))}/>
+			<Dropdown label='Fund' width='150px' labelWidth='80px' value={selectedFund} onChange={onChangeFund} options={funds.map(fund => ({label: fund.name, value: fund.id}))}/>
+			<Input label='Filter' width='150px' labelWidth='80px' value={filter} onChange={setFilter}/>
 			<DateRangeInput dateRange={dateRange} onChange={setDateRange} onClear={() => setDateRange({from: '', to: ''})}/>
 			<Table>
 				<thead>

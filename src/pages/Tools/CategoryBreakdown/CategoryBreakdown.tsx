@@ -47,8 +47,8 @@ const CategoryBreakdown = () => {
 	return (
 		<Container>
 			<h4>Category Breakdown</h4>
-			<Dropdown width='200px' labelWidth='100px' value={selectedCategory} label='Category' onChange={onChangeCategory} options={categories.map(cat => ({label: cat.name, value: cat.id}))}/>
-			<Input label='Filter' width='200px' labelWidth='100px' value={filter} onChange={setFilter}/>
+			<Dropdown width='150px' labelWidth='100px' value={selectedCategory} label='Category' onChange={onChangeCategory} options={categories.map(cat => ({label: cat.name, value: cat.id}))}/>
+			<Input label='Filter' width='150px' labelWidth='100px' value={filter} onChange={setFilter}/>
 			<DateRangeInput dateRange={dateRange} onChange={setDateRange} onClear={() => setDateRange({from: '', to: ''})}/>
 			{ categoryObj && <Table>
 				<thead>
