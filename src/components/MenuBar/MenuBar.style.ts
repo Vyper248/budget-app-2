@@ -61,3 +61,37 @@ const StyledMenuBar = styled.div`
 `;
 
 export default StyledMenuBar
+
+export const StyledMenuHeading = styled.h4`
+    margin: 0px auto;
+    padding: 5px;
+    background-color: var(--menu-bg-color);
+    width: min-content;
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 130px;
+    z-index: 2;
+
+    &::after, &::before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        height: 0px;
+        border: 40px solid var(--menu-bg-color);
+        border-bottom: 30px solid transparent;
+        border-top: 0px solid transparent;
+    }
+
+    &::after {
+        left: 100%;
+        border-right: 0px solid transparent;
+    }
+
+    &::before {
+        right: 100%;
+        border-left: 0px solid transparent;
+    }
+`;

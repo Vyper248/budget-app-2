@@ -1,4 +1,4 @@
-import StyledMenuBar from "./MenuBar.style";
+import StyledMenuBar, { StyledMenuHeading } from "./MenuBar.style";
 import { FaHome, FaCog, FaPlus, FaPiggyBank, FaTools } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import { RiBankLine } from 'react-icons/ri';
@@ -30,6 +30,7 @@ const MenuPageButton = ({ label, Icon, iconSize='1.5em' }: { label:string, Icon?
 const MenuBar = () => {
 	const { isMobile } = useResponsive();
 	const dispatch = useAppDispatch();
+	const currentPage = useAppSelector(state => state.general.currentPage);
 	const addingTransaction = useAppSelector(state => state.transactions.addingTransaction);
 
 	const onToggleAddingTransaction = () => {
@@ -37,17 +38,20 @@ const MenuBar = () => {
 	}
 
 	if (isMobile) return (
-		<StyledMenuBar>
-			<div className='full'>
-				<MenuPageButton label='Home' Icon={FaHome}/>
-				<MenuPageButton label='Categories' Icon={MdCategory}/>
-				<MenuPageButton label='Funds' Icon={FaPiggyBank}/>
-				<MenuPageButton label='Accounts' Icon={RiBankLine} iconSize='1.6em'/>
-				<MenuPageButton label='Tools' Icon={FaTools} iconSize='1.2em'/>
-				<IconButton Icon={FaPlus} onClick={onToggleAddingTransaction} fontSize="1.5em" style={addingTransaction ? selected : {}}/>
-				<MenuPageButton label='Settings' Icon={FaCog}/>
-			</div>
-		</StyledMenuBar>
+		<>
+			<StyledMenuBar>
+				<div className='full'>
+					<MenuPageButton label='Home' Icon={FaHome}/>
+					<MenuPageButton label='Categories' Icon={MdCategory}/>
+					<MenuPageButton label='Funds' Icon={FaPiggyBank}/>
+					<MenuPageButton label='Accounts' Icon={RiBankLine} iconSize='1.6em'/>
+					<MenuPageButton label='Tools' Icon={FaTools} iconSize='1.2em'/>
+					<IconButton Icon={FaPlus} onClick={onToggleAddingTransaction} fontSize="1.5em" style={addingTransaction ? selected : {}}/>
+					<MenuPageButton label='Settings' Icon={FaCog}/>
+				</div>
+			</StyledMenuBar>
+			<StyledMenuHeading>{currentPage}</StyledMenuHeading>
+		</>
 	);
 
 	return (
