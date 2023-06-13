@@ -46,7 +46,8 @@ describe('Testing redux dispatch functions', () => {
 
 	it.each(['Home', 'Categories', 'Funds', 'Accounts', 'Tools', 'Settings'])(
 		'Sets the current page when clicking the page buttons', (label) => {
-		render(<MenuBar/>);
+		const mockState = getBasicMockState({general: {currentPage: ''}});
+		render(<MenuBar/>, mockState);
 
 		let pageBtn = screen.getByText(label);
 		fireEvent.click(pageBtn);
