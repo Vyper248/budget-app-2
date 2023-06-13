@@ -33,6 +33,12 @@
   --chrome-calendar-icon: invert(1);
 }
 
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding-top: 30px;
@@ -43,4 +49,10 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 700px) {
+  body {
+    padding-top: 40px;
+  }
 }

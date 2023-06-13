@@ -11,12 +11,27 @@ const StyledMenuBar = styled.div`
     top: 0px;
     z-index: 10;
 
-    & > div.left {
+    & > div.full {
+        display: grid;
+        width: 100%;
+        height: 40px;
+        grid-template-columns: repeat(7, 1fr);
 
+        & > * {
+            justify-content: center;
+        }
+
+        & > button:hover {
+            opacity: 1;
+        }
+
+        & > *:last-child {
+            border-right: none;
+        }
     }
 
     & > div.right {
-        & > a {
+        & > a, & > button {
             border-right: none;
             border-left: 1px solid var(--menu-border-color);
         }
@@ -36,6 +51,7 @@ const StyledMenuBar = styled.div`
         font-size: 1em;
         height: 100%;
         padding: 0px 10px;
+        vertical-align: bottom;
 
         &:hover {
             cursor: pointer;

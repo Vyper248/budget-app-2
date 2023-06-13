@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setSelectedItem, setSelectedTotal } from "@/redux/generalSlice";
 
@@ -61,4 +62,10 @@ export const useTransactionUpdate = (dataObj: DataObj, transactions: Transaction
 		const displayObj = dataObj[selectedTotal.date][selectedTotal.itemId];
 		dispatch(setSelectedTotal({...selectedTotal, transactions: displayObj.transactions}));
 	}, [transactions]);
+}
+
+export const useResponsive = () => {
+    const isMobile = useMediaQuery({ maxWidth: 700 });
+
+    return { isMobile };
 }
