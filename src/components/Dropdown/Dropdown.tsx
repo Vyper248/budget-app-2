@@ -18,7 +18,7 @@ const Dropdown = ({value, label='', onChange, width='100%', labelWidth='auto', o
 	if (value === undefined || Number.isNaN(value)) value = '';
 
 	return (
-		<StyledDropdown width={width} hasLabel={label.length > 0}>
+		<StyledDropdown height={0} width={width} hasLabel={label.length > 0}>
 			<StyledInputLabel width={labelWidth}>{label}</StyledInputLabel>
 			<div className='dropdown'>
 				<select value={value} onChange={handleChange} aria-label={label}>

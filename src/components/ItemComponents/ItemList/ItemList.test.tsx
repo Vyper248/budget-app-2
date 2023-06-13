@@ -62,7 +62,7 @@ it("Displays a functioning edit button and handles onClick", () => {
 	const mockFn = vi.fn();
 	render(<ItemList heading='Heading' items={mockItems} selectedItemId={1} onSelect={()=>{}} onEdit={mockFn}/>);
 
-	const item1 = screen.getByRole('button', { name: 'Edit'});
+	const item1 = screen.getByRole('button', { name: 'Edit Items'});
 
 	fireEvent.click(item1);
 	expect(mockFn).toBeCalled();
