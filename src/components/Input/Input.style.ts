@@ -10,8 +10,9 @@ const StyledInput = styled.div<Props>`
   display: flex;
   flex-direction: row;
   position: relative;
+  ${props => !props.hasLabel && 'width: 100%;'}
 
-  & input, select, textarea {
+  & input, select, textarea, .visibleSelection {
     border: 1px solid var(--menu-border-color);
     border-left: none;
     border-radius: 0 5px 5px 0;
