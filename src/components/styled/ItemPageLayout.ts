@@ -24,6 +24,21 @@ const ItemPageLayout = styled.div`
         margin-left: 0px;
         overflow: auto;
     }
+
+    @media screen and (max-width: 700px) {
+        width: calc(100% - 10px);
+        flex-direction: column;
+
+        & > div:last-child {
+            overflow: visible;
+        }
+
+        & > div {
+            border: none;
+            margin: 0px;
+            height: auto;
+        }
+    }
 `;
 
 export default ItemPageLayout;

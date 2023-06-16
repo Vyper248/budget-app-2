@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import StyledHome from "./Home.style";
 
 import { isValidDateRange } from "@/utils/date.utils";
@@ -24,7 +24,7 @@ const Home = ({}) => {
 	const funds = useAppSelector(selectFunds);
 
 	const useableDateRange = isValidDateRange(dateRange) ? dateRange : undefined;
-	const summaryData = getSummaryData(transactions, categories, funds, useableDateRange);
+	const summaryData = useMemo(() => getSummaryData(transactions, categories, funds, useableDateRange), [transactions, categories, funds, useableDateRange]) 
 	const pieData = getPieData(summaryData.totals, expenseCategories, funds);
 
 	const { showChart, swapSummaries } = settings;

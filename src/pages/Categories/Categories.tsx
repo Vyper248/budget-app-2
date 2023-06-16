@@ -1,79 +1,28 @@
-import { useState } from "react";
-
 import { useAppSelector } from "@/redux/hooks";
-import { Category, selectCategories } from "@/redux/categoriesSlice";
-import { selectTransactions } from "@/redux/transactionsSlice";
+import { selectCategories } from "@/redux/categoriesSlice";
 
-import { organiseTransactions, getTransactionTotal, getItemsWithSearchValue, getSearchedTransactions, parseCurrency } from "@/utils/transactions.utils";
-import { useItemObj } from "@/utils/customHooks.utils";
-import { getStartingBalance } from "@/utils/general.utils";
+import ItemPage from "@/components/ItemComponents/ItemPage/ItemPage";
 
-import ItemPageLayout from "@/components/styled/ItemPageLayout";
-import ItemList from "@/components/ItemComponents/ItemList/ItemList";
-import ItemPageTransactionContainer from "@/components/ItemComponents/ItemPageTransactionContainer/ItemPageTransactionContainer";
-import TransactionGroups from "@/components/TransactionComponents/TransactionGroups/TransactionGroups";
-import ItemEditList from "@/components/ItemComponents/ItemEditList/ItemEditList";
-
-import type { SpendTransaction } from "@/redux/transactionsSlice";
+import type { Transaction } from "@/redux/transactionsSlice";
 
 const Categories = () => {
-    const [search, setSearch] = useState('');
-	const [editMode, setEditMode] = useState(false);
-
     const categories = useAppSelector(selectCategories);
-    const transactions = useAppSelector(selectTransactions);
     const selectedItem = useAppSelector(state => state.general.selectedItem);
-    if (editMode && selectedItem !== 0) setEditMode(false);
-    
-    const [categoryObj, onSelectItem] = useItemObj(selectedItem, categories) as [Category | undefined, (val: number) => void];
 
-    //filter transactions based on search
-    const searchedTransactions = getSearchedTransactions(transactions, search);
-
-    //filter transactions for selected category
-	const categoryTransactions = searchedTransactions.filter(tr => {
-		if (tr.type === 'spend' && tr.category === selectedItem) return true;
+    const filter = (tr: Transaction) => {
+        if (tr.type === 'spend' && tr.category === selectedItem) return true;
 		return false;
-	}) as SpendTransaction[];
+    } 
 
-	//Search for categories with filteredTransactions and add number to name for displaying
-    const searchedCategories = getItemsWithSearchValue(categories, search, searchedTransactions, 'category');
-    
-    const onChangeSearch = (val: string) => {
-		setSearch(val);
-	}
+    let categoryObj = categories.find(obj => obj.id === selectedItem);
 
-    const onClickEdit = () => {
-		setEditMode(true);
-		onSelectItem(0);
-	}
-
-    //Dont show the starting balance if user is searching
-	const startingBalance = search.length > 0 ? 0 : getStartingBalance(categoryObj);
-
-    //get total and add starting balance
-	let total = getTransactionTotal(categoryTransactions, selectedItem);
-    total += startingBalance
-
-    let totalText = `Total Earned: ${parseCurrency(total)}`;
+    let totalText = 'Total Earned';
     if (categoryObj && categoryObj.type === 'expense') {
-        totalText = `Total Spent: ${parseCurrency(-total)}`;
+        totalText = 'Total Spent';
     }
 
-    //organise transactions and add running balances
-	const organised = organiseTransactions(categoryTransactions);
-
     return (
-        <ItemPageLayout>
-            <ItemList heading='Categories' items={searchedCategories} onSelect={onSelectItem} selectedItemId={selectedItem} onEdit={onClickEdit}/>
-            { editMode && <div><ItemEditList array={categories} type='category'/></div> }
-            { categoryObj !== undefined && !editMode && (
-                <ItemPageTransactionContainer heading={categoryObj.name} startingBalance={startingBalance} search={search} onChangeSearch={onChangeSearch} totalText={totalText}>
-                    <TransactionGroups monthlyTransactions={organised}/>
-                </ItemPageTransactionContainer>
-            ) }
-            { !editMode && categoryObj === undefined && <div></div> }
-        </ItemPageLayout>
+        <ItemPage heading='Categories' type='category' items={categories} trFilter={filter} totalTextLabel={totalText}/>
     );
 }
 

@@ -1,10 +1,13 @@
 import StyledItemList from "./ItemList.style";
 import { FaEdit } from "react-icons/fa";
 
+import { useResponsive } from "@/utils/customHooks.utils";
+
 import Button from "@/components/Button/Button";
 import IconButton from "@/components/IconButton/IconButton";
+import ItemDropdownHeading from "@/components/Mobile/ItemDropdownHeading/ItemDropdownHeading";
 
-type Item = {
+export type BasicItem = {
 	id: number;
 	name: string;
 	hidden: boolean;
@@ -12,19 +15,27 @@ type Item = {
 
 type ItemListProps = {
 	heading: string;
-	items: Item[];
+	items: BasicItem[];
 	selectedItemId: number;
 	onSelect: (id: number)=>void;
 	onEdit: ()=>void;
 }
 
 const ItemList = ({heading, items, selectedItemId, onSelect, onEdit}: ItemListProps) => {
+	const { isMobile } = useResponsive();
+
 	const onClick = (id: number) => () => {
 		onSelect(id)
 	}
 
-	const currentItems = items.filter((item: Item) => item.hidden === false);
-	const hiddenItems = items.filter((item: Item) => item.hidden === true);
+	const currentItems = items.filter((item: BasicItem) => item.hidden === false);
+	const hiddenItems = items.filter((item: BasicItem) => item.hidden === true);
+
+	if (isMobile) return (
+		<StyledItemList>
+			<ItemDropdownHeading items={currentItems} hiddenItems={hiddenItems} selectedItemId={selectedItemId} onSelect={onSelect} onEdit={onEdit}/>
+		</StyledItemList>
+	);
 
 	return (
 		<StyledItemList>

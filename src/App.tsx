@@ -16,6 +16,7 @@ import Modal from './components/Modal/Modal';
 import TransactionForm from './components/TransactionComponents/TransactionForm/TransactionForm';
 import TransactionList from './components/TransactionComponents/TransactionList/TransactionList';
 import { useEffect } from 'react';
+import { useResponsive } from './utils/customHooks.utils';
 
 const getSelectedTotalProps = (data: SelectedTotal) => {
 	return {
@@ -34,6 +35,7 @@ function App() {
 	const dispatch = useAppDispatch();
 	const { addingTransaction, selectedTransaction } = useAppSelector(state => state.transactions);
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
+	const { isMobile } = useResponsive();
 
 	useEffect(() => {
 		onCloseModal();
@@ -64,7 +66,7 @@ function App() {
 			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal)}>
 							       <TransactionList list={selectedTotal.transactions.map(transaction => ({transaction}))} sort={true}/>
 							   </Modal> }
-			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal}><TransactionForm/></Modal> : null }
+			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal} x={isMobile ? centerX-150 : 285} y={isMobile ? 40 : 30}><TransactionForm/></Modal> : null }
 			{ selectedTransaction ? <Modal heading='Edit Transaction' onClickClose={onCloseModal} x={centerX-150} y={centerY-150}><TransactionForm key={selectedTransaction.id} obj={selectedTransaction}/></Modal> : null }
 		</div>
 	)

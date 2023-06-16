@@ -29,12 +29,13 @@ const StyledItemList = styled.div`
         }
     }
 
-    & > div.spacer {
-        flex-grow: 1;
-    }
-
     & > button {
         min-height: 30px;
+    }
+
+    @media screen and (max-width: 700px) {
+        padding-top: 30px !important;
+        width: 100% !important;
     }
 `;
 

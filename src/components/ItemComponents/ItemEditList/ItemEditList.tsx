@@ -18,6 +18,7 @@ import ItemForm from "../ItemForm/ItemForm";
 type ItemEditListProps = {
 	array: Item[];
 	type: ItemType;
+	onFinish: ()=>void;
 }
 
 type MoveableItem = {
@@ -35,7 +36,7 @@ const compareArrays = (arr1: Item[], arr2: Item[]) => {
 	return true;
 }
 
-const ItemEditList = ({array, type}: ItemEditListProps) => {
+const ItemEditList = ({array, type, onFinish}: ItemEditListProps) => {
 	const dispatch = useAppDispatch();
 
 	const [addingNew, setAddingNew] = useState(false);
@@ -86,7 +87,8 @@ const ItemEditList = ({array, type}: ItemEditListProps) => {
 		<div>
 			<h3 className='centered'>Edit {currentPage}</h3>
 			<div className='centered' style={{margin: '5px'}}>
-				<Button label='Add New' onClick={onClickNew}/>
+				<Button label='Add New' onClick={onClickNew}/>&nbsp;
+				{ array.length > 0 && <Button label='Finish Editing' onClick={onFinish}/> }
 			</div>
 			
 			<ReactSortable list={moveableArray} setList={setOrder} handle=".drag-handle">
