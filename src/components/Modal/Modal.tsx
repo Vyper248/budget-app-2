@@ -12,9 +12,10 @@ type ModalProps = {
 	x?: number;
 	y?: number;
 	center?: boolean;
+	reposition?: boolean;
 }
 
-const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', color='var(--text-color)', x=285, y=30, center=false}: ModalProps) => {
+const Modal = ({heading, onClickClose, children, width='300px', headingColor='var(--menu-bg-color)', color='var(--text-color)', x=285, y=30, center=false, reposition=false}: ModalProps) => {
 	const headerRef = useRef<HTMLHeadingElement>(null);
 	const outlineRef = useRef<HTMLDivElement>(null);
 
@@ -29,16 +30,27 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 	//If centering is needed, then calculate here
 	useLayoutEffect(() => {
 		if (!outlineRef.current) return;
-		if (!center) return;
 
-		let height = outlineRef.current.offsetHeight;
-		let offsetY = window.pageYOffset;
-		let scrollY = window.scrollY;
-		let newPos = (yPos - height/2) + 20; //move to a centered position
-		if (newPos < 30 + offsetY) newPos = 30 + offsetY; //if it then goes off the top, move to 0
-		else if (newPos + height + 50 > window.innerHeight + offsetY) newPos = window.innerHeight - height + scrollY; //if it goes off the bottom after moving up, move to bottom
+		if (center) {
+			let height = outlineRef.current.offsetHeight;
+			let offsetY = window.pageYOffset;
+			let scrollY = window.scrollY;
+			let newPos = (yPos - height/2) + 20; //move to a centered position
+			if (newPos < 30 + offsetY) newPos = 30 + offsetY; //if it then goes off the top, move to 0
+			else if (newPos + height + 50 > window.innerHeight + offsetY) newPos = window.innerHeight - height + scrollY; //if it goes off the bottom after moving up, move to bottom
+	
+			setYPos(newPos);
+		}
 
-		setYPos(newPos);
+		if (reposition) {
+			let height = outlineRef.current.offsetHeight;
+			let offsetY = window.pageYOffset;
+
+			let newPos = yPos;
+			if (yPos + height + 50 > window.innerHeight + offsetY) newPos = yPos - height - 40;
+	
+			setYPos(newPos);
+		}
 	}, []);
 
 	const onMouseDown = (e: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {

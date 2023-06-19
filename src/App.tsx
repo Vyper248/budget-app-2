@@ -18,21 +18,22 @@ import TransactionList from './components/TransactionComponents/TransactionList/
 import { useEffect } from 'react';
 import { useResponsive } from './utils/customHooks.utils';
 
-const getSelectedTotalProps = (data: SelectedTotal) => {
+const getSelectedTotalProps = (data: SelectedTotal, isMobile: boolean) => {
 	return {
-		key:`${data.x}-${data.y}`,
-		width: '450px',
+		key:`${data.itemId}-${data.date}`,
+		width: isMobile ? 'calc(100% - 30px)' : '450px',
 		x: data.x,
 		y: data.y,
 		headingColor: getHeadingColor(data.type),
 		color: data.type === 'income' ? 'white' : 'black',
-		center: true
+		center: !isMobile,
+		reposition: isMobile
 	}
 }
 
 function App() {
-	const currentPage = useAppSelector(state => state.general.currentPage);
 	const dispatch = useAppDispatch();
+	const currentPage = useAppSelector(state => state.general.currentPage);
 	const { addingTransaction, selectedTransaction } = useAppSelector(state => state.transactions);
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
 	const { isMobile } = useResponsive();
@@ -65,7 +66,7 @@ function App() {
 				{ currentPage === 'Settings' ? <Settings/> : null }
 			</div>
 
-			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal)}>
+			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal, isMobile)}>
 							       <TransactionList list={selectedTotal.transactions.map(transaction => ({transaction}))} sort={true}/>
 							   </Modal> }
 			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal} x={isMobile ? centerX-150 : 285} y={isMobile ? 40 : 30}><TransactionForm/></Modal> : null }

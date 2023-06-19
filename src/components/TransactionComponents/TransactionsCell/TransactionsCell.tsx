@@ -1,8 +1,9 @@
+import StyledTransactionsCell from "./TransactionsCell.style";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 import { setSelectedTotal } from "@/redux/generalSlice";
 import { parseCurrency } from "@/utils/transactions.utils";
-import StyledTransactionsCell from "./TransactionsCell.style";
+import { useResponsive } from "@/utils/customHooks.utils";
 
 import type { TransactionDisplay } from "@/utils/summary.utils";
 
@@ -16,6 +17,7 @@ type TransactionsCellProps = {
 
 const TransactionsCell = ({displayObj, date, itemId, type, showPositive=false}: TransactionsCellProps) => {
 	const dispatch = useAppDispatch();
+	const { isMobile } = useResponsive();
 	const selectedTotal = useAppSelector(state => state.general.selectedTotal);
 
 	let selected = false;
@@ -32,6 +34,11 @@ const TransactionsCell = ({displayObj, date, itemId, type, showPositive=false}: 
 		let leftPos = e.currentTarget.offsetLeft - 450 - scrollLeft;
         if (leftPos < 0) leftPos = e.currentTarget.offsetLeft + e.currentTarget.offsetWidth - scrollLeft;
         let topPos = e.currentTarget.offsetTop;
+
+		if (isMobile) {
+			leftPos = 15;
+			topPos = e.currentTarget.offsetTop + e.currentTarget.offsetHeight - 1;
+		}
 
 		dispatch(setSelectedTotal({
 			transactions: displayObj.transactions,
