@@ -33,11 +33,13 @@ export const getPercentages = (data: {value: number, label: string}[]) => {
         return a + c.value;
     }, 0);
 
-    let mappedData = data.map((obj, i) => {
+    let mappedData = data.flatMap((obj, i) => {
         let newObj = {...obj} as PieData;
         newObj.id = i;
         newObj.percentage = (obj.value / total * 100).toFixed(3);
         newObj.percentageSmall = (obj.value / total * 100).toFixed(1);
+
+        if (newObj.percentageSmall === '0.0') return [];
         return newObj;
     });
 

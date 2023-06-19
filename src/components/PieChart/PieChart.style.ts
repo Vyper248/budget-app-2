@@ -71,6 +71,35 @@ const StyledPieChart = styled.div<Props>`
             }
         }
     }
+
+    @media screen and (max-width: 700px) {
+        margin: 10px;
+
+        & #container {
+            grid-template-columns: auto;
+            grid-gap: 5px;
+        }
+
+        & #labels {
+            width: 350px;
+            height: auto;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+
+            #label {
+                flex-grow: 1;
+                width: 45%;
+                margin: 2px;
+            }
+        }
+
+        & #pie {
+            width: 350px;
+            height: 350px;
+            margin: auto;
+        }
+    }
 `;
 
 export default StyledPieChart
