@@ -73,7 +73,7 @@ export const StyledMenuHeading = styled.h4`
     transform: translateX(-50%);
     height: 30px;
     width: 130px;
-    z-index: 2;
+    z-index: 6;
 
     &::after, &::before {
         content: '';
