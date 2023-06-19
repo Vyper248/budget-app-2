@@ -25,7 +25,7 @@ const StyledModal = styled.div<Props>`
         position: absolute;
         pointer-events: auto;
         width: ${props => props.width};
-        border: 2px solid ${props => props.headingColor === 'black' ? 'var(--menu-bg-color)' : props.headingColor};
+        border: 3px solid ${props => props.headingColor === 'black' ? 'var(--menu-bg-color)' : props.headingColor};
         background-color: var(--bg-color);
         color: var(--text-color);
 

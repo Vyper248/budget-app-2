@@ -47,7 +47,8 @@ const Modal = ({heading, onClickClose, children, width='300px', headingColor='va
 			let offsetY = window.pageYOffset;
 
 			let newPos = yPos;
-			if (yPos + height + 50 > window.innerHeight + offsetY) newPos = yPos - height - 40;
+			if (yPos + height + 50 > window.innerHeight + offsetY) newPos = yPos - height - 40; //if it'll go off the bottom, move above
+			if (newPos < 70 + offsetY) newPos = yPos; //if it then goes off the top, then move back down (user can scroll down)
 	
 			setYPos(newPos);
 		}

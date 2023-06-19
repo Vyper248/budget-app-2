@@ -74,6 +74,7 @@ export const StyledMenuHeading = styled.h4`
     height: 30px;
     width: 130px;
     z-index: 6;
+    color: var(--menu-text-color);
 
     &::after, &::before {
         content: '';
