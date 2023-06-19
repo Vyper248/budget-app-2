@@ -13,6 +13,7 @@ const StyledConfirmationContainer = styled.div`
         bottom: calc(100% + 8px);
         left: 50%;
         transform: translate(-50%, 0%);
+        z-index: 2;
 
         & > button {
             margin: 2px;
