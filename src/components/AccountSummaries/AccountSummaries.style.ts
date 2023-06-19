@@ -17,6 +17,16 @@ const StyledAccountSummaries = styled.div`
         width: 100%;
         max-width: 100%;
     }
+
+    @media screen and (max-width: 700px) {
+        & > div {
+            width: 150px;
+        }
+
+        & > div:last-of-type {
+            max-width: 310px;
+        }
+    }
 `;
 
 export default StyledAccountSummaries
