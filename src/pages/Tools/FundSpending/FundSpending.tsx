@@ -63,7 +63,7 @@ const FundSpending = ({}: FundSpendingProps) => {
 			<Table>
 				<thead>
 					<tr>
-						<th>Date</th>
+						<th className='sticky'>Date</th>
 						<th>Description</th>
 						<th>Cost</th>
 					</tr>
@@ -73,8 +73,8 @@ const FundSpending = ({}: FundSpendingProps) => {
 						dataObj.map(obj => {
 							return (
 								<tr key={obj.id}>
-									<td>{formatDate(obj.date, 'dd MMM yyyy')}</td>
-									<td>{obj.description}</td>
+									<td className='sticky filled'>{formatDate(obj.date, 'dd MMM yyyy')}</td>
+									<td style={{textAlign: 'left'}}>{obj.description}</td>
 									<td>{obj.cost}</td>
 								</tr>
 							);

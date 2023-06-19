@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 
 import { selectVisibleAccounts } from "@/redux/accountsSlice";
@@ -7,8 +6,8 @@ import { parseCurrency } from "@/utils/transactions.utils";
 import { getAccountTotals } from "@/utils/transactions.utils";
 
 import Table from "@/components/Table/Table";
-import Input from "@/components/Input/Input";
 import Container from "@/components/styled/Container";
+import InterestCalculator from "@/components/InterestCalculator/InterestCalculator";
 
 const calculateInterest = (amount: number, rate: number, extraCharges: number): [number,number] => {
 	const yearlyInterestBase = amount * (rate / 100);
@@ -23,12 +22,6 @@ const calculateInterest = (amount: number, rate: number, extraCharges: number): 
 const Interest = () => {
 	const accounts = useAppSelector(selectVisibleAccounts);
 	const transactions = useAppSelector(selectTransactions);
-
-	//custom interest data
-	const [customInterest, setCustomInterest] = useState('');
-    const [customAmount, setCustomAmount] = useState('');
-    const [customCharges, setCustomCharges] = useState('0');
-	const [ customMonthly, customYearly ] = calculateInterest(Number(customAmount), Number(customInterest), Number(customCharges));
 
 	//table data
 	const accountTotals = getAccountTotals(transactions, accounts);
@@ -54,7 +47,7 @@ const Interest = () => {
 			<Table>
 				<thead>
 					<tr>
-						<th>Account</th>
+						<th className='sticky'>Account</th>
 						<th>Interest Rate</th>
 						<th>Amount</th>
 						<th>Extra Charges</th>
@@ -67,7 +60,7 @@ const Interest = () => {
 						accounts.map(account => {
 							return (
 								<tr key={account.id}>
-									<td>{account.name}</td>
+									<td className='sticky filled'>{account.name}</td>
 									<td>{account.interestRate}%</td>
 									<td>{parseCurrency(accountTotals[account.id])}</td>
 									<td>{parseCurrency(account.extraCharges)}</td>
@@ -78,35 +71,13 @@ const Interest = () => {
 						})
 					}
 					<tr>
-						<th colSpan={4}>Totals</th>
+						<th colSpan={4} style={{textAlign: 'right'}}>Totals</th>
 						<td>{parseCurrency(totalYearly)}</td>
 						<td>{parseCurrency(totalMonthly)}</td>
 					</tr>
 				</tbody>
 			</Table>
-
-			<h4>Custom</h4>
-			<p>Use this to check how much interest you'll get with different amounts and interest rates etc.</p>
-			<Table>
-				<thead>
-					<tr>
-						<th>Interest Rate</th>
-						<th>Amount</th>
-						<th>Extra Charges</th>
-						<th>Yearly Interest</th>
-						<th>Monthly Interest</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td className='input'><Input type='number' value={customInterest} onChange={setCustomInterest} aria-label='Custom Interest Rate'/></td>
-						<td className='input'><Input type='number' value={customAmount} onChange={setCustomAmount} aria-label='Custom Amount'/></td>
-						<td className='input'><Input type='number' value={customCharges} onChange={setCustomCharges} aria-label='Custom Extra Charges'/></td>
-						<td>{parseCurrency(customYearly)}</td>
-						<td>{parseCurrency(customMonthly)}</td>
-					</tr>
-				</tbody>
-			</Table>
+			<InterestCalculator/>
 		</Container>
 	);
 }

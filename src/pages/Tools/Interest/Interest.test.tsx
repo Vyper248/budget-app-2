@@ -101,6 +101,8 @@ it('Displays interest rates', () => {
 	screen.getByText('£15.83');
 });
 
+//Copied from Interest Calculator
+
 it('Displays custom inputs', () => {
 	render(<Interest/>, mockState);
 

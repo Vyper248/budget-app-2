@@ -1,19 +1,21 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import differenceInMonths from "date-fns/differenceInMonths";
 import parseISO from "date-fns/parseISO";
 
 import { parseCurrency } from "@/utils/transactions.utils";
 import { getAccountTotals } from "@/utils/transactions.utils";
+import { setSavingsTarget, setSavingsTargetDate, setSavingsUseMoney } from "@/redux/toolsSlice";
+import { selectVisibleAccounts } from "@/redux/accountsSlice";
+import { selectTransactions } from "@/redux/transactionsSlice";
+import { useResponsive } from "@/utils/customHooks.utils";
 
 import Input from "@/components/Input/Input";
 import Table from "@/components/Table/Table";
 import Container from "@/components/styled/Container";
 import Dropdown from "@/components/Dropdown/Dropdown";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setSavingsTarget, setSavingsTargetDate, setSavingsUseMoney } from "@/redux/toolsSlice";
-import { selectVisibleAccounts } from "@/redux/accountsSlice";
-import { selectTransactions } from "@/redux/transactionsSlice";
 
 const SavingsGoal = () => {
+	const { isMobile } = useResponsive();
 	const dispatch = useAppDispatch();
 	const accounts = useAppSelector(selectVisibleAccounts);
 	const transactions = useAppSelector(selectTransactions);
@@ -41,19 +43,35 @@ const SavingsGoal = () => {
 					<tr>
 						<th>Total Money</th>
 						<th>Months to Target</th>
-						<th>Amount to Save</th>
-						<th>Monthly</th>
+						{ !isMobile && <th>Amount to Save</th> }
+						{ !isMobile && <th>Monthly</th> }
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>{parseCurrency(totalMoney)}</td>
 						<td>{monthsToTarget > 0 ? monthsToTarget : 0}</td>
+						{ !isMobile && <td>{parseCurrency(amountToSave > 0 ? amountToSave : 0)}</td> }
+						{ !isMobile && <td>{parseCurrency(monthlySavings > 0 ? monthlySavings : 0)}</td> }
+					</tr>
+				</tbody>
+			</Table>
+			{ isMobile && (
+				<Table>
+					<thead>
+					<tr>
+						<th>Amount to Save</th>
+						<th>Monthly</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
 						<td>{parseCurrency(amountToSave > 0 ? amountToSave : 0)}</td>
 						<td>{parseCurrency(monthlySavings > 0 ? monthlySavings : 0)}</td>
 					</tr>
 				</tbody>
-			</Table>
+				</Table>
+			) }
 		</Container>
 	);
 }
