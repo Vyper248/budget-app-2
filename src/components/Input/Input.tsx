@@ -9,7 +9,7 @@ type InputProps = {
   width?: string;
   labelWidth?: string;
   type?: string;
-  topLabel: boolean;
+  topLabel?: boolean;
   [x: string]: any;
 }
 
