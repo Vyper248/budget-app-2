@@ -10,6 +10,10 @@ const StyledTools = styled.div`
             margin: 2px 5px;
         }
     }
+
+    @media screen and (max-width: 700px) {
+        padding-top: 10px;
+    }
 `;
 
 export default StyledTools

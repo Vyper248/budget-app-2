@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import StyledSettings from "./Settings.style";
 
-import { ColourScheme, setColourScheme, setSettings } from "@/redux/settingsSlice";
-import { changeColourScheme } from "@/utils/general.utils";
+import { setSettings } from "@/redux/settingsSlice";
+import { useResponsive } from "@/utils/customHooks.utils";
 
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
@@ -10,6 +10,7 @@ import BackupRestore from "@/components/BackupRestore/BackupRestore";
 
 const Settings = ({}) => {
 	const dispatch = useAppDispatch();
+	const { isMobile } = useResponsive();
 	const settings = useAppSelector(state => state.settings);
 
 	const labelWidth = '200px';
@@ -25,7 +26,7 @@ const Settings = ({}) => {
 
 	return (
 		<StyledSettings>
-			<h4 className='centered'>Settings</h4>
+			{ !isMobile && <h4 className='centered'>Settings</h4> }
 
 			<div className='settingsContainer'>
 				<Input type='date' label='Start Date' labelWidth={labelWidth} value={settings.startDate} onChange={onChangeString('startDate')}/>

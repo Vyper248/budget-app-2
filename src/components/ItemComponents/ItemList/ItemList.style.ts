@@ -34,7 +34,7 @@ const StyledItemList = styled.div`
     }
 
     @media screen and (max-width: 700px) {
-        padding-top: 30px !important;
+        padding-top: 0px !important;
         width: 100% !important;
     }
 `;

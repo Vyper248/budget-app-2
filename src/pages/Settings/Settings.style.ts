@@ -9,6 +9,10 @@ const StyledSettings = styled.div`
             margin-bottom: 5px;
         }
     }
+
+    @media screen and (max-width: 700px) {
+        padding-top: 10px;
+    }
 `;
 
 export default StyledSettings

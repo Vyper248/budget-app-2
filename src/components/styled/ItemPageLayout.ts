@@ -28,6 +28,7 @@ const ItemPageLayout = styled.div`
     @media screen and (max-width: 700px) {
         width: calc(100% - 10px);
         flex-direction: column;
+        margin: auto;
 
         & > div:last-child {
             overflow: visible;
