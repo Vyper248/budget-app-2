@@ -19,10 +19,14 @@ const AccountSummaries = () => {
 		<>
 			<h4 className='centered'>Account Summaries</h4>
 			<StyledAccountSummaries>
-				{
-					accounts.map(acc => <AmountCard key={`accountTotal-${acc.name}`} label={acc.name} amount={accountTotals[acc.id]}/>)
-				}
-				<AmountCard label='Total' amount={allTotal}/>
+				<div>
+					{
+						accounts.map(acc => <AmountCard key={`accountTotal-${acc.name}`} label={acc.name} amount={accountTotals[acc.id]}/>)
+					}
+				</div>
+				<div>
+					<AmountCard label='Total' amount={allTotal}/>
+				</div>
 			</StyledAccountSummaries>
 		</>
 	);

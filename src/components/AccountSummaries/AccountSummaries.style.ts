@@ -1,30 +1,39 @@
 import styled from "styled-components";
 
 const StyledAccountSummaries = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     max-width: 800px;
     margin: auto;
-    flex-wrap: wrap;
-    justify-content: center;
+    padding: 0px 5px;
 
-    & > div {
-        width: calc(25% - 10px);
-        min-width: 150px;
-        max-width: 200px;
+    & > div:first-of-type {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        & > div {
+            width: auto;
+        }
     }
 
     & > div:last-of-type {
+        display: flex;
         width: 100%;
-        max-width: 100%;
+
+        & > div {
+            width: 100%;
+        }
+    }   
+
+    @media screen and (max-width: 650px) {
+        & > div:first-of-type {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
     }
 
-    @media screen and (max-width: 700px) {
-        & > div {
-            width: 150px;
-        }
-
-        & > div:last-of-type {
-            max-width: 310px;
+    @media screen and (max-width: 450px) {
+        & > div:first-of-type {
+            grid-template-columns: 1fr 1fr;
         }
     }
 `;
