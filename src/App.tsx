@@ -56,12 +56,14 @@ function App() {
 	return (
 		<div className="App">
 			<MenuBar/>
-			{ currentPage === 'Home' ? <Home/> : null }
-			{ currentPage === 'Categories' ? <Categories/> : null }
-			{ currentPage === 'Funds' ? <Funds/> : null }
-			{ currentPage === 'Accounts' ? <Accounts/> : null }
-			{ currentPage === 'Tools' ? <Tools/> : null }
-			{ currentPage === 'Settings' ? <Settings/> : null }
+			<div id='mainContent'>
+				{ currentPage === 'Home' ? <Home/> : null }
+				{ currentPage === 'Categories' ? <Categories/> : null }
+				{ currentPage === 'Funds' ? <Funds/> : null }
+				{ currentPage === 'Accounts' ? <Accounts/> : null }
+				{ currentPage === 'Tools' ? <Tools/> : null }
+				{ currentPage === 'Settings' ? <Settings/> : null }
+			</div>
 
 			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal)}>
 							       <TransactionList list={selectedTotal.transactions.map(transaction => ({transaction}))} sort={true}/>

@@ -86,6 +86,7 @@ const FundSpending = ({}: FundSpendingProps) => {
 					</tr>
 				</tbody>
 			</Table>
+			<br/>
 		</Container>
 	);
 }

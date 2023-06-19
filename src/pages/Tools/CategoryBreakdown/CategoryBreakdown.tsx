@@ -59,6 +59,7 @@ const CategoryBreakdown = () => {
 					<AccountTotals accountTotals={accountTotals} total={total}/>
 				</tbody>
 			</Table> }
+			<br/>
 		</Container>
 	);
 }
