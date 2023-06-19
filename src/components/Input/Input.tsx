@@ -9,10 +9,11 @@ type InputProps = {
   width?: string;
   labelWidth?: string;
   type?: string;
+  topLabel: boolean;
   [x: string]: any;
 }
 
-const Input = ({label='', type='text', value, onChange, width='100%', labelWidth='auto', ...rest}: InputProps) => {
+const Input = ({label='', type='text', value, onChange, width='100%', labelWidth='auto', topLabel=false, ...rest}: InputProps) => {
   const [textHeight, setTextHeight] = useState(0);
   const ref = useRef(null);
 
@@ -32,8 +33,9 @@ const Input = ({label='', type='text', value, onChange, width='100%', labelWidth
   if (Number.isNaN(value)) value = '';
 
 	return (
-		<StyledInput width={width} hasLabel={label.length > 0} height={textHeight}>
-		  {label && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel>}
+		<StyledInput width={width} hasLabel={label.length > 0 && !topLabel} height={textHeight}>
+      { label && topLabel && <label className='topLabel'>{label}</label> }
+		  {label && !topLabel && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel>}
       { type === 'textarea' ? <textarea ref={ref} value={value} onChange={handleChange} aria-label={label} {...rest}/>
                             : <input id={label} type={type} value={value} onChange={handleChange} aria-label={label} {...rest}/>
       }
