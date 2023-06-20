@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 const StyledSummaryTable = styled.div`
+    & .scrollText {
+        margin-top: 0px !important;
+    }
+
     & td.date {
         background-color: var(--bg-color);
     }

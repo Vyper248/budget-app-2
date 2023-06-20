@@ -6,12 +6,40 @@ type Props = {
 
 
 const StyledTable = styled.div<Props>`
-    margin: 5px 10px;
-    overflow: auto;
     max-width: calc(100% - 20px);
-    border-radius: 5px;
+    margin: 5px 10px;
 
-    & > table {
+    & .scrollContainer {
+        overflow: auto;
+        max-width: 100%;
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    & .scrollText {
+        display: flex;
+        justify-content: space-between;
+        margin-top: -8px;
+        text-align: right;
+        margin-left: auto;
+        font-size: 0.8em;
+        opacity: 0.9;
+
+        & > div {
+            transition: opacity 0.3s;
+        }
+
+        & .hidden {
+            opacity: 0;
+        }
+
+        & svg {
+            position: relative;
+            top: 4px;
+            font-size: 1.2em;
+        }
+    }
+
+    & table {
         margin: 0px auto;
         border-spacing: 0px;
         border-radius: 5px;

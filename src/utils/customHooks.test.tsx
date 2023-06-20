@@ -5,7 +5,7 @@ import * as hooks from '@/redux/hooks';
 import { vi } from 'vitest';
 
 import { setSelectedItem, setSelectedTotal } from '@/redux/generalSlice';
-import { useClickOutside, useItemObj, useTransactionUpdate } from "./customHooks.utils";
+import { useClickOutside, useItemObj, useTransactionUpdate, useResizeListener } from "./customHooks.utils";
 
 import type { Account } from '@/redux/accountsSlice';
 import type { Transaction } from '@/redux/transactionsSlice';
@@ -100,12 +100,6 @@ describe('Testing useClickOutside hook', () => {
     });
 });
 
-type BasicDataObj = {
-    [key: string]: {
-        [key: number]: TransactionDisplay
-    }
-}
-
 describe('Testing useTransactionUpdate hook', () => {
     const mockTransactions = [
         {id: 1} as Transaction,
@@ -158,5 +152,29 @@ describe('Testing useTransactionUpdate hook', () => {
         rerender(<MockComponent2 transactions={mockTransactions2}/>);
         expect(mockDispatch).toBeCalledTimes(2);
         expect(mockDispatch).toBeCalledWith(setSelectedTotal(mockSelectedTotal));
+    });
+});
+
+describe('Testing useResizeListener hook', () => {
+    let mockFn = vi.fn();
+    vi.useFakeTimers();
+
+    const MockComponent = () => {
+        useResizeListener(mockFn, 300);
+        return <div></div>
+    }
+
+    it('Calls the function when window resizes', () => {
+        render(<MockComponent/>);
+        global.dispatchEvent(new Event('resize'));
+
+        //function not called early
+        expect(mockFn).not.toBeCalled();
+
+        //fast-forward timer
+        vi.runAllTimers();
+
+        //function called after timer
+        expect(mockFn).toBeCalled();
     });
 });
