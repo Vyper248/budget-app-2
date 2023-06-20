@@ -36,10 +36,10 @@ const Dropdown = ({value, label='', onChange, width='100%', labelWidth='auto', o
 
 	return (
 		<StyledDropdown height={0} width={width} hasLabel={label.length > 0}>
-			{ label.length > 0 && <StyledInputLabel width={labelWidth}>{label}</StyledInputLabel> }
+			{ label.length > 0 && <StyledInputLabel htmlFor={label} width={labelWidth}>{label}</StyledInputLabel> }
 			<div className='dropdown'>
 				<div className='visibleSelection'>{name}</div>
-				<select value={value} onChange={handleChange} aria-label={label}>
+				<select id={label} value={value} onChange={handleChange} aria-label={label}>
 					<option value="" disabled>Select an option</option>
 					{options.map((option) => {
 						if (option.options) {
