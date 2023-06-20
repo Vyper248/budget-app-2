@@ -52,10 +52,13 @@ const StyledMenuBar = styled.div`
         height: 100%;
         padding: 0px 10px;
         vertical-align: bottom;
+        -webkit-tap-highlight-color: transparent;
 
-        &:hover {
-            cursor: pointer;
-            background-color: var(--menu-selected-bg-color);
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                cursor: pointer;
+                background-color: var(--menu-selected-bg-color);
+            }
         }
     }
 `;

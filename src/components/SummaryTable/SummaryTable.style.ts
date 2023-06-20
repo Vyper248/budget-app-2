@@ -32,34 +32,6 @@ const StyledSummaryTable = styled.div`
         background-color: deepskyblue;
         color: black;
     }
-
-    & table tr.summary:hover td:not(.expense, .income, .fund) {
-        background-color: var(--obj-highlight-bg);
-    }
-
-    & table .morePeriodIcon {
-        float: right;
-        margin-left: 5px;
-    }
-
-    & table .lessPeriodIcon {
-        float: left;
-        margin-right: 5px;
-    }
-
-    & table .morePeriodIcon:hover, & table .lessPeriodIcon:hover {
-        cursor: pointer;
-    }
-
-    & table .lessPeriodIcon.hidden, & table .morePeriodIcon.hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    & table .lessPeriodIcon.reversed, & table .morePeriodIcon.reversed {
-        transform: rotate(90deg);
-        top: 1px;
-    }
 `;
 
 export default StyledSummaryTable

@@ -18,10 +18,12 @@ const StyledButton = styled.button<Props>`
     font-size: 1em;
     padding: 0px 10px;
     
-    &:hover {
-        cursor: pointer;
-        background-color: var(--menu-selected-bg-color);
-        color: var(--menu-selected-text-color);
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+            background-color: var(--menu-selected-bg-color);
+            color: var(--menu-selected-text-color);
+        }
     }
 
     &.selected {
@@ -33,9 +35,11 @@ const StyledButton = styled.button<Props>`
         background-color: #999;
         color: white;
 
-        &:hover {
-            background-color: #777;
-            color: white;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: #777;
+                color: white;
+            }
         }
     }
 

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 type Props = {
     positive: boolean;
+    selected: boolean;
 }
 
 const StyledTransaction = styled.div<Props>`
@@ -10,8 +11,12 @@ const StyledTransaction = styled.div<Props>`
     height: 45px;
     cursor: pointer;
 
-    &:hover {
-        background-color: var(--obj-highlight-bg);
+    ${props => props.selected && 'background-color: var(--obj-highlight-bg);'}
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: var(--obj-highlight-bg);
+        }
     }
 
     & .descriptionDate {

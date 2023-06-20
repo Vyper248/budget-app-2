@@ -16,6 +16,7 @@ type TransactionProps = {
 const Transaction = ({obj, runningBalance}: TransactionProps) => {
 	const dispatch = useAppDispatch();
 	const { selectedItem, currentPage } = useAppSelector(state => state.general);
+	const selectedTransaction = useAppSelector(state => state.transactions.selectedTransaction);
 
 	const fullDescription = getDescription(obj, selectedItem, currentPage);
 	const amount = getAmount(obj, false, selectedItem) as number;
@@ -27,8 +28,10 @@ const Transaction = ({obj, runningBalance}: TransactionProps) => {
 	let positive = true;
 	if (amount.toString().includes('-')) positive = false;
 
+	const selected = selectedTransaction?.id === obj.id;
+
 	return (
-		<StyledTransaction positive={positive} onClick={onClick}>
+		<StyledTransaction positive={positive} onClick={onClick} selected={selected}>
 			<div className='descriptionDate'>
 				<div className='description'>{fullDescription.length > 0 ? fullDescription : formatDate(obj.date)}</div>
 				{ fullDescription.length > 0 ? <div className='date'>{formatDate(obj.date)}</div> : null }

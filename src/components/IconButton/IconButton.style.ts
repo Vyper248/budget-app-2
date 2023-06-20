@@ -14,6 +14,7 @@ const StyledIconButton = styled.button<Props>`
     margin: 0px;
     padding: 0px;
     height: 100%;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
         opacity: 0.7;

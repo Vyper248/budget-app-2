@@ -17,9 +17,11 @@ const StyledFileInput = styled.div`
         cursor: pointer;
         border-right: none;
 
-        &:hover {
-            background-color: var(--obj-highlight-bg);
-            color: var(--obj-highlight-text);
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: var(--obj-highlight-bg);
+                color: var(--obj-highlight-text);
+            }
         }
     }
 

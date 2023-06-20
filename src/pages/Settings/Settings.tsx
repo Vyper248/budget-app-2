@@ -13,7 +13,7 @@ const Settings = ({}) => {
 	const { isMobile } = useResponsive();
 	const settings = useAppSelector(state => state.settings);
 
-	const labelWidth = '200px';
+	const labelWidth = '180px';
 
 	const onChange = (key: string, value: string | number | boolean) => {
 		let newSettings = {...settings, [key]: value};

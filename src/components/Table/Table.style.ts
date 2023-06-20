@@ -133,24 +133,15 @@ const StyledTable = styled.div<Props>`
             padding: 2px;
         }
 
-        & td.trValue:hover {
-            cursor: pointer;
-            background-color: var(--obj-highlight-bg);
-            color: var(--obj-highlight-text);
-        }
-
-        & td.trValue.selected {
-            background-color: var(--obj-highlight-bg);
-            color: var(--obj-highlight-text);
-        }
-
         & td.summaryData.selected {
             background-color: var(--obj-highlight-bg);
         }
 
-        & td.summaryData:hover {
-            background-color: var(--obj-highlight-bg);
-            cursor: pointer;
+        @media (hover: hover) and (pointer: fine) {
+            & td.summaryData:hover {
+                background-color: var(--obj-highlight-bg);
+                cursor: pointer;
+            }
         }
     }
 `;
