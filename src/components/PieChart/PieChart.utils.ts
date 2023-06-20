@@ -40,6 +40,7 @@ export const getPercentages = (data: {value: number, label: string}[]) => {
         newObj.percentageSmall = (obj.value / total * 100).toFixed(1);
 
         if (newObj.percentageSmall === '0.0') return [];
+        if (newObj.value === 0) return [];
         return newObj;
     });
 

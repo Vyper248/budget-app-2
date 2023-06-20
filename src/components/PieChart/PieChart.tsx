@@ -36,6 +36,13 @@ const PieChart = ({heading='', data, width=600}: PieChartProps) => {
     let gradient = getGradient(mappedData, colors);
     let gradientSingle = getGradient(mappedData, colors, selectedColor);
 
+    if (mappedData.length === 0) return (
+        <div>
+            <h4>{heading}</h4>
+            <div className='centered'>No data to display</div>
+        </div>
+    );
+
     return (
         <StyledPieChart labelWidth={labelWidth+'px'} pieWidth={pieWidth+'px'} gradient={gradient} gradientTwo={gradientSingle} selectedVisible={selectedVisible}>
             <h4>{heading}</h4>
