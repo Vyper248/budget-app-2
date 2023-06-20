@@ -34,7 +34,7 @@ const ItemPageTransactionContainer = ({heading, startingBalance, search, onChang
 			</Grid>
 			{ children }
 			{ startingBalance > 0 && <CloseableContainer heading='Opening Balance'>
-				<StyledTransaction positive={false}>
+				<StyledTransaction positive={false} selected={false}>
 					<div className='descriptionDate'>Opening Balance</div>
 					<div className='amount'>{parseCurrency(startingBalance)}</div>
 					{ currentPage === 'Accounts' ? <div className='runningBalance'>{parseCurrency(startingBalance)}</div> : null }
