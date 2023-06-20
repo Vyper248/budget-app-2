@@ -24,7 +24,6 @@ const Table = ({children}: TableProps) => {
 	const [showScroll, setShowScroll] = useState({left: false, right: false});
 
 	const checkTableSize = useCallback(() => {
-		console.log('Checking Table Size', window.innerWidth);
 		if (tableRef && tableRef.current) {
 			if (tableRef.current.offsetWidth > window.innerWidth) setShowScroll({left: false, right: true});
 			else setShowScroll({left: false, right: false});
