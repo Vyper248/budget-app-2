@@ -1,7 +1,8 @@
 import { useState } from "react";
 import StyledPieChart from "./PieChart.style";
 
-import { getPercentages, getGradient } from "./PieChart.utils";
+import { getPercentages, getSVGData } from "./PieChart.utils";
+import { useResponsive } from "@/utils/customHooks.utils";
 
 type PieChartProps = {
 	data: {
@@ -13,28 +14,12 @@ type PieChartProps = {
 }
 
 const PieChart = ({heading='', data, width=600}: PieChartProps) => {
-    const [selectedColor, setSelectedColor] = useState('');
-    const [selectedVisible, setSelectedVisible] = useState(false);
+    const [selected, setSelected] = useState(-1);
+    const { isMobile } = useResponsive();
 
-    const onClickColor = (color: string) => () => {
-        setSelectedColor(color);
-        if (selectedColor.length === 0) setSelectedVisible(true);
-        else if (color === selectedColor && selectedVisible) setSelectedVisible(false);
-        else if (color === selectedColor && !selectedVisible) setSelectedVisible(true);
-        else if (color !== selectedColor) setSelectedVisible(true);
-    }
-
-    const onClickChart = () => {
-        setSelectedVisible(false);
-    }
-
-    const colors = ['#8b0000','#ff0000','#b03060','#008b8b','#9acd32','#00ff00','#00d89a','#00ffff','#00bfff','#4169e1','#0000ff','#00006a','#d8bfd8','#eee8aa','#ffd700','#ffa07a','#ff8c00','#6a3d9a','#ee82ee','#ff00ff'];
-    let labelWidth = 200;
-    let pieWidth = width-labelWidth;
+    let pieWidth = width-200;
 
     let mappedData = getPercentages(data);
-    let gradient = getGradient(mappedData, colors);
-    let gradientSingle = getGradient(mappedData, colors, selectedColor);
 
     if (mappedData.length === 0) return (
         <div>
@@ -43,19 +28,32 @@ const PieChart = ({heading='', data, width=600}: PieChartProps) => {
         </div>
     );
 
+    const onClickPath = (id: number) => () => {
+        if (id === selected) setSelected(-1);
+        else setSelected(id);
+	}
+
+    const { pieData, selectedData, colors } = getSVGData(mappedData, selected, isMobile);
+
     return (
-        <StyledPieChart labelWidth={labelWidth+'px'} pieWidth={pieWidth+'px'} gradient={gradient} gradientTwo={gradientSingle} selectedVisible={selectedVisible}>
+        <StyledPieChart labelWidth={200+'px'} pieWidth={pieWidth+'px'} selected={selected}>
             <h4>{heading}</h4>
             <div id='container'>
-                <div id='pie' onClick={onClickChart}></div>
+                <div id='pie'>
+                    <svg width='400' height='400'>
+                        { pieData.map(data => <path key={data.id} {...data} onClick={onClickPath(data.dataid)}></path>) }
+                        { selectedData && <path {...selectedData} onClick={onClickPath(selectedData.dataid)}></path> }
+                    </svg>
+                </div>
                 <div id='labels'>
                     {
                         mappedData.map((obj,i) => {
                             let color = colors[i%colors.length];
+                            const border = selected === obj.id ? '1px solid var(--text-color)' : '';
                             return (
                                 <div key={i} id='label'>
-                                    <div title={obj.percentageSmall+'%'} id='color' style={{backgroundColor: color}} onClick={onClickColor(color)}></div>
-                                    <div title={obj.percentageSmall+'%'} id='text'>{obj.label} <span>{`(${obj.percentageSmall}%)`}</span></div>
+                                    <div title={obj.percentageSmall+'%'} id='color' style={{backgroundColor: color, border}} onClick={onClickPath(obj.id)}></div>
+                                    <div title={obj.percentageSmall+'%'} id='text'>{obj.label} <span>{`(${obj.value < 0 ? '-' : ''}${obj.percentageSmall}%)`}</span></div>
                                 </div>
                             );
                         })

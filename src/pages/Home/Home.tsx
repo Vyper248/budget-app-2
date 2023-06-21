@@ -14,7 +14,7 @@ import AccountSummaries from "@/components/AccountSummaries/AccountSummaries";
 import PieChart from "@/components/PieChart/PieChart";
 import DateRangeInput from "@/components/DateRangeInput/DateRangeInput";
 
-const Home = ({}) => {
+const Home = () => {
 	const [dateRange, setDateRange] = useState({from: '', to: ''});
 
 	const settings = useAppSelector(state => state.settings);
@@ -24,7 +24,7 @@ const Home = ({}) => {
 	const funds = useAppSelector(selectFunds);
 
 	const useableDateRange = isValidDateRange(dateRange) ? dateRange : undefined;
-	const summaryData = useMemo(() => getSummaryData(transactions, categories, funds, useableDateRange), [transactions, categories, funds, useableDateRange]) 
+	const summaryData = useMemo(() => getSummaryData(transactions, categories, funds, useableDateRange), [transactions, categories, funds, useableDateRange])
 	const pieData = getPieData(summaryData.totals, expenseCategories, funds);
 
 	const { showChart, swapSummaries } = settings;

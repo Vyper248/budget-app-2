@@ -3,9 +3,7 @@ import styled from "styled-components";
 type Props = {
     pieWidth: string;
     labelWidth: string;
-    gradient: string;
-    gradientTwo: string;
-    selectedVisible: boolean;
+    selected: number;
 }
 
 const StyledPieChart = styled.div<Props>`
@@ -18,27 +16,31 @@ const StyledPieChart = styled.div<Props>`
         grid-gap: 50px;
     }
 
-    & #pie {
-        position: relative;
-        width: ${props => props.pieWidth};
-        height: ${props => props.pieWidth};
+    #pie {
         border-radius: 50%;
-        background: ${props => props.gradient};
-        transition: filter 1s;
-
-        :hover {
-            ${props => props.selectedVisible ? 'cursor: pointer;' : ''}
+        overflow: hidden;
+        width: 400px;
+        height: 400px;
+        -webkit-tap-highlight-color: transparent;
+        
+        & path {
+            transition: opacity 0.3s;
         }
 
-        :after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: ${props => props.gradientTwo};
-            opacity: ${props => props.selectedVisible ? '1' : '0'};
-            transition: opacity 0.5s;
+        ${props => props.selected !== -1 ? `
+            & path:not(#path${props.selected}) {
+                opacity: 0.5;
+            }
+        ` : `
+            @media (hover: hover) and (pointer: fine) {
+                & path:hover {
+                    opacity: 0.8;
+                }
+            }
+        `}
+
+        & path:hover {
+            cursor: pointer;
         }
     }
 
@@ -57,9 +59,11 @@ const StyledPieChart = styled.div<Props>`
                 min-width: 50px;
                 height: 33px;
                 border-radius: 5px;
+                transition: opacity 0.3s;
                 
                 :hover {
                     cursor: pointer;
+                    opacity: 0.8;
                 }
             }
 
