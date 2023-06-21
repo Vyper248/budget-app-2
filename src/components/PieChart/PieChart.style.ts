@@ -60,10 +60,13 @@ const StyledPieChart = styled.div<Props>`
                 height: 33px;
                 border-radius: 5px;
                 transition: opacity 0.3s;
+                -webkit-tap-highlight-color: transparent;
                 
-                :hover {
-                    cursor: pointer;
-                    opacity: 0.8;
+                @media (hover: hover) and (pointer: fine) {
+                    :hover {
+                        cursor: pointer;
+                        opacity: 0.8;
+                    }
                 }
             }
 
