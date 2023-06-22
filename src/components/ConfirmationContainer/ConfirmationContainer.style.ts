@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 const StyledConfirmationContainer = styled.div`
     position: relative;
+    width: fit-content;
+    margin: auto;
 
     .popup {
         position: absolute;

@@ -7,6 +7,22 @@ import { useResponsive } from "@/utils/customHooks.utils";
 import Input from "@/components/Input/Input";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import BackupRestore from "@/components/BackupRestore/BackupRestore";
+import ConfirmationContainer from "@/components/ConfirmationContainer/ConfirmationContainer";
+import Button from "@/components/Button/Button";
+
+const getStoragePercentage = () => {
+	let total = 0;
+	for (let x in localStorage) {
+		if (!localStorage.hasOwnProperty(x)) continue;
+		total += (localStorage[x].length + x.length) * 2;;
+	}
+	return (((total / 1024) / 5000) * 100).toFixed(1) + '%';
+}
+
+const clearData = () => {
+	localStorage.removeItem('budget-app-2-state');
+	window.location.reload();
+}
 
 const Settings = ({}) => {
 	const dispatch = useAppDispatch();
@@ -43,6 +59,14 @@ const Settings = ({}) => {
 			</div>
 
 			<BackupRestore/>
+
+			<h4>Local Storage</h4>
+			<p>Your data is currently taking up {getStoragePercentage()}</p>
+			<p>Use this to clear your data from local storage. It cannot be undone, so please make sure you have a backup.</p>
+			<ConfirmationContainer onClick={clearData}>
+				<Button label="Clear Data" onClick={()=>{}}/>
+			</ConfirmationContainer>
+			<br/>
 		</StyledSettings>
 	);
 }

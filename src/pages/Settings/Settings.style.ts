@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const StyledSettings = styled.div`
+    text-align: center;
+
     & .settingsContainer {
         max-width: 350px;
         margin: auto;
