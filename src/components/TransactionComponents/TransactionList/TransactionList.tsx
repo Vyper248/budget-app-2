@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import StyledTransactionList from "./TransactionList.style";
 
 import { sortTransactions } from "@/utils/transactions.utils";
@@ -25,4 +27,4 @@ const TransactionList = ({list, sort=false}: TransactionListProps) => {
 	);
 }
 
-export default TransactionList;
+export default memo(TransactionList);

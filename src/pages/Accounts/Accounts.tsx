@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectAccounts } from "@/redux/accountsSlice";
 
@@ -20,4 +21,4 @@ const Accounts = () => {
 	)
 }
 
-export default Accounts;
+export default memo(Accounts);

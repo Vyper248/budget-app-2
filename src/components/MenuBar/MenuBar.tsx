@@ -1,7 +1,10 @@
-import StyledMenuBar, { StyledMenuHeading } from "./MenuBar.style";
+import { memo } from "react";
+import { IconType } from "react-icons";
 import { FaHome, FaCog, FaPlus, FaPiggyBank, FaTools } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import { RiBankLine } from 'react-icons/ri';
+
+import StyledMenuBar, { StyledMenuHeading } from "./MenuBar.style";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCurrentPage } from "@/redux/generalSlice";
@@ -9,7 +12,6 @@ import { setAddingTransaction } from "@/redux/transactionsSlice";
 import { useResponsive } from "@/utils/customHooks.utils";
 
 import IconButton from "../IconButton/IconButton";
-import { IconType } from "react-icons";
 
 const selected = {
 	backgroundColor: 'var(--menu-selected-bg-color)'
@@ -72,4 +74,4 @@ const MenuBar = () => {
 	);
 }
 
-export default MenuBar;
+export default memo(MenuBar);

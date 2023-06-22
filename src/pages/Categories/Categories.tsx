@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCategories } from "@/redux/categoriesSlice";
 
@@ -26,4 +27,4 @@ const Categories = () => {
     );
 }
 
-export default Categories;
+export default memo(Categories);

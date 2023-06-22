@@ -1,4 +1,6 @@
+import { memo } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+
 import StyledTransaction from "./Transaction.style";
 
 import { getDescription } from "./Transaction.utils";
@@ -16,7 +18,7 @@ type TransactionProps = {
 const Transaction = ({obj, runningBalance}: TransactionProps) => {
 	const dispatch = useAppDispatch();
 	const { selectedItem, currentPage } = useAppSelector(state => state.general);
-	const selectedTransaction = useAppSelector(state => state.transactions.selectedTransaction);
+	const selected = useAppSelector(state => state.transactions.selectedTransaction?.id === obj.id);
 
 	const fullDescription = getDescription(obj, selectedItem, currentPage);
 	const amount = getAmount(obj, false, selectedItem) as number;
@@ -27,8 +29,6 @@ const Transaction = ({obj, runningBalance}: TransactionProps) => {
 
 	let positive = true;
 	if (amount.toString().includes('-')) positive = false;
-
-	const selected = selectedTransaction?.id === obj.id;
 
 	return (
 		<StyledTransaction positive={positive} onClick={onClick} selected={selected}>
@@ -42,4 +42,4 @@ const Transaction = ({obj, runningBalance}: TransactionProps) => {
 	);
 }
 
-export default Transaction;
+export default memo(Transaction);
