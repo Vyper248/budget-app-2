@@ -33,8 +33,8 @@ const ItemPageTransactionContainer = ({heading, startingBalance, search, onChang
 				<div style={{display: 'flex', alignItems: 'center'}}><Input value={search} placeholder='Search' onChange={onChangeSearch} width='100%'/></div>
 			</Grid>
 			{ children }
-			{ startingBalance > 0 && <CloseableContainer heading='Opening Balance'>
-				<StyledTransaction positive={false} selected={false}>
+			{ startingBalance > 0 && <CloseableContainer heading='Opening Balance' length={1}>
+				<StyledTransaction className='openingBalance' positive={false} selected={false}>
 					<div className='descriptionDate'>Opening Balance</div>
 					<div className='amount'>{parseCurrency(startingBalance)}</div>
 					{ currentPage === 'Accounts' ? <div className='runningBalance'>{parseCurrency(startingBalance)}</div> : null }

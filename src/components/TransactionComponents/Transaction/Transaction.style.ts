@@ -17,6 +17,14 @@ const StyledTransaction = styled.div<Props>`
         &:hover {
             background-color: var(--obj-highlight-bg);
         }
+
+        &.openingBalance {
+            background-color: inherit;
+
+            &:hover {
+                cursor: default;
+            }
+        }
     }
 
     & .descriptionDate {
