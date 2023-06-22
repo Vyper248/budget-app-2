@@ -71,7 +71,8 @@ export const getSVGData = (data: PieData[], selected: number, isMobile: boolean)
 
     const pieData = data.flatMap((obj, i) => {
         const percentage = obj.percentage;
-        const angle = (360/100) * percentage;
+        let angle = (360/100) * percentage;
+        if (angle >= 360) angle = 359.999;
         const start = currentAngle;
         const end = currentAngle + angle;
         currentAngle = end;
