@@ -1,11 +1,18 @@
 import { vi } from "vitest";
-import { formatDate, isValidDateRange, getInvalidDateRangeMessage, 
+import { formatDate, formatMonthYear, isValidDateRange, getInvalidDateRangeMessage, 
     getDateValue, getDaysInPeriod, getDates, getDateArray, isWithinRange, compareDates } from "./date.utils";
 
 describe('Testing the formatDate function', () => {
     it('Formats a date string', () => {
         expect(formatDate('2020-01-01')).toBe('Jan 1, 2020');
         expect(formatDate('2023-12-26')).toBe('Dec 26, 2023');
+    });
+});
+
+describe('Testing the formatMonthYear function', () => {
+    it('Returns the correctly formatted date', () => {
+        expect(formatMonthYear('2022-01-01')).toBe('January 2022');
+        expect(formatMonthYear('2023-05-01')).toBe('May 2023');
     });
 });
 
@@ -224,5 +231,11 @@ describe('Testing the compareDates function', () => {
 
     it('Returns 1 if date1 is after date2', () => {
         expect(compareDates('2022-02-01', '2022-01-01')).toBe(1);
+    });
+
+    it('Returns 0 if dates are invalid', () => {
+        expect(compareDates('asd2ad2', '2022-01-01')).toBe(0);
+        expect(compareDates('acbrdhsfd', 'asdawdawdwad')).toBe(0);
+        expect(compareDates('2022-01-01', 'asdawdawdwad')).toBe(0);
     });
 });

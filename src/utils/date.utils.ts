@@ -18,6 +18,13 @@ export const today = () => {
     return format(new Date(), 'yyyy-MM-dd');
 }
 
+export const formatMonthYear = (date: string) => {
+	const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	const [year, month] = date.split('-');
+
+	return `${months[parseInt(month)-1]} ${year}`;
+}
+
 export const formatDate = (date: string, formatMethod='MMM d, yyyy') => {
     if (date === undefined) return '';
     if (date.length === 0) return '';
@@ -34,40 +41,43 @@ export const formatDate = (date: string, formatMethod='MMM d, yyyy') => {
 } 
 
 export const compareDates = (a: string, b: string) => {
-	return compareAsc(parseISO(a), parseISO(b));
+	const first = parseInt(a.replaceAll('-', ''));
+	const second = parseInt(b.replaceAll('-', ''));
+
+	if (second > first) return -1;
+	if (second < first) return 1;
+	return 0;
 }
 
 export const isWithinRange = (dateRange: DateRange, date: string) => {
 	if (!isValidDateRange(dateRange)) return true;
 	if (!isValid(parseISO(date))) return false;
 
-	if (compareAsc(parseISO(date), parseISO(dateRange.from)) >= 0 && compareAsc(parseISO(date), parseISO(dateRange.to)) <= 0) return true;
+	if (compareDates(date, dateRange.from) >= 0 && compareDates(date, dateRange.to) <= 0) return true;
 	return false;
 }
 
 
 export const isValidDateRange = (dateRange: DateRange) => {
-	let fromValid = isValid(parseISO(dateRange.from)) && compareAsc(parseISO(dateRange.from), parseISO('1900-01-01')) > 0;
-	let toValid = isValid(parseISO(dateRange.to)) && compareAsc(parseISO(dateRange.to), parseISO('1900-01-01')) > 0;
+	let fromValid = isValid(parseISO(dateRange.from)) && compareDates(dateRange.from, '1900-01-01') > 0;
+	let toValid = isValid(parseISO(dateRange.to)) && compareDates(dateRange.to, '1900-01-01') > 0;
+
 	if (!fromValid || !toValid) return false;
 
-    if (compareAsc(parseISO(dateRange.from), parseISO(dateRange.to)) > 0) return false;
+    if (compareDates(dateRange.from, dateRange.to) > 0) return false;
 
 	return true;
 }
 
 export const getInvalidDateRangeMessage = (dateRange: DateRange) => {
     if (dateRange.from.length > 0 && dateRange.to.length > 0) {
-		const fromDate = parseISO(dateRange.from);
-		const toDate = parseISO(dateRange.to);
-
-		let fromValid = isValid(fromDate) && compareAsc(fromDate, parseISO('1900-01-01')) > 0;
-		let toValid = isValid(toDate) && compareAsc(toDate, parseISO('1900-01-01')) > 0;
+		let fromValid = isValid(parseISO(dateRange.from)) && compareDates(dateRange.from, '1900-01-01') > 0;
+		let toValid = isValid(parseISO(dateRange.to)) && compareDates(dateRange.to, '1900-01-01') > 0;
 
 		if (!fromValid) return 'Error: First date is not valid.';
 		if (!toValid) return 'Error: Second date is not valid.';
 
-		if (compareAsc(fromDate, toDate) > 0) return 'Error: Second date should be after first date.';
+		if (compareDates(dateRange.from, dateRange.to) > 0) return 'Error: Second date should be after first date.';
 	}
 
     return '';
@@ -114,6 +124,7 @@ export const getDateValue = (date: string, startDate: string, payPeriodType: Pay
         return `${yearMonth}-${day}`;
     } else {
 		if (compareAsc(parseISO(date), parseISO(startDate)) < 0) {
+			//this is used when looking at a date that's before the start date
 			let days = getDaysInPeriod(payPeriodType);
 			let daysFromStart = differenceInCalendarDays(parseISO(startDate), parseISO(date));
 			let payPeriod = Math.floor(daysFromStart/days);

@@ -4,7 +4,7 @@ import parse from "date-fns/parse";
 import compareDesc from "date-fns/compareDesc";
 
 import { store } from "@/redux/store";
-import { formatDate } from "./date.utils";
+import { formatMonthYear, compareDates } from "./date.utils";
 
 import type { TransactionObj, MonthlyTransactions, Transaction, SpendTransaction, FundTransaction } from "@/redux/transactionsSlice";
 import type { Item } from "@/redux/generalSlice";
@@ -28,7 +28,7 @@ export const organiseTransactions = (transactions: Transaction[]) => {
 	let organisedObj = {} as MonthlyTransactionsObj;
 	transactions.forEach(obj => {
 		let date = obj.date;
-		let formatted = formatDate(date, 'MMMM yyyy');;
+		let formatted = formatMonthYear(date);
 		if (organisedObj[formatted] === undefined) organisedObj[formatted] = [];
 		organisedObj[formatted].push({
 			transaction: obj
@@ -38,7 +38,7 @@ export const organiseTransactions = (transactions: Transaction[]) => {
 	//put into an array and sort by date so newest first
 	let organisedArr = Object.keys(organisedObj).map(key => {
 		let sortedTransactions = organisedObj[key].sort((a,b) => {
-			return compareAsc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+            return compareDates(b.transaction.date, a.transaction.date);
 		});
 		return {month: key, transactions: sortedTransactions};
 	}).sort((a,b) => {
