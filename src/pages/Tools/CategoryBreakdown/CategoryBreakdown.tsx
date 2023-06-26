@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCategories } from "@/redux/categoriesSlice";
 import { selectTransactions, selectTransaction } from "@/redux/transactionsSlice";
-import { getDateArray } from "@/utils/date.utils";
+import { getDateArray, isWithinRange } from "@/utils/date.utils";
 import { useTransactionUpdate } from "@/utils/customHooks.utils";
 import { getCategoryData } from "./CategoryBreakdown.utils";
 import { setSelectedTotal } from "@/redux/generalSlice";
@@ -34,8 +34,13 @@ const CategoryBreakdown = () => {
 
 	const categoryObj = categories.find(obj => obj.id === selectedCategory);
 
+	const filteredTransactionsByDate = transactions.filter(tr => {
+		if (isWithinRange(dateRange, tr.date) === false) return false;
+		return true;
+	});
+
 	//Filter transactions if a filter is used
-	const filteredTransactions = getSearchedTransactions(transactions, filter);
+	const filteredTransactions = getSearchedTransactions(filteredTransactionsByDate, filter);
 	
 	//get array of dates and dateFormat string
 	const dates = getDateArray(dateRange, startDate, payPeriodType, periodsToDisplay);
