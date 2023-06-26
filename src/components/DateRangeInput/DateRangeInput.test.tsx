@@ -42,3 +42,27 @@ it("Displays an error when showing an invalid date", () => {
 
 	screen.getByText('Error: Second date is not valid.');
 });
+
+it('Includes the set date buttons', () => {
+	const dateRange = {from: '', to: ''};
+	render(<DateRangeInput dateRange={dateRange} onChange={()=>{}}/>);
+
+	screen.getByRole('button', { name: 'Previous Year' });
+	screen.getByRole('button', { name: 'Current Year' });
+	screen.getByRole('button', { name: 'Current Tax Year' });
+	screen.getByRole('button', { name: 'Previous Tax Year' });
+	screen.getByRole('button', { name: 'Current Month' });
+	screen.getByRole('button', { name: 'Previous Month' });
+});
+
+it.each([['Previous Year'], ['Current Year'], 
+		['Previous Tax Year'], ['Current Tax Year'], 
+		['Previous Month'], ['Current Month']])('Has working set date buttons', (name) => {
+	const dateRange = {from: '', to: ''};
+	const mockFn = vi.fn();
+	render(<DateRangeInput dateRange={dateRange} onChange={mockFn}/>);
+
+	const btn = screen.getByRole('button', { name });
+	fireEvent.click(btn);
+	expect(mockFn).toBeCalledTimes(1);
+});

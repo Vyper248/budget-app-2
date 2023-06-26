@@ -81,7 +81,7 @@ const DateRangeInput = ({dateRange, onChange, onClear}: DateRangeInputProps) => 
 				<Input type='date' label='From' width={inputWidth} value={dateRange.from} onChange={onChangeInput('from')} max={dateRange.to} topLabel={isMobile}/>
 				<Input type='date' label='To' width={inputWidth} value={dateRange.to} onChange={onChangeInput('to')} min={dateRange.from} topLabel={isMobile}/>
 				<SetDateMenu onChange={onChange}/>
-				{ onClear && <IconButton Icon={MdClear} onClick={onClear} fontSize="1.2em" className='bordered'/> }
+				{ onClear && <IconButton title='Clear' Icon={MdClear} onClick={onClear} fontSize="1.2em" className='bordered'/> }
 			</Grid>
 			<div className='errorMessage'>{message}</div>
 		</StyledDateRangeInput>
