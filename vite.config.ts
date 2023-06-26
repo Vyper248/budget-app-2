@@ -10,7 +10,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
   workbox: {
     globPatterns: ['**/*']
   },
-  registerType: 'prompt',
+  registerType: 'autoUpdate',
   includeAssets: ['**/*'],
   manifest: {
     name: 'Budget App',

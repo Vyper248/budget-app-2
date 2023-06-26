@@ -9,9 +9,7 @@ import { Provider } from 'react-redux';
 
 const updateSW = registerSW({
 	onNeedRefresh() {
-		if (confirm("New content available. Reload?")) {
-			updateSW(true);
-		}
+		updateSW(true);
 	},
 });
 
