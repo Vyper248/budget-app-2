@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getDateNumber } from '@/utils/date.utils';
-
 import type { Category } from './categoriesSlice';
 import type { Account } from './accountsSlice';
 import type { Fund } from './fundsSlice';
@@ -70,8 +68,8 @@ export const generalSlice = createSlice({
         setSelectedTotal: (state, action: PayloadAction<SelectedTotal | null>) => {
             state.selectedTotal = action.payload;
         },
-        updateSyncDate: (state) => {
-            state.lastSync = getDateNumber();
+        setLastSync: (state, action: PayloadAction<number>) => {
+            state.lastSync = action.payload;
         },
         setUser: (state, action: PayloadAction<User | null>) => {
             state.user = action.payload;
@@ -85,5 +83,5 @@ export const generalSlice = createSlice({
     },
 })
 
-export const { setCurrentPage, setSelectedItem, setSelectedTotal, updateSyncDate, setUser, setFetching, setMessage } = generalSlice.actions;
+export const { setCurrentPage, setSelectedItem, setSelectedTotal, setLastSync, setUser, setFetching, setMessage } = generalSlice.actions;
 export default generalSlice.reducer;

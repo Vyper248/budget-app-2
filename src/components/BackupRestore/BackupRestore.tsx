@@ -13,13 +13,17 @@ import { Category, setCategories } from "@/redux/categoriesSlice";
 import { Fund, setFunds } from "@/redux/fundsSlice";
 import { Transaction, setTransactions } from "@/redux/transactionsSlice";
 import { convertOldData } from "./BackupRestore.utils";
+import { setLastSync } from "@/redux/generalSlice";
 
 export type BackupData = {
-	settings: SettingsState,
-	accounts: Account[],
-	categories: Category[],
-	funds: Fund[],
-	transactions: Transaction[]
+	settings: SettingsState;
+	accounts: Account[];
+	categories: Category[];
+	funds: Fund[];
+	transactions: Transaction[];
+	extra: {
+		lastSync: number;
+	}
 }
 
 const BackupRestore = ({}) => {
@@ -28,13 +32,16 @@ const BackupRestore = ({}) => {
 	const [importData, setImportData] = useState<BackupData | null>(null);
 	const [restoreMessage, setRestoreMessage] = useState('');
 
-	const backupData = useAppSelector(state => {
+	const backupData: BackupData = useAppSelector(state => {
         return {
 			settings: state.settings,
             accounts: state.accounts,
             categories: state.categories,
             funds: state.funds,
-            transactions: state.transactions.transactions
+            transactions: state.transactions.transactions,
+			extra: {
+				lastSync: state.general.lastSync
+			}
         };
     });
 
@@ -61,6 +68,7 @@ const BackupRestore = ({}) => {
 				if (obj.categories !== undefined) newObj.categories = obj.categories;
 				if (obj.funds !== undefined) newObj.funds = obj.funds;
 				if (obj.transactions !== undefined) newObj.transactions = obj.transactions;
+				if (obj.extra !== undefined) newObj.extra = obj.extra;
 				
 				setImportData(newObj);
 			}
@@ -89,7 +97,13 @@ const BackupRestore = ({}) => {
 		if (importData.categories !== undefined) dispatch(setCategories(importData.categories));
 		if (importData.funds !== undefined) dispatch(setFunds(importData.funds));
 		if (importData.transactions !== undefined) dispatch(setTransactions(importData.transactions));
+		if (importData.extra !== undefined) {
+			dispatch(setLastSync(importData.extra.lastSync));
+		}
 
+		//sync all data to server overwrite route
+
+		//finalise
         setImportData(null);
         setRestoreMessage('Data Restored.');
     }
