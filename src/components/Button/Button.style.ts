@@ -6,6 +6,7 @@ type Props = {
 }
 
 const StyledButton = styled.button<Props>`
+    position: relative;
     background-color: var(--menu-bg-color);
     color: var(--menu-text-color);
     display: inline-flex;
@@ -52,6 +53,41 @@ const StyledButton = styled.button<Props>`
         background-color: var(--obj-highlight-bg);
         color: #999;
         cursor: auto;
+    }
+`;
+
+export const Loader = styled.div`
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 5px;
+    cursor: default;
+
+    :after {
+        content: ' ';
+        position: relative;
+        top: 2px;
+        border: 3px solid black;
+        border-radius: 50%;
+        border-top: none;
+        border-left: none;
+        width: 20px;
+        height: 20px;
+        display: block;
+        margin: auto;
+        animation-name: spin;
+        animation-duration: 0.9s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    @keyframes spin {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
     }
 `;
 
