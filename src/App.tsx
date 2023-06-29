@@ -17,6 +17,7 @@ import TransactionForm from './components/TransactionComponents/TransactionForm/
 import TransactionList from './components/TransactionComponents/TransactionList/TransactionList';
 import { useEffect } from 'react';
 import { useResponsive } from './utils/customHooks.utils';
+import PopoutMessage from './components/PopoutMessage/PopoutMessage';
 
 const getSelectedTotalProps = (data: SelectedTotal, isMobile: boolean) => {
 	return {
@@ -50,13 +51,15 @@ function App() {
 	const onCloseTransactions = () => {
 		dispatch(setSelectedTotal(null));
 	}
-
+	
+	const scrollY = window.scrollY;
 	const centerX = window.innerWidth/2;
-	const centerY = window.innerHeight/2 + window.scrollY;
+	const centerY = window.innerHeight/2 + scrollY;
 
 	return (
 		<div className="App">
 			<MenuBar/>
+			<PopoutMessage/>
 			<div id='mainContent'>
 				{ currentPage === 'Home' ? <Home/> : null }
 				{ currentPage === 'Categories' ? <Categories/> : null }
@@ -69,7 +72,7 @@ function App() {
 			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal, isMobile)}>
 							       <TransactionList list={selectedTotal.transactions.map(transaction => ({transaction}))} sort={true}/>
 							   </Modal> }
-			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal} x={isMobile ? centerX-150 : 285} y={isMobile ? 71 : 30}><TransactionForm/></Modal> : null }
+			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal} x={isMobile ? centerX-150 : 285} y={isMobile ? 71+scrollY : 30+scrollY}><TransactionForm/></Modal> : null }
 			{ selectedTransaction ? <Modal heading='Edit Transaction' onClickClose={onCloseModal} x={centerX-150} y={centerY-150}><TransactionForm key={selectedTransaction.id} obj={selectedTransaction}/></Modal> : null }
 		</div>
 	)
