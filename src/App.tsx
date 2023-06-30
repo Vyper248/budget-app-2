@@ -69,7 +69,7 @@ function App() {
 				{ currentPage === 'Settings' ? <Settings/> : null }
 			</div>
 
-			{ selectedTotal && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal, isMobile)}>
+			{ selectedTotal && selectedTotal.transactions.length > 0 && <Modal heading='Transactions' onClickClose={onCloseTransactions} {...getSelectedTotalProps(selectedTotal, isMobile)}>
 							       <TransactionList list={selectedTotal.transactions.map(transaction => ({transaction}))} sort={true}/>
 							   </Modal> }
 			{ addingTransaction ? <Modal heading='Add Transaction' onClickClose={onCloseModal} x={isMobile ? centerX-150 : 285} y={isMobile ? 71+scrollY : 30+scrollY}><TransactionForm/></Modal> : null }
