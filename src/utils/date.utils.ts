@@ -25,6 +25,19 @@ export const formatMonthYear = (date: string) => {
 	return `${months[parseInt(month)-1]} ${year}`;
 }
 
+export const formatDateTime = (date: number) => {
+	if (date === 0) return 'Never';
+	const string = date.toString();
+
+	const year = string.slice(0, 4);
+	const month = string.slice(4, 6);
+	const day = string.slice(6, 8);
+	const hour = string.slice(8, 10);
+	const minutes = string.slice(10, 12);
+
+	return `${day}/${month}/${year} at ${hour}:${minutes}`;
+}
+
 export const formatDate = (date: string, formatMethod='MMM d, yyyy') => {
     if (date === undefined) return '';
     if (date.length === 0) return '';

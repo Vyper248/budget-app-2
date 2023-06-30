@@ -1,6 +1,8 @@
 import { RootState } from "@/redux/store";
 import { changeColourScheme } from "./general.utils";
 
+import { initialState as generalState } from "@/redux/generalSlice";
+
 export const saveToStorage = (state: RootState) => {
     const saveObj = {
         accounts: state.accounts,
@@ -8,7 +10,11 @@ export const saveToStorage = (state: RootState) => {
         categories: state.categories,
         transactions: state.transactions,
         settings: state.settings,
-        tools: state.tools
+        tools: state.tools,
+        general: {
+            user: state.general.user,
+            lastSync: state.general.lastSync
+        }
     }
 
     localStorage.setItem('budget-app-2-state', JSON.stringify(saveObj));
@@ -21,6 +27,7 @@ export const retrieveFromStorage = () => {
         let state = JSON.parse(storedState);
         //set any default values here
         state.transactions.addingTransaction = false;
+        state.general = {...generalState, user: state.general.user, lastSync: state.general.lastSync };
         changeColourScheme(state.settings.colourScheme);
         return state;
     } catch (e) {

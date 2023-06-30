@@ -9,6 +9,7 @@ import Dropdown from "@/components/Dropdown/Dropdown";
 import BackupRestore from "@/components/BackupRestore/BackupRestore";
 import ConfirmationContainer from "@/components/ConfirmationContainer/ConfirmationContainer";
 import Button from "@/components/Button/Button";
+import SyncSettings from "@/components/SyncSettings/SyncSettings";
 
 const getStoragePercentage = () => {
 	let total = 0;
@@ -66,6 +67,8 @@ const Settings = ({}) => {
 			<ConfirmationContainer onClick={clearData}>
 				<Button label="Clear Data" onClick={()=>{}}/>
 			</ConfirmationContainer>
+
+			<SyncSettings/>
 			<br/>
 		</StyledSettings>
 	);

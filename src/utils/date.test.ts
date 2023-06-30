@@ -1,11 +1,18 @@
 import { vi } from "vitest";
-import { formatDate, formatMonthYear, isValidDateRange, getInvalidDateRangeMessage, 
+import { formatDate, formatDateTime, formatMonthYear, isValidDateRange, getInvalidDateRangeMessage, 
     getDateValue, getDaysInPeriod, getDates, getDateArray, isWithinRange, compareDates } from "./date.utils";
 
 describe('Testing the formatDate function', () => {
     it('Formats a date string', () => {
         expect(formatDate('2020-01-01')).toBe('Jan 1, 2020');
         expect(formatDate('2023-12-26')).toBe('Dec 26, 2023');
+    });
+});
+
+describe('Testing the formatDateTime function', () => {
+    it('Returns the correct date and time as a string', () => {
+        expect(formatDateTime(202301011052)).toBe('01/01/2023 at 10:52');
+        expect(formatDateTime(202305232045)).toBe('23/05/2023 at 20:45');
     });
 });
 

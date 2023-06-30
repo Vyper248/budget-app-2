@@ -75,6 +75,7 @@ export const accountsSlice = createSlice({
             const account = state.find(account => account.id === action.payload);
             if (account) {
                 account.deleted = getDateNumber();
+                account.updated = getDateNumber();
             }
         },
         reorderAccounts: (state, action: PayloadAction<Account[]>) => {

@@ -62,6 +62,7 @@ export const categoriesSlice = createSlice({
             const category = state.find((category) => category.id === action.payload);
             if (category) {
                 category.deleted = getDateNumber();
+                category.updated = getDateNumber();
             }
         },
         reorderCategories: (state, action: PayloadAction<Category[]>) => {

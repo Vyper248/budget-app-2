@@ -44,6 +44,7 @@ export const fundsSlice = createSlice({
             const fund = state.find(fund => fund.id === action.payload);
             if (fund) {
                 fund.deleted = getDateNumber();
+                fund.updated = getDateNumber();
             }
         },
         reorderFunds: (state, action: PayloadAction<Fund[]>) => {

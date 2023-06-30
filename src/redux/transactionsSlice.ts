@@ -2,6 +2,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { getDateNumber } from '@/utils/date.utils';
+import { mergeArrays } from '@/utils/sync.utils';
 import { RootState } from './store';
 
 export type TransactionObj = {
@@ -82,6 +83,7 @@ export const transactionsSlice = createSlice({
             const transaction = state.transactions.find(transaction => transaction.id === action.payload);
             if (transaction) {
                 transaction.deleted = getDateNumber();
+                transaction.updated = getDateNumber();
             }
             state.addingTransaction = false;
             state.selectedTransaction = null;
@@ -90,6 +92,9 @@ export const transactionsSlice = createSlice({
             state.selectedTransaction = action.payload;
             if (action.payload !== null) state.addingTransaction = false;
         }, 
+        syncTransactions: (state, action: PayloadAction<Transaction[]>) => {
+            state.transactions = mergeArrays(state.transactions, action.payload);
+        },
         setTransactions: (state, action: PayloadAction<Transaction[]>) => {
             state.transactions = action.payload;
         }
@@ -106,5 +111,5 @@ export const selectFundAdditions = createSelector([selectTransactions], (transac
     return transactions.filter((tr: Transaction) => tr.type === 'fundAddition') as FundTransaction[];
 });
 
-export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, selectTransaction, setTransactions  } = transactionsSlice.actions;
+export const { setAddingTransaction, addTransaction, editTransaction, removeTransaction, selectTransaction, syncTransactions, setTransactions  } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

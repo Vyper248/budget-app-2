@@ -58,7 +58,6 @@ export const generalSlice = createSlice({
     reducers: {
         setCurrentPage: (state, action: PayloadAction<string>) => {
             state.currentPage = action.payload;
-            state.message = { text: '', type: '' };
             state.selectedItem = 0;
             state.selectedTotal = null;
         },
