@@ -25,7 +25,7 @@ const MenuPageButton = ({ label, Icon, iconSize='1.5em' }: { label:string, Icon?
 		if (currentPage !== page) dispatch(setCurrentPage(page));
 	}
 
-	if (Icon) return <IconButton Icon={Icon} onClick={onSelectPage(label)} fontSize={iconSize} style={currentPage === label ? selected : {}}/>
+	if (Icon) return <IconButton Icon={Icon} color='var(--menu-text-color)' onClick={onSelectPage(label)} fontSize={iconSize} style={currentPage === label ? selected : {}}/>
 	else return <a onClick={onSelectPage(label)} style={currentPage === label ? selected : {}}>{ label }</a>
 }
 
@@ -48,7 +48,7 @@ const MenuBar = () => {
 					<MenuPageButton label='Funds' Icon={FaPiggyBank}/>
 					<MenuPageButton label='Accounts' Icon={RiBankLine} iconSize='1.6em'/>
 					<MenuPageButton label='Tools' Icon={FaTools} iconSize='1.2em'/>
-					<IconButton Icon={FaPlus} onClick={onToggleAddingTransaction} fontSize="1.5em" style={addingTransaction ? selected : {}}/>
+					<IconButton Icon={FaPlus} color='var(--menu-text-color)' onClick={onToggleAddingTransaction} fontSize="1.5em" style={addingTransaction ? selected : {}}/>
 					<MenuPageButton label='Settings' Icon={FaCog}/>
 				</div>
 			</StyledMenuBar>
