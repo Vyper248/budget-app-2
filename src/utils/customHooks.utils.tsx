@@ -59,6 +59,13 @@ export const useTransactionUpdate = (dataObj: DataObj, transactions: Transaction
 
     useEffect(() => {
 		if (!selectedTotal) return;
+
+        //if a single item for a date is deleted and that date no longer exists, can close selected total
+        if (!dataObj[selectedTotal.date]) {
+            dispatch(setSelectedTotal(null));
+            return;
+        }
+        
 		const displayObj = dataObj[selectedTotal.date][selectedTotal.itemId];
 		dispatch(setSelectedTotal({...selectedTotal, transactions: displayObj.transactions}));
 	}, [transactions]);
