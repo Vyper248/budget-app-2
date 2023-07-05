@@ -97,11 +97,7 @@ const BackupRestore = ({}) => {
 		if (importData.categories !== undefined) dispatch(setCategories(importData.categories));
 		if (importData.funds !== undefined) dispatch(setFunds(importData.funds));
 		if (importData.transactions !== undefined) dispatch(setTransactions(importData.transactions));
-		if (importData.extra !== undefined) {
-			dispatch(setLastSync(importData.extra.lastSync));
-		}
-
-		//sync all data to server overwrite route
+		if (importData.extra !== undefined) dispatch(setLastSync(importData.extra.lastSync));
 
 		//finalise
         setImportData(null);

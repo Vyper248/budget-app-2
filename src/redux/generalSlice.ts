@@ -11,12 +11,6 @@ export type Message = {
     type: string;
 }
 
-export type User = {
-    username: string,
-    id: string,
-    jwt: string,
-}
-
 export type SelectedTotal = {
 	transactions: Transaction[];
 	date: string;
@@ -34,7 +28,6 @@ export interface GeneralState {
     selectedItem: number;
     selectedTotal: SelectedTotal | null;
     lastSync: number;
-    user: User | null;
     fetching: boolean;
     message: Message;
 }
@@ -44,7 +37,6 @@ export const initialState: GeneralState = {
     selectedItem: 0,
     selectedTotal: null,
     lastSync: 0,
-    user: null,
     fetching: false,
     message: {
         text: '',
@@ -70,9 +62,6 @@ export const generalSlice = createSlice({
         setLastSync: (state, action: PayloadAction<number>) => {
             state.lastSync = action.payload;
         },
-        setUser: (state, action: PayloadAction<User | null>) => {
-            state.user = action.payload;
-        },
         setFetching: (state, action: PayloadAction<boolean>) => {
             state.fetching = action.payload;
         },
@@ -82,5 +71,5 @@ export const generalSlice = createSlice({
     },
 })
 
-export const { setCurrentPage, setSelectedItem, setSelectedTotal, setLastSync, setUser, setFetching, setMessage } = generalSlice.actions;
+export const { setCurrentPage, setSelectedItem, setSelectedTotal, setLastSync, setFetching, setMessage } = generalSlice.actions;
 export default generalSlice.reducer;

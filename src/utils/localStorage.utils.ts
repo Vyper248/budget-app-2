@@ -12,7 +12,6 @@ export const saveToStorage = (state: RootState) => {
         settings: state.settings,
         tools: state.tools,
         general: {
-            user: state.general.user,
             lastSync: state.general.lastSync
         }
     }
@@ -27,7 +26,7 @@ export const retrieveFromStorage = () => {
         let state = JSON.parse(storedState);
         //set any default values here
         state.transactions.addingTransaction = false;
-        state.general = {...generalState, user: state.general.user, lastSync: state.general.lastSync };
+        state.general = {...generalState, lastSync: state.general.lastSync };
         changeColourScheme(state.settings.colourScheme);
         return state;
     } catch (e) {

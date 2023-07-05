@@ -118,7 +118,10 @@ export const convertOldData = (data: OldBackupData) => {
         categories: [],
         funds: [],
         settings: {} as SettingsState,
-        transactions: []
+        transactions: [],
+        extra: {
+            lastSync: 0
+        }
     } as BackupData;
 
     data.accounts.forEach(oldAcc => {

@@ -8,53 +8,31 @@ import categoriesReducer from './categoriesSlice';
 import toolsReducer from "./toolsSlice";
 
 import { retrieveFromStorage, saveToStorage } from "@/utils/localStorage.utils";
-import { sync } from "@/utils/sync.utils";
 
-let timeout: NodeJS.Timeout | null = null;
 let localTimeout: NodeJS.Timeout | null = null;
 
 const localStorageListener = createListenerMiddleware();
 localStorageListener.startListening({
     predicate: (action) => {
-        if (action.type === 'general/setUser') return true;
         if (action.type === 'general/setLastSync') return true;
         if (action.type.includes('general')) return false;
         if (action.type === 'transactions/setAddingTransaction') return false;
         if (action.type === 'transactions/selectTransaction') return false;
         return true;
     },
-    effect: (_, listenerApi ) => {
+    effect: (action, listenerApi ) => {
         const state = listenerApi.getState() as RootState;
         if (localTimeout) clearTimeout(localTimeout);
-        
-        localTimeout = setTimeout(() => {
+
+        if (action.type === 'general/setLastSync') {
             saveToStorage(state);
-        }, 200);
-    }
-});
-
-const syncListener = createListenerMiddleware();
-syncListener.startListening({
-    predicate: (action) => {
+            if (localTimeout) clearTimeout(localTimeout);
+        } else {
+            localTimeout = setTimeout(() => {
+                saveToStorage(state);
+            }, 200);
+        }
         
-        const ignoreList = ['transactions/setAddingTransaction', 'transactions/selectTransaction', 'transactions/setTransactions'];
-        if (ignoreList.includes(action.type)) return false;
-        if (action.type.includes('general/')) return false;
-        if (action.type.includes('sync')) return false;
-        if (action.type.includes('settings/')) return true;
-        if (action.type.includes('tools/')) return true;
-        if (action.type.includes('/set')) return false;
-        
-        return true;
-    },
-    effect: (_, listenerApi ) => {
-        const state = listenerApi.getState() as RootState;
-        const dispatch = listenerApi.dispatch as AppDispatch;
-        if (timeout) clearTimeout(timeout);
-
-        timeout = setTimeout(() => {
-            sync(state, dispatch);
-        }, 500);
     }
 });
 
@@ -70,7 +48,7 @@ export const reducer = {
 
 export const store = configureStore({
     reducer: reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageListener.middleware, syncListener.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageListener.middleware),
     preloadedState: retrieveFromStorage()
 });
 
