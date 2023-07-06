@@ -40,6 +40,7 @@ function App() {
 	const { isMobile } = useResponsive();
 
 	useEffect(() => {
+		window.scrollTo({top: 0});
 		onCloseModal();
 	}, [currentPage]);
 	
