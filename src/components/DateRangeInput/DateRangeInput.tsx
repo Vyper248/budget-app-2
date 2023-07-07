@@ -48,12 +48,12 @@ const SetDateMenu = ({onChange}: {onChange: (dateRange: DateRange)=>void}) => {
 		<div ref={ref}>
 			<IconButton Icon={MdMenu} onClick={onClickMenu} fontSize="1.2em" className='bordered'/>
 			<div className={showMenu ? 'menu' : 'menu hidden'}>
-				<Button label='Current Year' onClick={onClickSetDate('currentYear')}/>
 				<Button label='Previous Year' onClick={onClickSetDate('previousYear')}/>
-				<Button label='Current Tax Year' onClick={onClickSetDate('currentTaxYear')}/>
+				<Button label='Current Year' onClick={onClickSetDate('currentYear')}/>
 				<Button label='Previous Tax Year' onClick={onClickSetDate('previousTaxYear')}/>
-				<Button label='Current Month' onClick={onClickSetDate('currentMonth')}/>
+				<Button label='Current Tax Year' onClick={onClickSetDate('currentTaxYear')}/>
 				<Button label='Previous Month' onClick={onClickSetDate('previousMonth')}/>
+				<Button label='Current Month' onClick={onClickSetDate('currentMonth')}/>
 			</div>
 		</div>
 	);	
