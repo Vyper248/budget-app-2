@@ -20,7 +20,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
     background_color: '#000',
     display: 'standalone',
     scope: '/',
-    start_url: '/',
+    start_url: '/budget-app-2',
     orientation: 'portrait',
     icons: [
       {
