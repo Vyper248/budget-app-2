@@ -23,7 +23,7 @@ const FundSpending = ({}: FundSpendingProps) => {
 	const [dateRange, setDateRange] = useState({from: startDate, to: today()});
 	const [filter, setFilter] = useState('');
 
-	const [selectedFund, setSelectedFund] = useState(funds[0].id || 0);
+	const [selectedFund, setSelectedFund] = useState(funds[0]?.id || 0);
 
 	const onChangeFund = (val: string) => {
 		setSelectedFund(parseInt(val));
@@ -52,7 +52,16 @@ const FundSpending = ({}: FundSpendingProps) => {
 
 	dataObj.sort((a, b) => {
 		return compareDates(a.date, b.date);
-	})
+	});
+
+	if (funds.length === 0) {
+		return (
+			<Container>
+				<h4>Fund Spending</h4>
+				<p>No funds have been added.</p>
+			</Container>
+		);
+	}
 
 	return (
 		<Container>

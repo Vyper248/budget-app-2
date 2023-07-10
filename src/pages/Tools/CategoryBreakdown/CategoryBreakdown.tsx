@@ -24,7 +24,7 @@ const CategoryBreakdown = () => {
 	const { periodsToDisplay, startDate, payPeriodType } = useAppSelector(state => state.settings);
 	const [dateRange, setDateRange] = useState({from: '', to: ''});
 	const [filter, setFilter] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState(categories[0].id || 0);
+	const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id || 0);
 
 	const onChangeCategory = (val: string) => {
 		setSelectedCategory(parseInt(val));
@@ -48,6 +48,15 @@ const CategoryBreakdown = () => {
 	//setup objects for data
 	const { organisedObj, accountTotals, total } = getCategoryData(filteredTransactions, selectedCategory, startDate, payPeriodType, dates);
 	useTransactionUpdate(organisedObj, transactions);
+
+	if (categories.length === 0) {
+		return (
+			<Container>
+				<h4>Category Breakdown</h4>
+				<p>No categories have been added.</p>
+			</Container>
+		);
+	}
 
 	return (
 		<Container>
