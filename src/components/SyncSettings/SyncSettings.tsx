@@ -77,6 +77,10 @@ const SyncSettings = () => {
 
 			const data = await checkData(uniqueId, intervalObj) as ServerReturn;
 			dealWithSyncData(data);
+		} else {
+			setLoading('');
+			setBeginSync(false);
+			setSyncStatus({ status: 'error', message: 'Failed to connect, please try again.' });
 		}
 	}
 

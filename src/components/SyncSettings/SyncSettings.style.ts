@@ -9,6 +9,8 @@ const StyledSyncSettings = styled.div`
 
     & #qrCode {
         & > svg {
+            padding: 5px;
+            background-color: white;
             margin: 10px;
         }
 
@@ -21,11 +23,11 @@ const StyledSyncSettings = styled.div`
         margin-top: 5px;
 
         &.error {
-            color: #F00;
+            color: var(--text-color-warning);
         }
 
         &.success {
-            color: #0F0;
+            color: var(--text-color-positive);
         }
     }
 
