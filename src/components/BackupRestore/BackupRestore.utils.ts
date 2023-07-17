@@ -73,23 +73,24 @@ export const convertAccount = (oldAccount: OldAccount) => {
         id, name,
         description: note,
         hidden: closed,
+        sort: 0,
         defaultAccount, extraCharges, interestRate, startingBalance, updated, deleted
     }
 }
 
 export const convertCategory = (oldCategory: OldCategory) => {
     const { id, name, description, type, hidden, startingBalance, updated, deleted } = oldCategory;
-    return { id, name, description, type, hidden, startingBalance: startingBalance, updated, deleted };
+    return { id, name, description, type, hidden, startingBalance: startingBalance, updated, deleted, sort: 0 };
 }
 
 export const convertFund = (oldFund: OldFund) => {
     const { id, name, description, targetAmount, complete, startingBalance, updated, deleted } = oldFund;
-    return { id, name, description, targetAmount, hidden: complete, startingBalance, updated, deleted };
+    return { id, name, description, targetAmount, hidden: complete, startingBalance, updated, deleted, sort: 0 };
 }
 
 export const convertFundAddition = (oldFundAddition: OldFundAddition) => {
     const { id, date, amount, fund, description, updated, deleted} = oldFundAddition;
-    return { id, amount, date, fund, type: 'fundAddition' as 'fundAddition', description: description || '', updated: updated || id, deleted };
+    return { id, amount, date, fund, type: 'fundAddition' as 'fundAddition', description: description || '', updated: updated || id, deleted, sort: 0 };
 }
 
 export const convertOldTransaction = (oldTransaction: SpendTransaction | TransferTransaction) => {
