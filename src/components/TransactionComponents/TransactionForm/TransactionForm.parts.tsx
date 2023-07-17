@@ -1,4 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { FaPlus, FaMinus } from "react-icons/fa";
+
 import { removeTransaction } from "@/redux/transactionsSlice";
 import { selectAccounts } from "@/redux/accountsSlice";
 import { selectCategories } from "@/redux/categoriesSlice";
@@ -76,12 +78,16 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 		});
 	}
 
+	const incomeCategories = categories.filter(cat => cat.type === 'income');
+	const expenseCategories = categories.filter(cat => cat.type === 'expense');
+
 	return (
 		<>
 			<Input label='Description' type='textarea' labelWidth={LABEL_WIDTH} value={description} onChange={(val) => setDescription(val)}/>
 			<Dropdown label='Account' labelWidth={LABEL_WIDTH} value={account} onChange={(val) => setAccount(parseInt(val))} options={accounts.map(obj => ({value: obj.id, label: obj.name}))}/>
 			<Dropdown label='Group' labelWidth={LABEL_WIDTH} value={groupValue} onChange={onChangeGroup} options={[
-				{ label: 'Categories', value: 0, options: categories.map(obj => ({value: obj.id, label: obj.name}))},
+				{ label: 'Income Categories', value: 0, options: incomeCategories.map(obj => ({value: obj.id, label: obj.name}))},
+				{ label: 'Expense Categories', value: 0, options: expenseCategories.map(obj => ({value: obj.id, label: obj.name}))},
 				{ label: 'Funds', value: 0, options: funds.map(obj => ({value: obj.id, label: obj.name}))},
 			]}/>
 			<FormButtons id={obj?.id} onSave={onSave}/>

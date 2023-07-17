@@ -40,7 +40,7 @@ const Dropdown = ({value, label='', onChange, width='100%', labelWidth='auto', o
 			<div className='dropdown'>
 				<div className='visibleSelection'>{name}</div>
 				<select id={label} value={value} onChange={handleChange} aria-label={label}>
-					<option value="" disabled>Select an option</option>
+					{/* <option value="" disabled>Select an option</option> */}
 					{options.map((option) => {
 						if (option.options) {
 							return (

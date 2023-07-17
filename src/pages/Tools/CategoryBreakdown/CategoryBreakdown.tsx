@@ -58,10 +58,16 @@ const CategoryBreakdown = () => {
 		);
 	}
 
+	const incomeCategories = categories.filter(cat => cat.type === 'income');
+	const expenseCategories = categories.filter(cat => cat.type === 'expense');
+
 	return (
 		<Container>
 			<h4>Category Breakdown</h4>
-			<Dropdown width='150px' labelWidth='100px' value={selectedCategory} label='Category' onChange={onChangeCategory} options={categories.map(cat => ({label: cat.name, value: cat.id}))}/>
+			<Dropdown label='Category' width='150px' labelWidth={'100px'} value={selectedCategory} onChange={onChangeCategory} options={[
+				{ label: 'Income', value: 0, options: incomeCategories.map(obj => ({value: obj.id, label: obj.name}))},
+				{ label: 'Expense', value: 0, options: expenseCategories.map(obj => ({value: obj.id, label: obj.name}))}
+			]}/>
 			<Input label='Filter' width='150px' labelWidth='100px' value={filter} onChange={setFilter}/>
 			<DateRangeInput dateRange={dateRange} onChange={setDateRange} onClear={() => setDateRange({from: '', to: ''})}/>
 			{ categoryObj && <Table>
