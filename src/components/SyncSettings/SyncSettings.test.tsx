@@ -28,8 +28,8 @@ it('Displays Never if not synced yet', () => {
 it('Displays sync buttons', () => {
 	render(<SyncSettings/>);
 
-	screen.getByRole('button', { name: 'Sync Up' });
-	screen.getByRole('button', { name: 'Sync Down' });
+	screen.getByRole('button', { name: 'Up' });
+	screen.getByRole('button', { name: 'Down' });
 	screen.getByRole('button', { name: 'Merge' });
 	screen.getByRole('button', { name: 'Scan' });
 });

@@ -35,6 +35,17 @@ const StyledSyncSettings = styled.div`
         margin: 5px;
     }
 
+    & .steps {
+        /* margin-bottom: -10px; */
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height 0.3s;
+
+        &.open {
+            max-height: 360px;
+        }
+    }
+
     @media screen and (max-width: 700px) {
         & video {
             height: auto;
