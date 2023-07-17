@@ -12,6 +12,7 @@ const mockCategory = {
     hidden: false,
     startingBalance: 500,
     updated: 0,
+	sort: 0,
 };
 
 const mockCategory2 = {
@@ -22,6 +23,7 @@ const mockCategory2 = {
     hidden: false,
     startingBalance: 0,
     updated: 0,
+	sort: 1,
 };
 
 it("Loads element without crashing", () => {

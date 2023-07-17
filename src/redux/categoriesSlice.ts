@@ -13,6 +13,7 @@ export type Category = {
     startingBalance: number;
     updated: number;
     deleted?: number;
+    sort: number;
 }
 
 export const initialState: Category[] = [
@@ -23,7 +24,8 @@ export const initialState: Category[] = [
         type: 'income',
         hidden: false,
         startingBalance: 0,
-        updated: 0
+        updated: 0,
+        sort: 0
     },
     {
         id: 20200723153001,
@@ -32,7 +34,8 @@ export const initialState: Category[] = [
         type: 'income',
         hidden: false,
         startingBalance: 0,
-        updated: 0
+        updated: 0,
+        sort: 1
     },
     {
         id: 20200723153102,
@@ -41,7 +44,8 @@ export const initialState: Category[] = [
         type: 'expense',
         hidden: false,
         startingBalance: 0,
-        updated: 0
+        updated: 0,
+        sort: 2
     },
 ]
 
@@ -50,7 +54,7 @@ export const categoriesSlice = createSlice({
     initialState,
     reducers: {
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
+            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber(), sort: state.length });
         },
         editCategory: (state, action: PayloadAction<Category>) => {
             const categoryIndex = state.findIndex(category => category.id === action.payload.id);
@@ -78,7 +82,8 @@ export const categoriesSlice = createSlice({
 export const selectCategoriesBasic = (state: RootState) => state.categories;
 
 export const selectCategories = createSelector(selectCategoriesBasic, (categories) => {
-    return categories.filter(category => category.deleted === undefined || category.deleted === 0) as Category[];
+    const filtered = categories.filter(category => category.deleted === undefined || category.deleted === 0) as Category[];
+    return filtered.sort((a,b) => a.sort - b.sort);
 });
 
 export const selectExpenseCategories = createSelector(selectCategories, (categories) => {

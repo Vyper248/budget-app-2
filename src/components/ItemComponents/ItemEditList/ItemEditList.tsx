@@ -7,13 +7,14 @@ import { Category, reorderCategories } from "@/redux/categoriesSlice";
 import { Fund, reorderFunds } from "@/redux/fundsSlice";
 import { selectTransactions } from "@/redux/transactionsSlice";
 import { getInUseObj, mapArrayToMoveableArray } from "./ItemEditList.utils";
+import { getDateNumber } from "@/utils/date.utils";
 
 import ItemDisplayObj from '@/components/ItemComponents/ItemDisplayObj/ItemDisplayObj';
-
-import type { Item, ItemType } from "@/redux/generalSlice";
 import Button from "@/components/Button/Button";
 import Modal from "@/components/Modal/Modal";
 import ItemForm from "../ItemForm/ItemForm";
+
+import type { Item, ItemType } from "@/redux/generalSlice";
 
 type ItemEditListProps = {
 	array: Item[];
@@ -27,7 +28,7 @@ type MoveableItem = {
 	inUse: boolean;
 }
 
-const compareArrays = (arr1: Item[], arr2: Item[]) => {
+const sameOrder = (arr1: Item[], arr2: Item[]) => {
 	let arrString1 = arr1.map(item => item.id).join('-');
 	let arrString2 = arr2.map(item => item.id).join('-');
 
@@ -54,8 +55,14 @@ const ItemEditList = ({array, type, onFinish}: ItemEditListProps) => {
 	}, [transactions.length, array]);
 
 	const setOrder = (newArr: MoveableItem[]) => {
-		let itemArray = newArr.map(itemObj => itemObj.item);
-		if (compareArrays(itemArray, array)) return;
+		let itemArray = newArr.map((itemObj, i) => {
+			const item = { ...itemObj.item };
+			item.sort = i;
+			item.updated = getDateNumber();
+			return item;
+		});
+
+		if (sameOrder(itemArray, array)) return;
 
 		setMoveableArray(mapArrayToMoveableArray(itemArray, inUseObj));
 

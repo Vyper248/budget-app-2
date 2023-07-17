@@ -13,6 +13,7 @@ export type Fund = {
     startingBalance: number;
     updated: number;
     deleted?: number;
+    sort: number;
 }
 
 export const initialState: Fund[] = [
@@ -23,7 +24,8 @@ export const initialState: Fund[] = [
         targetAmount: 0,
         hidden: false,
         startingBalance: 0,
-        updated: 0
+        updated: 0,
+        sort: 0
     }
 ]
 
@@ -32,7 +34,7 @@ export const fundsSlice = createSlice({
     initialState,
     reducers: {
         addFund: (state, action: PayloadAction<Fund>) => {
-            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
+            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber(), sort: state.length });
         },
         editFund: (state, action: PayloadAction<Fund>) => {
             const fundIndex = state.findIndex(fund => fund.id === action.payload.id);
@@ -60,7 +62,8 @@ export const fundsSlice = createSlice({
 export const selectFundsBasic = (state: RootState) => state.funds;
 
 export const selectFunds = createSelector(selectFundsBasic, funds => {
-    return funds.filter(fund => fund.deleted === undefined || fund.deleted === 0);
+    const filtered = funds.filter(fund => fund.deleted === undefined || fund.deleted === 0);
+    return filtered.sort((a,b) => a.sort - b.sort);
 });
 
 export const { addFund, editFund, removeFund, reorderFunds, setFunds } = fundsSlice.actions;

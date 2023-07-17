@@ -16,6 +16,7 @@ const mockAccount = {
     interestRate: 1.2,
     startingBalance: 50,
     updated: 0,
+	sort: 0,
 };
 
 const mockCategory = {
@@ -26,6 +27,7 @@ const mockCategory = {
     hidden: false,
     startingBalance: 500,
     updated: 0,
+	sort: 0,
 };
 
 const mockFund = {
@@ -36,6 +38,7 @@ const mockFund = {
     hidden: false,
     startingBalance: 0,
     updated: 0,
+	sort: 0,
 };
 
 it("Loads element without crashing", () => {

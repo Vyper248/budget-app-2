@@ -15,6 +15,7 @@ export type Account = {
     startingBalance: number;
     updated: number;
     deleted?: number;
+    sort: number;
 }
 
 export const initialState: Account[] = [
@@ -27,7 +28,8 @@ export const initialState: Account[] = [
         extraCharges: 0,
         interestRate: 0,
         startingBalance: 0,
-        updated: 20190723153000
+        updated: 0,
+        sort: 0
     },
     {
         id: 20200101153000,
@@ -38,7 +40,8 @@ export const initialState: Account[] = [
         extraCharges: 0,
         interestRate: 0,
         startingBalance: 0,
-        updated: 20200101153000
+        updated: 0,
+        sort: 1
     },
     {
         id: 20210301183000,
@@ -49,7 +52,8 @@ export const initialState: Account[] = [
         extraCharges: 0,
         interestRate: 0,
         startingBalance: 0,
-        updated: 20210301183000
+        updated: 0,
+        sort: 2
     }
 ]
 
@@ -58,7 +62,7 @@ export const accountsSlice = createSlice({
     initialState,
     reducers: {
         addAccount: (state, action: PayloadAction<Account>) => {
-            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber() });
+            state.push({ ...action.payload, id: getDateNumber(), updated: getDateNumber(), sort: state.length });
         },
         editAccount: (state, action: PayloadAction<Account>) => {
             const accountIndex = state.findIndex(account => account.id === action.payload.id);
@@ -91,7 +95,8 @@ export const accountsSlice = createSlice({
 export const selectAccountsBasic = (state: RootState) => state.accounts;
 
 export const selectAccounts = createSelector([selectAccountsBasic], (accounts) => {
-    return accounts.filter((account: Account) => account.deleted === undefined || account.deleted === 0) as Account[];
+    const filtered = accounts.filter((account: Account) => account.deleted === undefined || account.deleted === 0) as Account[];
+    return filtered.sort((a, b) => a.sort - b.sort);
 });
 
 export const selectVisibleAccounts = createSelector([selectAccounts], (accounts) => {

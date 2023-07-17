@@ -15,7 +15,7 @@ import type { Category } from "@/redux/categoriesSlice";
 const mockAccountA = { id: 2345 } as Account;
 const mockAccountB = { id: 1234 } as Account;
 const mockFund = { id: 3456 } as Fund;
-const mockCategory = { id: 4567 } as Category
+const mockCategory = { id: 4567, type: 'income' } as Category
 const mockState = getBasicMockState({ accounts: [mockAccountA, mockAccountB], funds: [mockFund], categories: [mockCategory] });
 
 it("Loads element without crashing", () => {

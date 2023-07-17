@@ -17,6 +17,7 @@ const mockAccount = {
     interestRate: 1.2,
     startingBalance: 50,
     updated: 0,
+	sort: 0,
 };
 
 it("Loads element without crashing", () => {
