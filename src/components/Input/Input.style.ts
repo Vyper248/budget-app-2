@@ -10,7 +10,6 @@ const StyledInput = styled.div<Props>`
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	position: relative;
 	${props => !props.hasLabel && 'width: 100%;'}
 
 	& .topLabel {

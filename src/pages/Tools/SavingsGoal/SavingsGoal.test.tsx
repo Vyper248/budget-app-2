@@ -26,7 +26,7 @@ it("Shows correnct amounts", () => {
 
 	fireEvent.change(date, { target: { value: '2023-03-01' } });
 	fireEvent.change(target, { target: { value: '1000' } });
-	fireEvent.change(useTotal, { target: { value: 'false' } });
+	fireEvent.click(useTotal);
 
 	screen.getByText('£0.00');
 	screen.getByText('2');

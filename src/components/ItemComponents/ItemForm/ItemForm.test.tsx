@@ -65,8 +65,8 @@ it('Can take an item object and display those values', () => {
 	expect(screen.getByLabelText('Name')).toHaveValue('Tesco');
 	expect(screen.getByLabelText('Description')).toHaveValue('test account');
 	expect(screen.getByLabelText('Starting Balance')).toHaveValue(50);
-	expect(screen.getByLabelText('Hidden')).toHaveValue('No');
-	expect(screen.getByLabelText('Default')).toHaveValue('Yes');
+	expect(screen.getByLabelText('Hidden')).toHaveTextContent('No');
+	expect(screen.getByLabelText('Default')).toHaveTextContent('Yes');
 	expect(screen.getByLabelText('Extra Charges')).toHaveValue(5);
 	expect(screen.getByLabelText('Interest Rate')).toHaveValue(1.2);
 });

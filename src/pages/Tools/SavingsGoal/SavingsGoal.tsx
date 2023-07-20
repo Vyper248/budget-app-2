@@ -12,7 +12,7 @@ import { useResponsive } from "@/utils/customHooks.utils";
 import Input from "@/components/Input/Input";
 import Table from "@/components/Table/Table";
 import Container from "@/components/styled/Container";
-import Dropdown from "@/components/Dropdown/Dropdown";
+import ToggleInput from "@/components/ToggleInput/ToggleInput";
 
 const SavingsGoal = () => {
 	const { isMobile } = useResponsive();
@@ -23,7 +23,7 @@ const SavingsGoal = () => {
 
 	const onChangeDate = (value: string) => dispatch(setSavingsTargetDate(value));
 	const onChangeTarget = (value: string) => dispatch(setSavingsTarget(parseFloat(value)));
-	const onChangeUseMoney = (value: string) => dispatch(setSavingsUseMoney(value === 'yes' ? true : false));
+	const onChangeUseMoney = (value: boolean) => dispatch(setSavingsUseMoney(value));
 
 	const accountTotals = getAccountTotals(transactions, accounts);
 	const totalMoney = savingsUseMoney ? Object.values(accountTotals).reduce((a,c) => a+c, 0) : 0;
@@ -36,7 +36,7 @@ const SavingsGoal = () => {
 			<h4>Savings Goal</h4>
 			<Input type='date' width='150px' label='Target Date' labelWidth='150px' value={savingsTargetDate} onChange={onChangeDate}/>
 			<Input type='number' width='150px' label='Target' labelWidth='150px' value={savingsTarget} onChange={onChangeTarget}/>
-			<Dropdown width='150px' label='Use Total Money' labelWidth='150px' value={savingsUseMoney ? 'yes' : 'no'} onChange={onChangeUseMoney} options={[{label: 'Yes', value: 'yes'}, {label: 'No', value: 'no'}]}/>
+			<ToggleInput label='Use Total Money' width='150px' labelWidth='150px' value={savingsUseMoney} onChange={onChangeUseMoney}/>
 			<br/>
 			<Table>
 				<thead>

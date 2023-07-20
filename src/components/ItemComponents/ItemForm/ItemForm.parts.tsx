@@ -7,13 +7,14 @@ import Dropdown from "@/components/Dropdown/Dropdown";
 import type { Account } from "@/redux/accountsSlice";
 import type { Category } from "@/redux/categoriesSlice";
 import type { Fund } from "@/redux/fundsSlice";
+import ToggleInput from "@/components/ToggleInput/ToggleInput";
 
 export const AccountsForm = ({item, onComplete}: {item?: Account, onComplete: (partialObj: Partial<Account>)=>void}) => {
     const [defaultAccount, setDefaultAccount] = useState(item?.defaultAccount || false);
     const [extraCharges, setExtraCharges] = useState(item?.extraCharges || 0);
     const [interestRate, setInterestRate] = useState(item?.interestRate || 0);
 
-    const onChangeDefault = (value: string) => setDefaultAccount(value === 'Yes' ? true : false);
+    const onChangeDefault = (value: boolean) => setDefaultAccount(value);
     const onChangeExtraCharges = (value: string) => setExtraCharges(parseFloat(value));
     const onChangeInterestRate = (value: string) => setInterestRate(parseFloat(value));
 
@@ -29,7 +30,7 @@ export const AccountsForm = ({item, onComplete}: {item?: Account, onComplete: (p
 
     return (
         <>
-            <Dropdown labelWidth={labelWidth} label='Default' value={defaultAccount ? 'Yes' : 'No'} options={[{value: 'Yes', label: 'Yes'}, {value: 'No', label: 'No'}]} onChange={onChangeDefault}/>
+            <ToggleInput labelWidth={labelWidth} label='Default' value={defaultAccount} onChange={onChangeDefault}/>
             <Input type='number' labelWidth={labelWidth} label='Extra Charges' value={extraCharges} onChange={onChangeExtraCharges}/>
             <Input type='number' labelWidth={labelWidth} label='Interest Rate' value={interestRate} onChange={onChangeInterestRate}/>
             <div style={{textAlign: 'center'}}>

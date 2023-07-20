@@ -7,8 +7,8 @@ import { editCategory, addCategory } from "@/redux/categoriesSlice";
 import { editFund, addFund } from "@/redux/fundsSlice";
 
 import Input from "@/components/Input/Input";
-import Dropdown from "@/components/Dropdown/Dropdown";
 import Error from "@/components/styled/Error";
+import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import { AccountsForm, CategoryForm, FundForm } from "./ItemForm.parts";
 
 import type { Category } from "@/redux/categoriesSlice";
@@ -32,7 +32,7 @@ const ItemForm = ({item, type, onFinish}: ItemFormProps) => {
 
 	const onChangeName = (value: string) => setName(value);
 	const onChangeDescription = (value: string) => setDescription(value);
-	const onChangeHidden = (value: string) => setHidden(value === 'Yes' ? true : false);
+	const onChangeHidden = (value: boolean) => setHidden(value);
 	const onChangeStartingBalance = (value: string) => setStartingBalance(parseFloat(value));
 
 	const onComplete = (partialObj: Partial<Item>) => {
@@ -68,7 +68,7 @@ const ItemForm = ({item, type, onFinish}: ItemFormProps) => {
 			<Input labelWidth={labelWidth} label='Name' value={name} onChange={onChangeName}/>
 			<Input labelWidth={labelWidth} label='Description' value={description} onChange={onChangeDescription}/>
 			<Input type='number' labelWidth={labelWidth} label='Starting Balance' value={startingBalance} onChange={onChangeStartingBalance}/>
-			<Dropdown labelWidth={labelWidth} label='Hidden' value={hidden ? 'Yes' : 'No'} options={[{value: 'Yes', label: 'Yes'}, {value: 'No', label: 'No'}]} onChange={onChangeHidden}/>
+			<ToggleInput labelWidth={labelWidth} label='Hidden' value={hidden} onChange={onChangeHidden}/>
 			{ type === 'account' && <AccountsForm item={item as Account} onComplete={onComplete}/> }
 			{ type === 'category' && <CategoryForm item={item as Category} onComplete={onComplete}/> }
 			{ type === 'fund' && <FundForm item={item as Fund} onComplete={onComplete}/> }
