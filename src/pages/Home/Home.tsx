@@ -7,11 +7,12 @@ import { selectTransactions } from "@/redux/transactionsSlice";
 import { selectCategories, selectExpenseCategories } from "@/redux/categoriesSlice";
 import { selectFunds } from "@/redux/fundsSlice";
 import { getSummaryData } from "@/utils/summary.utils";
-import { getPieData } from "./Home.utils";
+import { getPieData, getLineData } from "./Home.utils";
 
 import SummaryTable from "@/components/SummaryTable/SummaryTable";
 import AccountSummaries from "@/components/AccountSummaries/AccountSummaries";
 import PieChart from "@/components/PieChart/PieChart";
+import LineChart from "@/components/LineChart/LineChart";
 import DateRangeInput from "@/components/DateRangeInput/DateRangeInput";
 
 const Home = () => {
@@ -26,6 +27,7 @@ const Home = () => {
 	const useableDateRange = isValidDateRange(dateRange) ? dateRange : undefined;
 	const summaryData = useMemo(() => getSummaryData(transactions, categories, funds, useableDateRange), [transactions, categories, funds, useableDateRange])
 	const pieData = getPieData(summaryData.totals, expenseCategories, funds);
+	const lineData = getLineData(summaryData);
 
 	const { showChart, swapSummaries } = settings;
 
@@ -41,6 +43,7 @@ const Home = () => {
 			<SummaryTable key={`${dateRange.from}-${dateRange.to}`} summaryData={summaryData} dateRange={useableDateRange}/>
 			{ !swapSummaries && <AccountSummaries/> }
 			{ showChart && <PieChart data={pieData} heading='Totals Chart'/> }
+			<LineChart data={lineData}/>
 		</StyledHome>
 	);
 }
