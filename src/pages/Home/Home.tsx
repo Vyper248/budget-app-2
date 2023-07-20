@@ -23,13 +23,12 @@ const Home = () => {
 	const categories = useAppSelector(selectCategories);
 	const expenseCategories = useAppSelector(selectExpenseCategories);
 	const funds = useAppSelector(selectFunds);
+	const { showChart, swapSummaries, periodsToDisplay } = settings;
 
 	const useableDateRange = isValidDateRange(dateRange) ? dateRange : undefined;
 	const summaryData = useMemo(() => getSummaryData(transactions, categories, funds, useableDateRange), [transactions, categories, funds, useableDateRange])
 	const pieData = getPieData(summaryData.totals, expenseCategories, funds);
-	const lineData = getLineData(summaryData);
-
-	const { showChart, swapSummaries } = settings;
+	const lineData = getLineData(summaryData, useableDateRange === undefined, periodsToDisplay);
 
 	const onClear = () => {
 		setDateRange({from: '', to: ''});

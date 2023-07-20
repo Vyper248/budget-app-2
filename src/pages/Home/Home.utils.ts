@@ -31,8 +31,8 @@ export const getPieData = (totals: SummaryTotals, categories: Category[], funds:
 	return pieData;
 }
 
-export const getLineData = (summaryData: Summary) => {
-	const data = [] as {label: string; income: number; expense: number, realIncome: number, realExpense: number}[];
+export const getLineData = (summaryData: Summary, trim: boolean, trimAmount: number) => {
+	let data = [] as {label: string; income: number; expense: number, realIncome: number, realExpense: number}[];
 
 	Object.keys(summaryData.monthly).forEach(month => {
 		const totalData = summaryData.monthly[month];
@@ -48,6 +48,10 @@ export const getLineData = (summaryData: Summary) => {
 	data.sort((a,b) => {
 		return compareDates(a.label, b.label);
 	});
+
+	if (trim) {
+		data = data.slice(trimAmount < data.length ? -trimAmount : 0);
+	}
 
 	return data;
 }
