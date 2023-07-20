@@ -132,9 +132,10 @@ export const getSearchedTransactions = (transactions: Transaction[], search: str
     });
 }
 
-export const parseCurrency = (value: number) => {
+export const parseCurrency = (value: number, removeDecimals = false) => {
     let { settings } = store.getState();    
-    let { currencySymbol, showDecimals } = settings;    
+    let { currencySymbol, showDecimals } = settings;
+    if (removeDecimals) showDecimals = false;   
 
     //make sure it doens't return -£0.00
     if (value > -0.009 && value < 0.009) return `${currencySymbol}0${showDecimals ? '.00' : ''}`;
@@ -154,6 +155,7 @@ export const parseCurrency = (value: number) => {
     //add commas where needed
     for (let i = arr.length-4; i >= 0; i--) {
         let fromRight = arr.length - i - 4;
+        if (showDecimals === false) fromRight = arr.length - i - 1;
         if (fromRight > 0 && fromRight%3 === 0) arr[i] += ',';
     }
 
