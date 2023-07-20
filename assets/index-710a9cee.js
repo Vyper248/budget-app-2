@@ -977,6 +977,8 @@ Valid keys: `+JSON.stringify(Object.keys($),null,"  "));var Le=Y(G,se,ee,V,oe+".
 
     & > button {
         min-height: 30px;
+        height: auto;
+        padding: 2px;
     }
 
     @media screen and (max-width: 700px) {
