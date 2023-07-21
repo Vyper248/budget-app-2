@@ -66,7 +66,7 @@ export const getSummaryData = (transactions: Transaction[], categories: Category
 
     //setup totalsObj with category and fund IDs
     categories.forEach(cat => totalsObj[cat.id] = dateRange ? 0 : getStartingBalance(cat));
-    funds.forEach(fund => totalsObj[fund.id] = dateRange ? 0 : fund.startingBalance);
+    funds.forEach(fund => totalsObj[fund.id] = dateRange ? 0 : fund.startingBalance || 0);
 
     //sort transactions into correct group
     transactions.forEach(transaction => {

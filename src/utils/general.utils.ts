@@ -103,6 +103,7 @@ export const changeColourScheme = (scheme: string) => {
 
 export const getStartingBalance = (item: Category | undefined) => {
     if (item === undefined) return 0;
+    if (item.startingBalance === undefined) return 0;
     if (item.type === 'income') return item.startingBalance;
     return -item.startingBalance;
 }
