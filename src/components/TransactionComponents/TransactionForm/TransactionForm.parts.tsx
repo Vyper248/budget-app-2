@@ -42,16 +42,17 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number| undefined>(obj?.fund || undefined);
 
-	const defaultCategory = obj?.category !== undefined ? obj.category : categories.length > 0 ? categories[0].id : undefined;
-	const [category, setCategory] = useState<number | undefined>(defaultCategory);
-
+	let defaultCategory = obj?.category !== undefined ? obj.category : categories.length > 0 ? categories[0].id : undefined;
+	
 	const defaultAccountObj = accounts.find(obj => obj.defaultAccount === true);
 	let defaultAccount = defaultAccountObj ? defaultAccountObj.id : accounts.length > 0 ? accounts[0].id : undefined;
-
+	
 	//If user has an account selected, then use that as the default
 	const selectedItem = useAppSelector(state => state.general.selectedItem);
 	if (selectedItem && currentPage === 'Accounts') defaultAccount = selectedItem;
-
+	if (selectedItem && currentPage === 'Categories') defaultCategory = selectedItem;
+	
+	const [category, setCategory] = useState<number | undefined>(defaultCategory);
 	const [account, setAccount] = useState<number | undefined>(obj?.account || defaultAccount);	
 
 	const onChangeGroup = (value: string) => {
@@ -97,8 +98,14 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 
 export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, onComplete: (obj: Partial<TransferTransaction>)=>void }) => {
 	const accounts = useAppSelector(selectAccounts);
+	const currentPage = useAppSelector(state => state.general.currentPage);
 
-	const [from, setFrom] = useState<number | undefined>(obj?.from || undefined);	
+	//If user has an account selected, then use that as the default for 'from'
+	let defaultAccount = undefined;
+	const selectedItem = useAppSelector(state => state.general.selectedItem);
+	if (selectedItem && currentPage === 'Accounts') defaultAccount = selectedItem;
+
+	const [from, setFrom] = useState<number | undefined>(obj?.from || defaultAccount);	
 	const [to, setTo] = useState<number | undefined>(obj?.to || undefined);	
 
 	//if from is changed, reset to, to prevent using the same account twice
@@ -126,9 +133,15 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 
 export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onComplete: (obj: Partial<FundTransaction>)=>void }) => {
 	const funds = useAppSelector(selectFunds);
+	const currentPage = useAppSelector(state => state.general.currentPage);
+
+	//If user has an account selected, then use that as the default for 'from'
+	let defaultFund = undefined;
+	const selectedItem = useAppSelector(state => state.general.selectedItem);
+	if (selectedItem && currentPage === 'Funds') defaultFund = selectedItem;
 
 	const [description, setDescription] = useState<string>(obj?.description || '');
-	const [fund, setFund] = useState<number | undefined>(obj?.fund || undefined);
+	const [fund, setFund] = useState<number | undefined>(obj?.fund || defaultFund);
 
 	const onSave = () => {
 		onComplete({
