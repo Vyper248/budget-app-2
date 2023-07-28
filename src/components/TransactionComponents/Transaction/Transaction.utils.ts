@@ -39,5 +39,10 @@ export const getDescription = (transaction: Transaction, selectedAccount: number
 		fund = '';
 	}
 
+	if (currentPage === 'Tools') {
+		category = '';
+		account = '';
+	}
+
 	return joinStrings(' - ', category, fund, account, description);
 }
