@@ -102,11 +102,15 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 
 	//If user has an account selected, then use that as the default for 'from'
 	let defaultAccount = undefined;
+	if (accounts.length > 0) defaultAccount = accounts[0].id;
 	const selectedItem = useAppSelector(state => state.general.selectedItem);
 	if (selectedItem && currentPage === 'Accounts') defaultAccount = selectedItem;
 
+	let defaultTo = undefined;
+	if (accounts.length > 1) defaultTo = accounts[1].id;
+
 	const [from, setFrom] = useState<number | undefined>(obj?.from || defaultAccount);	
-	const [to, setTo] = useState<number | undefined>(obj?.to || undefined);	
+	const [to, setTo] = useState<number | undefined>(obj?.to || defaultTo);	
 
 	//if from is changed, reset to, to prevent using the same account twice
 	useEffect(() => {
@@ -137,6 +141,7 @@ export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onCom
 
 	//If user has an account selected, then use that as the default for 'from'
 	let defaultFund = undefined;
+	if (funds.length > 0) defaultFund = funds[0].id;
 	const selectedItem = useAppSelector(state => state.general.selectedItem);
 	if (selectedItem && currentPage === 'Funds') defaultFund = selectedItem;
 
