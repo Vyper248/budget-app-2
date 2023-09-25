@@ -25,6 +25,7 @@ export type ItemType = 'category' | 'account' | 'fund';
 
 export interface GeneralState {
     currentPage: string;
+    currentToolPage: string;
     selectedItem: number;
     selectedTotal: SelectedTotal | null;
     lastSync: number;
@@ -34,6 +35,7 @@ export interface GeneralState {
 
 export const initialState: GeneralState = {
     currentPage: 'Home',
+    currentToolPage: 'Category Breakdown',
     selectedItem: 0,
     selectedTotal: null,
     lastSync: 0,
@@ -53,6 +55,9 @@ export const generalSlice = createSlice({
             state.selectedItem = 0;
             state.selectedTotal = null;
         },
+        setCurrentToolPage: (state, action: PayloadAction<string>) => {
+            state.currentToolPage = action.payload;
+        },
         setSelectedItem: (state, action: PayloadAction<number>) => {
             state.selectedItem = action.payload;
         },
@@ -71,5 +76,5 @@ export const generalSlice = createSlice({
     },
 })
 
-export const { setCurrentPage, setSelectedItem, setSelectedTotal, setLastSync, setFetching, setMessage } = generalSlice.actions;
+export const { setCurrentPage, setCurrentToolPage, setSelectedItem, setSelectedTotal, setLastSync, setFetching, setMessage } = generalSlice.actions;
 export default generalSlice.reducer;

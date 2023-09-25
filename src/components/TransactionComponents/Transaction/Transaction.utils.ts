@@ -3,7 +3,7 @@ import { store } from "@/redux/store";
 
 import type { Transaction } from "@/redux/transactionsSlice";
 
-export const getDescription = (transaction: Transaction, selectedAccount: number, currentPage: string) => {
+export const getDescription = (transaction: Transaction, selectedAccount: number, currentPage: string, currentToolPage: string) => {
     const state = store.getState();
     const { categories, funds, accounts } = state;
 
@@ -39,7 +39,7 @@ export const getDescription = (transaction: Transaction, selectedAccount: number
 		fund = '';
 	}
 
-	if (currentPage === 'Tools') {
+	if (currentPage === 'Tools' && currentToolPage !== 'Recent Transactions') {
 		category = '';
 		account = '';
 	}
