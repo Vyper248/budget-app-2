@@ -17,8 +17,16 @@ type MonthlyTransactionsObj = {
 export const sortTransactions = (transactions: TransactionObj[], reverse?: boolean) => {
     let sortedTransactions = [...transactions];
     sortedTransactions.sort((a,b) => {
-        if (reverse) return compareAsc(parseISO(b.transaction.date), parseISO(a.transaction.date));
-        else return compareDesc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+        //if transactions on same date, sort by id (which is basically date added)
+        if (reverse) {
+            let compare = compareAsc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+            if (compare === 0) return b.transaction.id - a.transaction.id;
+            else return compare;
+        } else {
+            let compare = compareDesc(parseISO(b.transaction.date), parseISO(a.transaction.date));
+            if (compare === 0) return a.transaction.id - b.transaction.id;
+            else return compare;
+        }
     });
     return sortedTransactions;
 }
@@ -35,10 +43,12 @@ export const organiseTransactions = (transactions: Transaction[]) => {
 		});
 	});
 
-	//put into an array and sort by date so newest first
+	//put into an array and sort by date so newest first (or if same date, then sort by when it was added)
 	let organisedArr = Object.keys(organisedObj).map(key => {
 		let sortedTransactions = organisedObj[key].sort((a,b) => {
-            return compareDates(b.transaction.date, a.transaction.date);
+            let compare = compareDates(b.transaction.date, a.transaction.date);
+            if (compare === 0) return b.transaction.id - a.transaction.id;
+            return compare;
 		});
 		return {month: key, transactions: sortedTransactions};
 	}).sort((a,b) => {
@@ -199,6 +209,8 @@ export const getAmount = (transaction: Transaction, asCurrency=true, selectedAcc
 
         //transfer to this account, so positive
         if (transaction.to === selectedAccount) return asCurrency ? parseCurrency(transaction.amount) : transaction.amount;
+
+        if (selectedAccount === 0) return asCurrency ? parseCurrency(transaction.amount) : transaction.amount;
     }
 
     return asCurrency ? parseCurrency(0) : 0;
