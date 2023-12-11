@@ -16,7 +16,7 @@ import type { SpendTransaction, TransferTransaction, FundTransaction } from "@/r
 
 import { LABEL_WIDTH } from "./TransactionForm.utils";
 
-const FormButtons = ({id, onSave}: {id?: number, onSave: ()=>void}) => {
+const FormButtons = ({id, onSave}: {id?: number, onSave: (addNew?:boolean)=>()=>void}) => {
 	const dispatch = useAppDispatch();
 
 	const onClickRemove = () => {
@@ -25,7 +25,8 @@ const FormButtons = ({id, onSave}: {id?: number, onSave: ()=>void}) => {
 
 	return (
 		<div style={{textAlign: 'center', display: 'flex', justifyContent: id !== undefined ? 'space-between' : 'space-around'}}>
-			<Button label='Save' onClick={onSave} width='134px'/>
+			<Button label='Save' onClick={onSave()} width='134px'/>
+			{ id === undefined && <Button label='Save +' onClick={onSave(true)} width='134px'/> }
 			{ id !== undefined && <ConfirmationContainer onClick={onClickRemove}>
 					<Button label='Remove' onClick={()=>{}} width='134px'/>
 				</ConfirmationContainer> }
@@ -33,7 +34,7 @@ const FormButtons = ({id, onSave}: {id?: number, onSave: ()=>void}) => {
 	);
 }
 
-export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComplete: (obj: Partial<SpendTransaction>)=>void }) => {
+export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComplete: (obj: Partial<SpendTransaction>, addNew?:boolean)=>void }) => {
 	const accounts = useAppSelector(selectAccounts);
 	const funds = useAppSelector(selectFunds);
 	const categories = useAppSelector(selectCategories);
@@ -70,13 +71,17 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 
 	const groupValue = fund !== undefined ? fund : category !== undefined ? category : undefined;
 
-	const onSave = () => {
+	const onSave = (addNew=false) => () => {
 		onComplete({
 			description,
 			account,
 			fund,
 			category,
-		});
+		}, addNew);
+
+		if (addNew) {
+			setDescription('');
+		}
 	}
 
 	const incomeCategories = categories.filter(cat => cat.type === 'income');
@@ -96,7 +101,7 @@ export const SpendForm = ({ obj, onComplete } : { obj?: SpendTransaction, onComp
 	)
 }
 
-export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, onComplete: (obj: Partial<TransferTransaction>)=>void }) => {
+export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, onComplete: (obj: Partial<TransferTransaction>, addNew?:boolean)=>void }) => {
 	const accounts = useAppSelector(selectAccounts);
 	const currentPage = useAppSelector(state => state.general.currentPage);
 
@@ -117,11 +122,11 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 		if (from === to) setTo(undefined);
 	}, [from]);
 
-	const onSave = () => {
+	const onSave = (addNew=false) => () => {
 		onComplete({
 			from,
 			to
-		});
+		}, addNew);
 	}
 
 	const toAccounts = accounts.filter(obj => obj.id !== from);
@@ -135,7 +140,7 @@ export const TransferForm = ({ obj, onComplete } : { obj?: TransferTransaction, 
 	)
 }
 
-export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onComplete: (obj: Partial<FundTransaction>)=>void }) => {
+export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onComplete: (obj: Partial<FundTransaction>, addNew?:boolean)=>void }) => {
 	const funds = useAppSelector(selectFunds);
 	const currentPage = useAppSelector(state => state.general.currentPage);
 
@@ -148,11 +153,15 @@ export const AddFundForm = ({ obj, onComplete } : { obj?: FundTransaction, onCom
 	const [description, setDescription] = useState<string>(obj?.description || '');
 	const [fund, setFund] = useState<number | undefined>(obj?.fund || defaultFund);
 
-	const onSave = () => {
+	const onSave = (addNew=false) => () => {
 		onComplete({
 			description,
 			fund,
-		});
+		}, addNew);
+
+		if (addNew) {
+			setDescription('');
+		}
 	}
 
 	return (

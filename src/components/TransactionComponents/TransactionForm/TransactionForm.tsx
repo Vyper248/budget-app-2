@@ -49,13 +49,20 @@ const TransactionForm = ({obj}: TransactionFormProps) => {
 		if (typeof val === 'string') setDate(val);
 	}
 
-	const onCompleteTransaction = (obj: Partial<Transaction>) => {
+	const onCompleteTransaction = (obj: Partial<Transaction>, addNew=false) => {
 		let transaction = {id, type, amount: Number(amount), date, ...obj} as Transaction;
 		let validCheck = validateTransaction(transaction);
 		if (validCheck.valid) {
 			if (editMode) dispatch(editTransaction(transaction));
 			else dispatch(addTransaction(transaction));
-			dispatch(setAddingTransaction(false));
+
+			if (addNew) {
+				setAmount(0);
+				const amountInput = document.querySelector('input[id="Amount"]') as HTMLInputElement;
+				if (amountInput) amountInput.focus();
+			} else {
+				dispatch(setAddingTransaction(false));
+			}
 		} else {
 			setError(validCheck.error);
 		}
