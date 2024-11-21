@@ -88,7 +88,7 @@ describe('Testing the getPercentages function', () => {
 			{label: 'Food', value: 100},
 			{label: 'Savings', value: 300},
 			{label: 'Remaining', value: 100}
-		]);
+		], false);
 
 		expect(data).toHaveLength(4);
 		expect(data[0].percentage).toBe(50);
@@ -110,7 +110,7 @@ describe('Testing the getPercentages function', () => {
 			{label: 'Food', value: 0},
 			{label: 'Savings', value: 300},
 			{label: 'Remaining', value: 100}
-		]);
+		], true);
 
 		expect(data).toHaveLength(3);
 	});

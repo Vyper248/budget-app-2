@@ -1,6 +1,7 @@
-import {fireEvent, render, screen} from "@testing-library/react";
+import {fireEvent, screen} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DateRangeInput from "./DateRangeInput"
+import { render } from "@/utils/test.utils";
 import { vi } from "vitest";
 
 it("Loads element without crashing", () => {
