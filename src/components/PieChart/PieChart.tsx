@@ -1,6 +1,8 @@
 import { useState } from "react";
 import StyledPieChart from "./PieChart.style";
 
+import ToggleInput from "../ToggleInput/ToggleInput";
+
 import { getPercentages, getSVGData } from "./PieChart.utils";
 import { useResponsive } from "@/utils/customHooks.utils";
 
@@ -15,11 +17,12 @@ type PieChartProps = {
 
 const PieChart = ({heading='', data, width=600}: PieChartProps) => {
     const [selected, setSelected] = useState(-1);
+    const [sorted, setSorted] = useState(true);
     const { isMobile } = useResponsive();
 
     let pieWidth = width-200;
 
-    let mappedData = getPercentages(data);
+    let mappedData = getPercentages(data, sorted);
 
     if (mappedData.length === 0) return (
         <div>
@@ -32,6 +35,8 @@ const PieChart = ({heading='', data, width=600}: PieChartProps) => {
         if (id === selected) setSelected(-1);
         else setSelected(id);
 	}
+
+    const onChangeSorted = (val: boolean) => setSorted(val);
 
     const { pieData, selectedData, colors } = getSVGData(mappedData, selected, isMobile);
 
@@ -46,6 +51,7 @@ const PieChart = ({heading='', data, width=600}: PieChartProps) => {
                     </svg>
                 </div>
                 <div id='labels'>
+                    <ToggleInput label='Sorted' value={sorted} onChange={onChangeSorted} width='150px'/><br/>
                     {
                         mappedData.map((obj,i) => {
                             let color = colors[i%colors.length];

@@ -15,7 +15,7 @@ type PathData = {
     strokeWidth: string;
 }
 
-export const getPercentages = (data: {value: number, label: string}[]) => {
+export const getPercentages = (data: {value: number, label: string}[], sorted: boolean) => {
     let total = data.reduce((a,c) => {
         return a + Math.abs(c.value);
     }, 0);
@@ -31,6 +31,12 @@ export const getPercentages = (data: {value: number, label: string}[]) => {
         if (newObj.value === 0) return [];
         return newObj;
     });
+
+    if (sorted) {
+        mappedData.sort((a, b) => {
+            return b.value - a.value;
+        });
+    }
 
     return mappedData;
 }
@@ -81,7 +87,7 @@ export const getSVGData = (data: PieData[], selected: number, isMobile: boolean)
         const pathSize = obj.value < 0 ? pieSize - 22 : pieSize - 2; //if negative value, make segment smaller
 
         const pathData: PathData = {
-            id: `path${obj.id}`,
+        id: `path${obj.id}`,
             dataid: obj.id,
             d: describeArc(pieSize, pathSize, start, end),
             fill: colors[i%colors.length],
