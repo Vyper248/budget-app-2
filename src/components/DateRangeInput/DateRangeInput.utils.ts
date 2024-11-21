@@ -1,3 +1,5 @@
+import { useAppSelector } from "@/redux/hooks";
+
 const getYear = (adj: number) => {
     let year = new Date().getFullYear();
     return {
@@ -49,3 +51,16 @@ const getMonth = (adj: number) => {
 
 export const getCurrentMonth = () => getMonth(0);
 export const getPreviousMonth = () => getMonth(-1);
+
+const getAllPeriods = () => {
+    const settings = useAppSelector(state => state.settings);
+    const startDate = settings.startDate;
+    const endDate = getMonth(0).to;
+
+    return {
+        from: startDate,
+        to: endDate
+    }
+}
+
+export const getAll = () => getAllPeriods();

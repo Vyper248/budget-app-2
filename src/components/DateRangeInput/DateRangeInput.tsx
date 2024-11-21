@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import StyledDateRangeInput from "./DateRangeInput.style";
 import { MdMenu, MdClear } from "react-icons/md";
@@ -7,7 +8,7 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 import IconButton from "../IconButton/IconButton";
 
-import { getInvalidDateRangeMessage } from "@/utils/date.utils";
+import { getInvalidDateRangeMessage, today } from "@/utils/date.utils";
 import { useResponsive, useClickOutside } from "@/utils/customHooks.utils";
 import { getCurrentMonth, getCurrentTaxYear, getCurrentYear, getPreviousMonth, getPreviousTaxYear, getPreviousYear } from "./DateRangeInput.utils";
 
@@ -25,9 +26,17 @@ type DateRangeInputProps = {
 const SetDateMenu = ({onChange}: {onChange: (dateRange: DateRange)=>void}) => {
 	const [ showMenu, setShowMenu ] = useState(false);
 	const ref = useClickOutside(() => setShowMenu(false), showMenu);
+	const settings = useAppSelector(state => state.settings);
 
 	const onClickMenu = () => {
 		setShowMenu(b => !b);
+	}
+
+	const getAll = () => {
+		return {
+			from: settings.startDate,
+			to: today()
+		}
 	}
 
 	const onClickSetDate = (type: string) => () => {
@@ -38,6 +47,7 @@ const SetDateMenu = ({onChange}: {onChange: (dateRange: DateRange)=>void}) => {
 			case 'previousTaxYear': onChange(getPreviousTaxYear()); break;
 			case 'currentMonth': onChange(getCurrentMonth()); break;
 			case 'previousMonth': onChange(getPreviousMonth()); break;
+			case 'allTime': onChange(getAll()); break;
 			default: break;
 		}
 
@@ -54,6 +64,7 @@ const SetDateMenu = ({onChange}: {onChange: (dateRange: DateRange)=>void}) => {
 				<Button label='Current Tax Year' onClick={onClickSetDate('currentTaxYear')}/>
 				<Button label='Previous Month' onClick={onClickSetDate('previousMonth')}/>
 				<Button label='Current Month' onClick={onClickSetDate('currentMonth')}/>
+				<Button label='From Start' onClick={onClickSetDate('allTime')}/>
 			</div>
 		</div>
 	);	
