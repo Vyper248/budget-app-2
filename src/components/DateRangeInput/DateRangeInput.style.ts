@@ -19,7 +19,7 @@ const StyledDateRangeInput = styled.div`
         padding: 5px;
         border: 1px solid var(--text-color);
         border-radius: 5px;
-        z-index: 2;
+        z-index: 3;
         width: 320px;
         display: grid;
         grid-template-columns: 1fr 1fr;

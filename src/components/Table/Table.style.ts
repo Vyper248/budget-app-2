@@ -12,6 +12,7 @@ const StyledTable = styled.div<Props>`
     & .scrollContainer {
         overflow: auto;
         max-width: 100%;
+        max-height: 70vh;
         border-radius: 5px 0px 0px 5px;
     }
 
@@ -51,6 +52,12 @@ const StyledTable = styled.div<Props>`
             position: sticky;
             left: 0px;
             z-index: 1;
+        }
+
+        & thead tr {
+            position: sticky;
+            top: 0px;
+            z-index: 2;
         }
 
         & .filled {
